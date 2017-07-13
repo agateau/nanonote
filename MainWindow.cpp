@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     , mAutoSaveTimer(new QTimer(this))
 {
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+    setWindowTitle("Nanonote");
     setCentralWidget(mTextEdit);
 
     mTextEdit->setAcceptRichText(false);
