@@ -4,9 +4,13 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QGuiApplication>
+#include <QScreen>
+#include <QSettings>
 #include <QStandardPaths>
 #include <QTextEdit>
 #include <QTimer>
+#include <QWindow>
 
 static QString notePath()
 {
@@ -35,11 +39,13 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     loadNotes();
+    loadGeometry();
 }
 
 MainWindow::~MainWindow()
 {
     saveNotes();
+    saveGeometry();
 }
 
 void MainWindow::loadNotes()
@@ -67,4 +73,39 @@ void MainWindow::saveNotes()
         return;
     }
     file.write(mTextEdit->toPlainText().toUtf8());
+}
+
+static QRect clampRect(const QRect& rect_, const QRect& container)
+{
+    QRect rect = rect_;
+    if (rect.right() > container.right()) {
+        rect.moveRight(container.right());
+    }
+    if (rect.bottom() > container.bottom()) {
+        rect.moveBottom(container.bottom());
+    }
+    if (rect.left() < container.left()) {
+        rect.moveLeft(container.left());
+    }
+    if (rect.top() < container.top()) {
+        rect.moveTop(container.top());
+    }
+    return rect;
+}
+
+void MainWindow::loadGeometry()
+{
+    QSettings settings;
+    QRect geometry = settings.value("geometry").toRect();
+    if (geometry.isValid()) {
+        QRect screenRect = QGuiApplication::primaryScreen()->availableGeometry();
+        geometry = clampRect(geometry, screenRect);
+        setGeometry(geometry);
+    }
+}
+
+void MainWindow::saveGeometry()
+{
+    QSettings settings;
+    settings.setValue("geometry", geometry());
 }

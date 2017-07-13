@@ -17,6 +17,8 @@ public:
 private:
     void loadNotes();
     void saveNotes();
+    void loadGeometry();
+    void saveGeometry();
 
     QTextEdit* mTextEdit;
     QTimer* mAutoSaveTimer;
