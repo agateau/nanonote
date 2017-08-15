@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 
+#include <QAction>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
@@ -22,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , mTextEdit(new QTextEdit(this))
     , mAutoSaveTimer(new QTimer(this))
+    , mIncreaseFontAction(new QAction(this))
+    , mDecreaseFontAction(new QAction(this))
 {
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     setWindowTitle("Nanonote");
@@ -38,14 +41,27 @@ MainWindow::MainWindow(QWidget *parent)
         mAutoSaveTimer->start();
     });
 
+    setupActions();
     loadNotes();
-    loadGeometry();
+    loadSettings();
 }
 
 MainWindow::~MainWindow()
 {
     saveNotes();
-    saveGeometry();
+    saveSettings();
+}
+
+void MainWindow::setupActions()
+{
+    mIncreaseFontAction->setShortcut(QKeySequence::ZoomIn);
+    mDecreaseFontAction->setShortcut(QKeySequence::ZoomOut);
+
+    connect(mIncreaseFontAction, &QAction::triggered, [this] { adjustFontSize(1); });
+    connect(mDecreaseFontAction, &QAction::triggered, [this] { adjustFontSize(-1); });
+
+    addAction(mIncreaseFontAction);
+    addAction(mDecreaseFontAction);
 }
 
 void MainWindow::loadNotes()
@@ -93,7 +109,7 @@ static QRect clampRect(const QRect& rect_, const QRect& container)
     return rect;
 }
 
-void MainWindow::loadGeometry()
+void MainWindow::loadSettings()
 {
     QSettings settings;
     QRect geometry = settings.value("geometry").toRect();
@@ -102,10 +118,25 @@ void MainWindow::loadGeometry()
         geometry = clampRect(geometry, screenRect);
         setGeometry(geometry);
     }
+
+    QVariant fontVariant = settings.value("font");
+    if (fontVariant.canConvert<QFont>()) {
+        mTextEdit->setFont(fontVariant.value<QFont>());
+    }
 }
 
-void MainWindow::saveGeometry()
+void MainWindow::saveSettings()
 {
     QSettings settings;
     settings.setValue("geometry", geometry());
+    settings.setValue("font", mTextEdit->font());
+}
+
+void MainWindow::adjustFontSize(int delta)
+{
+    QFont font = mTextEdit->font();
+    font.setPointSize(font.pointSize() + delta);
+    mTextEdit->setFont(font);
+
+    saveSettings();
 }

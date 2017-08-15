@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+class QAction;
 class QTextEdit;
 class QTimer;
 
@@ -15,13 +16,18 @@ public:
     ~MainWindow();
 
 private:
+    void setupActions();
     void loadNotes();
     void saveNotes();
-    void loadGeometry();
-    void saveGeometry();
+    void loadSettings();
+    void saveSettings();
+    void adjustFontSize(int delta);
 
     QTextEdit* mTextEdit;
     QTimer* mAutoSaveTimer;
+
+    QAction* mIncreaseFontAction;
+    QAction* mDecreaseFontAction;
 };
 
 #endif // MAINWINDOW_H
