@@ -9,9 +9,10 @@
 #include <QScreen>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QTextEdit>
 #include <QTimer>
 #include <QWindow>
+
+#include "TextEdit.h"
 
 static QString notePath()
 {
@@ -21,10 +22,10 @@ static QString notePath()
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , mTextEdit(new QTextEdit(this))
+    , mTextEdit(new TextEdit(this))
     , mAutoSaveTimer(new QTimer(this))
-    , mIncreaseFontAction(new QAction(this))
-    , mDecreaseFontAction(new QAction(this))
+    , mIncreaseFontAction(new QAction(tr("Increase Font Size"), this))
+    , mDecreaseFontAction(new QAction(tr("Decrease Font Size"), this))
 {
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     setWindowTitle("Nanonote");
@@ -33,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
     mTextEdit->setAcceptRichText(false);
     mTextEdit->setFontFamily("Mono");
     mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+
+    mTextEdit->addActions({mIncreaseFontAction, mDecreaseFontAction});
 
     mAutoSaveTimer->setInterval(1000);
     mAutoSaveTimer->setSingleShot(true);

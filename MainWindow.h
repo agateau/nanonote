@@ -3,8 +3,9 @@
 
 #include <QMainWindow>
 
+class TextEdit;
+
 class QAction;
-class QTextEdit;
 class QTimer;
 
 class MainWindow : public QMainWindow
@@ -23,7 +24,7 @@ private:
     void saveSettings();
     void adjustFontSize(int delta);
 
-    QTextEdit* mTextEdit;
+    TextEdit* mTextEdit;
     QTimer* mAutoSaveTimer;
 
     QAction* mIncreaseFontAction;

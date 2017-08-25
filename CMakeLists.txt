@@ -12,6 +12,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
 set(nanonote_SRCS
     main.cpp
     MainWindow.cpp
+    TextEdit.cpp
 )
 
 # Building
