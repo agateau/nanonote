@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     mTextEdit->setAcceptRichText(false);
     mTextEdit->setFontFamily("Mono");
+    mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 
     mAutoSaveTimer->setInterval(1000);
     mAutoSaveTimer->setSingleShot(true);
