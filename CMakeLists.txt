@@ -15,6 +15,8 @@ set(nanonote_SRCS
     TextEdit.cpp
 )
 
+qt5_add_resources(nanonote_RESOURCES nanonote.qrc)
+
 # Building
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -22,7 +24,7 @@ include_directories(
 )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -std=c++11")
-add_executable(nanonote ${nanonote_SRCS})
+add_executable(nanonote ${nanonote_SRCS} ${nanonote_RESOURCES})
 
 target_link_libraries(nanonote Qt5::Core Qt5::Widgets)
 
