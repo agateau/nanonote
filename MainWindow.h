@@ -23,12 +23,14 @@ private:
     void loadSettings();
     void saveSettings();
     void adjustFontSize(int delta);
+    void setAlwaysOnTop(bool onTop);
 
     TextEdit* mTextEdit;
     QTimer* mAutoSaveTimer;
 
     QAction* mIncreaseFontAction;
     QAction* mDecreaseFontAction;
+    QAction* mAlwaysOnTopAction;
 };
 
 #endif // MAINWINDOW_H

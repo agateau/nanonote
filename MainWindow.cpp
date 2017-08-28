@@ -26,16 +26,14 @@ MainWindow::MainWindow(QWidget *parent)
     , mAutoSaveTimer(new QTimer(this))
     , mIncreaseFontAction(new QAction(tr("Increase Font Size"), this))
     , mDecreaseFontAction(new QAction(tr("Decrease Font Size"), this))
+    , mAlwaysOnTopAction(new QAction(tr("Always on Top"), this))
 {
-    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     setWindowTitle("Nanonote");
     setCentralWidget(mTextEdit);
 
     mTextEdit->setAcceptRichText(false);
     mTextEdit->setFontFamily("Mono");
     mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
-
-    mTextEdit->addActions({mIncreaseFontAction, mDecreaseFontAction});
 
     mAutoSaveTimer->setInterval(1000);
     mAutoSaveTimer->setSingleShot(true);
@@ -58,14 +56,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupActions()
 {
+    mAlwaysOnTopAction->setCheckable(true);
+
     mIncreaseFontAction->setShortcut(QKeySequence::ZoomIn);
     mDecreaseFontAction->setShortcut(QKeySequence::ZoomOut);
+    mAlwaysOnTopAction->setShortcut(Qt::CTRL + Qt::Key_T);
 
     connect(mIncreaseFontAction, &QAction::triggered, [this] { adjustFontSize(1); });
     connect(mDecreaseFontAction, &QAction::triggered, [this] { adjustFontSize(-1); });
+    connect(mAlwaysOnTopAction, &QAction::toggled, this, &MainWindow::setAlwaysOnTop);
 
     addAction(mIncreaseFontAction);
     addAction(mDecreaseFontAction);
+    addAction(mAlwaysOnTopAction);
+
+    mTextEdit->addActions(actions());
 }
 
 void MainWindow::loadNotes()
@@ -127,6 +132,9 @@ void MainWindow::loadSettings()
     if (fontVariant.canConvert<QFont>()) {
         mTextEdit->setFont(fontVariant.value<QFont>());
     }
+
+    bool alwaysOnTop = settings.value("alwaysOnTop").toBool();
+    mAlwaysOnTopAction->setChecked(alwaysOnTop);
 }
 
 void MainWindow::saveSettings()
@@ -134,6 +142,7 @@ void MainWindow::saveSettings()
     QSettings settings;
     settings.setValue("geometry", geometry());
     settings.setValue("font", mTextEdit->font());
+    settings.setValue("alwaysOnTop", mAlwaysOnTopAction->isChecked());
 }
 
 void MainWindow::adjustFontSize(int delta)
@@ -142,5 +151,14 @@ void MainWindow::adjustFontSize(int delta)
     font.setPointSize(font.pointSize() + delta);
     mTextEdit->setFont(font);
 
+    saveSettings();
+}
+
+void MainWindow::setAlwaysOnTop(bool onTop)
+{
+    Qt::WindowFlags flags = windowFlags();
+    flags.setFlag(Qt::WindowStaysOnTopHint, onTop);
+    setWindowFlags(flags);
+    show();
     saveSettings();
 }
