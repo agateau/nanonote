@@ -33,3 +33,13 @@ install(
     TARGETS nanonote
     DESTINATION bin
 )
+
+install(FILES icons/nanonote.desktop
+    DESTINATION share/applications
+    RENAME com.agateau.nanonote.desktop
+)
+
+install(FILES icons/appicon.svg
+    DESTINATION share/icons/hicolor/scalable/apps
+    RENAME nanonote.svg
+)

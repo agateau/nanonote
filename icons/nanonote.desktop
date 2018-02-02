@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Nanonote
+GenericName=Note taker
+Comment=Minimalist not taker
+Type=Application
+Exec=nanonote
+Icon=nanonote
+Terminal=false
+Categories=Qt;Utility;TextEditor;
