@@ -9,6 +9,7 @@ public:
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif /* TEXTEDIT_H */
