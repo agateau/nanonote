@@ -2,10 +2,15 @@
 
 #include <QContextMenuEvent>
 #include <QDebug>
+#include <QDesktopServices>
 #include <QMenu>
+#include <QRegularExpression>
+#include <QSyntaxHighlighter>
 #include <QTextBlock>
 
 static const int INDENT_SIZE = 4;
+
+static const char LINK_REGEX[] = "\\bhttp[s]?://[-_a-z.0-9/?=&]+";
 
 static QString getIndentation(const QString &line)
 {
@@ -18,9 +23,45 @@ static QString getIndentation(const QString &line)
     return line.left(idx);
 }
 
+static QUrl getLinkAt(const QString &text, int position)
+{
+    QRegularExpression expression(LINK_REGEX);
+    for (auto it = expression.globalMatch(text); it.hasNext();) {
+        QRegularExpressionMatch match = it.next();
+        if (match.capturedStart() <= position && position < match.capturedEnd()) {
+            return QUrl::fromUserInput(match.captured());
+        }
+    }
+    return QUrl();
+}
+
+class SyntaxHighlighter : public QSyntaxHighlighter {
+public:
+    SyntaxHighlighter(QTextDocument *document)
+        : QSyntaxHighlighter(document)
+    {
+    }
+
+protected:
+    void highlightBlock(const QString &text) override
+    {
+        QTextCharFormat linkFormat;
+        linkFormat.setForeground(Qt::blue);
+        linkFormat.setUnderlineColor(Qt::blue);
+        linkFormat.setUnderlineStyle(QTextCharFormat::SingleUnderline);
+
+        QRegularExpression expression(LINK_REGEX);
+        for (auto it = expression.globalMatch(text); it.hasNext();) {
+            QRegularExpressionMatch match = it.next();
+            setFormat(match.capturedStart(), match.capturedLength(), linkFormat);
+        }
+    }
+};
+
 TextEdit::TextEdit(QWidget *parent)
     : QPlainTextEdit(parent)
 {
+    new SyntaxHighlighter(document());
 }
 
 void TextEdit::contextMenuEvent(QContextMenuEvent *event)
@@ -40,7 +81,11 @@ void TextEdit::keyPressEvent(QKeyEvent *event)
         insertIndentation();
         event->accept();
     } else if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-        insertIndentedLine();
+        if (event->modifiers() == Qt::CTRL) {
+            openLinkUnderCursor();
+        } else {
+            insertIndentedLine();
+        }
         event->accept();
     } else if (event->key() == Qt::Key_Backspace && canRemoveIndentation()) {
         removeIndentation();
@@ -84,4 +129,12 @@ void TextEdit::insertIndentedLine()
     QString indentation = getIndentation(textCursor().block().text());
     insertPlainText('\n' + indentation);
     ensureCursorVisible();
+}
+
+void TextEdit::openLinkUnderCursor()
+{
+    QUrl url = getLinkAt(textCursor().block().text(), textCursor().positionInBlock());
+    if (url.isValid()) {
+        QDesktopServices::openUrl(url);
+    }
 }

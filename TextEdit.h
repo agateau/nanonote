@@ -16,6 +16,7 @@ private:
     void insertIndentation();
     void removeIndentation();
     void insertIndentedLine();
+    void openLinkUnderCursor();
 };
 
 #endif /* TEXTEDIT_H */
