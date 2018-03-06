@@ -37,14 +37,24 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *event)
 void TextEdit::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Tab) {
-        insertPlainText(QString(INDENT_SIZE, ' '));
+        insertIndentation();
         event->accept();
     } else if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-        QString indentation = getIndentation(textCursor().block().text());
-        insertPlainText('\n' + indentation);
-        ensureCursorVisible();
+        insertIndentedLine();
         event->accept();
     } else {
         QTextEdit::keyPressEvent(event);
     }
+}
+
+void TextEdit::insertIndentation()
+{
+    insertPlainText(QString(INDENT_SIZE, ' '));
+}
+
+void TextEdit::insertIndentedLine()
+{
+    QString indentation = getIndentation(textCursor().block().text());
+    insertPlainText('\n' + indentation);
+    ensureCursorVisible();
 }
