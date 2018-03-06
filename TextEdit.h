@@ -12,7 +12,9 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
+    bool canRemoveIndentation() const;
     void insertIndentation();
+    void removeIndentation();
     void insertIndentedLine();
 };
 
