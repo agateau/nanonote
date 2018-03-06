@@ -77,6 +77,9 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *event)
 
 void TextEdit::keyPressEvent(QKeyEvent *event)
 {
+    if (event->modifiers() == Qt::CTRL) {
+        viewport()->setCursor(Qt::PointingHandCursor);
+    }
     if (event->key() == Qt::Key_Tab) {
         insertIndentation();
         event->accept();
@@ -92,6 +95,22 @@ void TextEdit::keyPressEvent(QKeyEvent *event)
         event->accept();
     } else {
         QPlainTextEdit::keyPressEvent(event);
+    }
+}
+
+void TextEdit::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->modifiers() != Qt::CTRL) {
+        viewport()->setCursor(Qt::IBeamCursor);
+    }
+    QPlainTextEdit::keyReleaseEvent(event);
+}
+
+void TextEdit::mouseReleaseEvent(QMouseEvent *event)
+{
+    QPlainTextEdit::mouseReleaseEvent(event);
+    if (event->modifiers() == Qt::CTRL) {
+        openLinkUnderCursor();
     }
 }
 
