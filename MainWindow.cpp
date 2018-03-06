@@ -31,15 +31,15 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("Nanonote");
     setCentralWidget(mTextEdit);
 
-    mTextEdit->setAcceptRichText(false);
-    mTextEdit->setFontFamily("Mono");
+    QFont font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    mTextEdit->setFont(font);
     mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 
     mAutoSaveTimer->setInterval(1000);
     mAutoSaveTimer->setSingleShot(true);
     connect(mAutoSaveTimer, &QTimer::timeout, this, &MainWindow::saveNotes);
 
-    connect(mTextEdit, &QTextEdit::textChanged, this, [this]() {
+    connect(mTextEdit, &QPlainTextEdit::textChanged, this, [this]() {
         mAutoSaveTimer->start();
     });
 
@@ -81,7 +81,7 @@ void MainWindow::loadNotes()
         return;
     }
     QString text = QString::fromUtf8(file.readAll());
-    mTextEdit->setText(text);
+    mTextEdit->setPlainText(text);
 }
 
 void MainWindow::saveNotes()

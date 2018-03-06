@@ -1,9 +1,9 @@
 #ifndef TEXTEDIT_H
 #define TEXTEDIT_H
 
-#include <QTextEdit>
+#include <QPlainTextEdit>
 
-class TextEdit : public QTextEdit {
+class TextEdit : public QPlainTextEdit {
 public:
     TextEdit(QWidget *parent = nullptr);
 

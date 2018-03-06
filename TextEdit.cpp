@@ -19,7 +19,7 @@ static QString getIndentation(const QString &line)
 }
 
 TextEdit::TextEdit(QWidget *parent)
-    : QTextEdit(parent)
+    : QPlainTextEdit(parent)
 {
 }
 
@@ -46,7 +46,7 @@ void TextEdit::keyPressEvent(QKeyEvent *event)
         removeIndentation();
         event->accept();
     } else {
-        QTextEdit::keyPressEvent(event);
+        QPlainTextEdit::keyPressEvent(event);
     }
 }
 
