@@ -10,7 +10,7 @@
 
 static const int INDENT_SIZE = 4;
 
-static const char LINK_REGEX[] = "\\bhttp[s]?://[-_a-z.0-9/?=&]+";
+static const char LINK_REGEX[] = "\\bhttp[s]?://[-_a-zA-Z.0-9/?=&]+";
 
 static QString getIndentation(const QString &line)
 {
