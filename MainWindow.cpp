@@ -24,9 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , mTextEdit(new TextEdit(this))
     , mAutoSaveTimer(new QTimer(this))
-    , mIncreaseFontAction(new QAction(tr("Increase Font Size"), this))
-    , mDecreaseFontAction(new QAction(tr("Decrease Font Size"), this))
-    , mAlwaysOnTopAction(new QAction(tr("Always on Top"), this))
+    , mIncreaseFontAction(new QAction(this))
+    , mDecreaseFontAction(new QAction(this))
+    , mAlwaysOnTopAction(new QAction(this))
 {
     setWindowTitle("Nanonote");
     setCentralWidget(mTextEdit);
@@ -58,8 +58,13 @@ void MainWindow::setupActions()
 {
     mAlwaysOnTopAction->setCheckable(true);
 
+    mIncreaseFontAction->setText(tr("Increase Font Size"));
     mIncreaseFontAction->setShortcut(QKeySequence::ZoomIn);
+
+    mDecreaseFontAction->setText(tr("Decrease Font Size"));
     mDecreaseFontAction->setShortcut(QKeySequence::ZoomOut);
+
+    mAlwaysOnTopAction->setText(tr("Always on Top"));
     mAlwaysOnTopAction->setShortcut(Qt::CTRL + Qt::Key_T);
 
     connect(mIncreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(1); });
