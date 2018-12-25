@@ -2,7 +2,7 @@
 
 #include <QRegularExpression>
 
-static const char LINK_REGEX[] = "\\bhttp[s]?://[-_a-zA-Z.0-9/?=&]+";
+static const char LINK_REGEX[] = "\\bhttp[s]?://[-_a-zA-Z.0-9/?=&#]+";
 
 LinkSyntaxHighlighter::LinkSyntaxHighlighter(QTextDocument *document)
     : QSyntaxHighlighter(document)
