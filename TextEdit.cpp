@@ -20,10 +20,89 @@ static QString getIndentation(const QString &line)
     return line.left(idx);
 }
 
+class LinkEventFilter : public QObject {
+public:
+    explicit LinkEventFilter(TextEdit *textEdit)
+        : QObject(textEdit)
+        , mTextEdit(textEdit)
+    {}
+
+protected:
+    bool eventFilter(QObject *object, QEvent *event) override
+    {
+        if (object == mTextEdit->viewport()) {
+            switch (event->type()) {
+            case QEvent::MouseButtonRelease:
+                mouseReleaseEvent(static_cast<QMouseEvent*>(event));
+                break;
+            default:
+                break;
+            }
+        } else {
+            switch (event->type()) {
+            case QEvent::KeyPress:
+                if (keyPressEvent(static_cast<QKeyEvent*>(event))) {
+                    return true;
+                }
+                break;
+            case QEvent::KeyRelease:
+                keyReleaseEvent(static_cast<QKeyEvent*>(event));
+                break;
+            default:
+                break;
+            }
+        }
+        return false;
+    }
+
+private:
+    bool keyPressEvent(QKeyEvent *event)
+    {
+        bool ctrlPressed = event->modifiers() == Qt::CTRL;
+        bool enterPressed = event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return;
+        if (ctrlPressed) {
+            mTextEdit->viewport()->setCursor(Qt::PointingHandCursor);
+        }
+        if (ctrlPressed && enterPressed) {
+            openLinkUnderCursor();
+            return true;
+        }
+        return false;
+    }
+
+    void keyReleaseEvent(QKeyEvent *event)
+    {
+        if (event->modifiers() != Qt::CTRL) {
+            mTextEdit->viewport()->setCursor(Qt::IBeamCursor);
+        }
+    }
+
+    void mouseReleaseEvent(QMouseEvent *event)
+    {
+        if (event->modifiers() == Qt::CTRL) {
+            openLinkUnderCursor();
+        }
+    }
+
+    void openLinkUnderCursor()
+    {
+        auto cursor = mTextEdit->textCursor();
+        QUrl url = LinkSyntaxHighlighter::getLinkAt(cursor.block().text(), cursor.positionInBlock());
+        if (url.isValid()) {
+            QDesktopServices::openUrl(url);
+        }
+    }
+
+    TextEdit *mTextEdit;
+};
+
 TextEdit::TextEdit(QWidget *parent)
     : QPlainTextEdit(parent)
 {
     new LinkSyntaxHighlighter(document());
+    auto linkEventFilter = new LinkEventFilter(this);
+    installEventFilter(linkEventFilter);
+    viewport()->installEventFilter(linkEventFilter);
 }
 
 void TextEdit::contextMenuEvent(QContextMenuEvent *event)
@@ -39,40 +118,17 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *event)
 
 void TextEdit::keyPressEvent(QKeyEvent *event)
 {
-    if (event->modifiers() == Qt::CTRL) {
-        viewport()->setCursor(Qt::PointingHandCursor);
-    }
     if (event->key() == Qt::Key_Tab) {
         insertIndentation();
         event->accept();
     } else if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-        if (event->modifiers() == Qt::CTRL) {
-            openLinkUnderCursor();
-        } else {
-            insertIndentedLine();
-        }
+        insertIndentedLine();
         event->accept();
     } else if (event->key() == Qt::Key_Backspace && canRemoveIndentation()) {
         removeIndentation();
         event->accept();
     } else {
         QPlainTextEdit::keyPressEvent(event);
-    }
-}
-
-void TextEdit::keyReleaseEvent(QKeyEvent *event)
-{
-    if (event->modifiers() != Qt::CTRL) {
-        viewport()->setCursor(Qt::IBeamCursor);
-    }
-    QPlainTextEdit::keyReleaseEvent(event);
-}
-
-void TextEdit::mouseReleaseEvent(QMouseEvent *event)
-{
-    QPlainTextEdit::mouseReleaseEvent(event);
-    if (event->modifiers() == Qt::CTRL) {
-        openLinkUnderCursor();
     }
 }
 
@@ -110,12 +166,4 @@ void TextEdit::insertIndentedLine()
     QString indentation = getIndentation(textCursor().block().text());
     insertPlainText('\n' + indentation);
     ensureCursorVisible();
-}
-
-void TextEdit::openLinkUnderCursor()
-{
-    QUrl url = LinkSyntaxHighlighter::getLinkAt(textCursor().block().text(), textCursor().positionInBlock());
-    if (url.isValid()) {
-        QDesktopServices::openUrl(url);
-    }
 }

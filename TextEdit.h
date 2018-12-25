@@ -10,15 +10,12 @@ public:
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
-    void keyReleaseEvent(QKeyEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
     bool canRemoveIndentation() const;
     void insertIndentation();
     void removeIndentation();
     void insertIndentedLine();
-    void openLinkUnderCursor();
 };
 
 #endif /* TEXTEDIT_H */
