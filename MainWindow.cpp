@@ -7,11 +7,11 @@
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QScreen>
-#include <QSettings>
 #include <QStandardPaths>
 #include <QTimer>
 #include <QWindow>
 
+#include "Settings.h"
 #include "TextEdit.h"
 
 static QString notePath()
@@ -22,6 +22,7 @@ static QString notePath()
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , mSettings(new Settings(this))
     , mTextEdit(new TextEdit(this))
     , mAutoSaveTimer(new QTimer(this))
     , mIncreaseFontAction(new QAction(this))
@@ -125,37 +126,34 @@ static QRect clampRect(const QRect& rect_, const QRect& container)
 
 void MainWindow::loadSettings()
 {
-    QSettings settings;
-    QRect geometry = settings.value("geometry").toRect();
+    mSettings->load();
+
+    QRect geometry = mSettings->geometry();
     if (geometry.isValid()) {
         QRect screenRect = QGuiApplication::primaryScreen()->availableGeometry();
         geometry = clampRect(geometry, screenRect);
         setGeometry(geometry);
     }
 
-    QVariant fontVariant = settings.value("font");
-    if (fontVariant.canConvert<QFont>()) {
-        mTextEdit->setFont(fontVariant.value<QFont>());
-    }
+    mAlwaysOnTopAction->setChecked(mSettings->alwaysOnTop());
 
-    bool alwaysOnTop = settings.value("alwaysOnTop").toBool();
-    mAlwaysOnTopAction->setChecked(alwaysOnTop);
+    mTextEdit->setFont(mSettings->font());
+
+    connect(mSettings, &Settings::fontChanged, mTextEdit, &QPlainTextEdit::setFont);
+
 }
 
 void MainWindow::saveSettings()
 {
-    QSettings settings;
-    settings.setValue("geometry", geometry());
-    settings.setValue("font", mTextEdit->font());
-    settings.setValue("alwaysOnTop", mAlwaysOnTopAction->isChecked());
+    mSettings->setGeometry(geometry());
+    mSettings->save();
 }
 
 void MainWindow::adjustFontSize(int delta)
 {
-    QFont font = mTextEdit->font();
+    QFont font = mSettings->font();
     font.setPointSize(font.pointSize() + delta);
-    mTextEdit->setFont(font);
-
+    mSettings->setFont(font);
     saveSettings();
 }
 
@@ -165,5 +163,6 @@ void MainWindow::setAlwaysOnTop(bool onTop)
     flags.setFlag(Qt::WindowStaysOnTopHint, onTop);
     setWindowFlags(flags);
     show();
+    mSettings->setAlwaysOnTop(onTop);
     saveSettings();
 }

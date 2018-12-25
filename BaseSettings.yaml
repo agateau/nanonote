@@ -1,0 +1,14 @@
+class: BaseSettings
+includes:
+    - QFont
+    - QRect
+properties:
+    - name: alwaysOnTop
+      type: bool
+      value: "false"
+
+    - name: font
+      type: QFont
+
+    - name: geometry
+      type: QRect

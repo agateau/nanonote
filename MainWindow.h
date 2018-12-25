@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+class Settings;
 class TextEdit;
 
 class QAction;
@@ -25,6 +26,7 @@ private:
     void adjustFontSize(int delta);
     void setAlwaysOnTop(bool onTop);
 
+    Settings* mSettings;
     TextEdit* mTextEdit;
     QTimer* mAutoSaveTimer;
 

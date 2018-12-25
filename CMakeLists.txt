@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 
 # Dependencies
 find_package(Qt5 CONFIG REQUIRED Core Widgets)
+include(qpropgen/cmake/qpropgen.cmake)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
@@ -15,10 +16,15 @@ set(nanonote_SRCS
     main.cpp
     LinkSyntaxHighlighter.cpp
     MainWindow.cpp
+    Settings.cpp
     TextEdit.cpp
 )
 
 qt5_add_resources(nanonote_RESOURCES nanonote.qrc)
+
+qpropgen(QPROPGEN_SRCS
+    BaseSettings.yaml
+)
 
 # Building
 include_directories(
@@ -27,7 +33,7 @@ include_directories(
 )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -std=c++11")
-add_executable(nanonote ${nanonote_SRCS} ${nanonote_RESOURCES})
+add_executable(nanonote ${nanonote_SRCS} ${nanonote_RESOURCES} ${QPROPGEN_SRCS})
 
 target_link_libraries(nanonote
     singleapplication

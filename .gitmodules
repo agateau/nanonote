@@ -1,3 +1,6 @@
 [submodule "singleapplication"]
 	path = singleapplication/src
 	url = git@github.com:itay-grudev/SingleApplication.git
+[submodule "qpropgen"]
+	path = qpropgen
+	url = https://github.com/agateau/qpropgen
