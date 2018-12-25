@@ -2,12 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPointer>
 
 class Settings;
 class TextEdit;
 
 class QAction;
 class QTimer;
+
+class SettingsDialog;
 
 class MainWindow : public QMainWindow
 {
@@ -25,6 +28,7 @@ private:
     void saveSettings();
     void adjustFontSize(int delta);
     void setAlwaysOnTop(bool onTop);
+    void showSettingsDialog();
 
     Settings* mSettings;
     TextEdit* mTextEdit;
@@ -33,6 +37,8 @@ private:
     QAction* mIncreaseFontAction;
     QAction* mDecreaseFontAction;
     QAction* mAlwaysOnTopAction;
+    QAction* mSettingsAction;
+    QPointer<SettingsDialog> mSettingsDialog;
 };
 
 #endif // MAINWINDOW_H

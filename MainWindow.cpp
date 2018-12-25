@@ -12,6 +12,7 @@
 #include <QWindow>
 
 #include "Settings.h"
+#include "SettingsDialog.h"
 #include "TextEdit.h"
 
 static QString notePath()
@@ -28,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     , mIncreaseFontAction(new QAction(this))
     , mDecreaseFontAction(new QAction(this))
     , mAlwaysOnTopAction(new QAction(this))
+    , mSettingsAction(new QAction(this))
 {
     setWindowTitle("Nanonote");
     setCentralWidget(mTextEdit);
@@ -68,13 +70,17 @@ void MainWindow::setupActions()
     mAlwaysOnTopAction->setText(tr("Always on Top"));
     mAlwaysOnTopAction->setShortcut(Qt::CTRL + Qt::Key_T);
 
+    mSettingsAction->setText(tr("Settings..."));
+
     connect(mIncreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(1); });
     connect(mDecreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(-1); });
     connect(mAlwaysOnTopAction, &QAction::toggled, this, &MainWindow::setAlwaysOnTop);
+    connect(mSettingsAction, &QAction::triggered, this, &MainWindow::showSettingsDialog);
 
     addAction(mIncreaseFontAction);
     addAction(mDecreaseFontAction);
     addAction(mAlwaysOnTopAction);
+    addAction(mSettingsAction);
 
     mTextEdit->addActions(actions());
 }
@@ -165,4 +171,12 @@ void MainWindow::setAlwaysOnTop(bool onTop)
     show();
     mSettings->setAlwaysOnTop(onTop);
     saveSettings();
+}
+
+void MainWindow::showSettingsDialog()
+{
+    if (!mSettingsDialog) {
+        mSettingsDialog = new SettingsDialog(mSettings, this);
+    }
+    mSettingsDialog->show();
 }

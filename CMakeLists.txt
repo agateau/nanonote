@@ -7,6 +7,7 @@ find_package(Qt5 CONFIG REQUIRED Core Widgets)
 include(qpropgen/cmake/qpropgen.cmake)
 
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
 
 add_subdirectory(singleapplication)
@@ -17,6 +18,8 @@ set(nanonote_SRCS
     LinkSyntaxHighlighter.cpp
     MainWindow.cpp
     Settings.cpp
+    SettingsDialog.cpp
+    SettingsDialog.ui
     TextEdit.cpp
 )
 
