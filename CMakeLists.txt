@@ -13,6 +13,7 @@ add_subdirectory(singleapplication)
 # Sources
 set(nanonote_SRCS
     main.cpp
+    LinkSyntaxHighlighter.cpp
     MainWindow.cpp
     TextEdit.cpp
 )
