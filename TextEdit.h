@@ -33,11 +33,6 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
-    bool canRemoveIndentation() const;
-    void insertIndentation();
-    void removeIndentation();
-    void insertIndentedLine();
-
     QList<TextEditFilter*> mFilters;
 };
 
