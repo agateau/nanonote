@@ -2,15 +2,31 @@
 
 #include <QTextBlock>
 
+#include <optional>
+
 static const int INDENT_SIZE = 4;
 
-static QString getIndentation(const QString &line)
+static std::optional<int> findBulletSize(const QStringRef &ref) {
+    static QSet<QString> bullets = {"- ", "* "};
+    for (auto bullet : bullets) {
+        if (ref.startsWith(bullet)) {
+            return bullet.length();
+        }
+    }
+    return {};
+}
+
+static QString findCommonPrefix(const QString &line)
 {
     int idx;
     for (idx = 0; idx < line.length(); ++idx) {
         if (line[idx] != ' ') {
             break;
         }
+    }
+    auto bulletSize = findBulletSize(line.midRef(idx));
+    if (bulletSize) {
+        idx += bulletSize.value();
     }
     return line.left(idx);
 }
@@ -72,7 +88,8 @@ void IndentTextEditFilter::removeIndentation()
 
 void IndentTextEditFilter::insertIndentedLine()
 {
-    QString indentation = getIndentation(mTextEdit->textCursor().block().text());
-    mTextEdit->insertPlainText('\n' + indentation);
+    QString line = mTextEdit->textCursor().block().text();
+    QString prefix = findCommonPrefix(line);
+    mTextEdit->insertPlainText('\n' + prefix);
     mTextEdit->ensureCursorVisible();
 }
