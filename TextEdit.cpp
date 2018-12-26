@@ -2,10 +2,10 @@
 
 #include <QContextMenuEvent>
 #include <QDebug>
-#include <QDesktopServices>
 #include <QMenu>
 
 #include "LinkSyntaxHighlighter.h"
+#include "LinkTextEditFilter.h"
 
 static const int INDENT_SIZE = 4;
 
@@ -20,89 +20,29 @@ static QString getIndentation(const QString &line)
     return line.left(idx);
 }
 
-class LinkEventFilter : public QObject {
-public:
-    explicit LinkEventFilter(TextEdit *textEdit)
-        : QObject(textEdit)
-        , mTextEdit(textEdit)
-    {}
+// TextEditFilter ------------------------
+TextEditFilter::TextEditFilter(TextEdit *textEdit)
+    : QObject(textEdit)
+    , mTextEdit(textEdit)
+{}
 
-protected:
-    bool eventFilter(QObject *object, QEvent *event) override
-    {
-        if (object == mTextEdit->viewport()) {
-            switch (event->type()) {
-            case QEvent::MouseButtonRelease:
-                mouseReleaseEvent(static_cast<QMouseEvent*>(event));
-                break;
-            default:
-                break;
-            }
-        } else {
-            switch (event->type()) {
-            case QEvent::KeyPress:
-                if (keyPressEvent(static_cast<QKeyEvent*>(event))) {
-                    return true;
-                }
-                break;
-            case QEvent::KeyRelease:
-                keyReleaseEvent(static_cast<QKeyEvent*>(event));
-                break;
-            default:
-                break;
-            }
-        }
-        return false;
-    }
+bool TextEditFilter::keyPress(QKeyEvent */*event*/) {
+    return false;
+}
 
-private:
-    bool keyPressEvent(QKeyEvent *event)
-    {
-        bool ctrlPressed = event->modifiers() == Qt::CTRL;
-        bool enterPressed = event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return;
-        if (ctrlPressed) {
-            mTextEdit->viewport()->setCursor(Qt::PointingHandCursor);
-        }
-        if (ctrlPressed && enterPressed) {
-            openLinkUnderCursor();
-            return true;
-        }
-        return false;
-    }
+bool TextEditFilter::keyRelease(QKeyEvent */*event*/) {
+    return false;
+}
 
-    void keyReleaseEvent(QKeyEvent *event)
-    {
-        if (event->modifiers() != Qt::CTRL) {
-            mTextEdit->viewport()->setCursor(Qt::IBeamCursor);
-        }
-    }
-
-    void mouseReleaseEvent(QMouseEvent *event)
-    {
-        if (event->modifiers() == Qt::CTRL) {
-            openLinkUnderCursor();
-        }
-    }
-
-    void openLinkUnderCursor()
-    {
-        auto cursor = mTextEdit->textCursor();
-        QUrl url = LinkSyntaxHighlighter::getLinkAt(cursor.block().text(), cursor.positionInBlock());
-        if (url.isValid()) {
-            QDesktopServices::openUrl(url);
-        }
-    }
-
-    TextEdit *mTextEdit;
-};
-
+bool TextEditFilter::mouseRelease(QMouseEvent */*event*/) {
+    return false;
+}
+// TextEdit ------------------------------
 TextEdit::TextEdit(QWidget *parent)
     : QPlainTextEdit(parent)
 {
     new LinkSyntaxHighlighter(document());
-    auto linkEventFilter = new LinkEventFilter(this);
-    installEventFilter(linkEventFilter);
-    viewport()->installEventFilter(linkEventFilter);
+    addFilter(new LinkTextEditFilter(this));
 }
 
 void TextEdit::contextMenuEvent(QContextMenuEvent *event)
@@ -118,6 +58,11 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *event)
 
 void TextEdit::keyPressEvent(QKeyEvent *event)
 {
+    for (auto filter : mFilters) {
+        if (filter->keyPress(event)) {
+            return;
+        }
+    }
     if (event->key() == Qt::Key_Tab) {
         insertIndentation();
         event->accept();
@@ -130,6 +75,26 @@ void TextEdit::keyPressEvent(QKeyEvent *event)
     } else {
         QPlainTextEdit::keyPressEvent(event);
     }
+}
+
+void TextEdit::keyReleaseEvent(QKeyEvent *event)
+{
+    for (auto filter : mFilters) {
+        if (filter->keyRelease(event)) {
+            return;
+        }
+    }
+    QPlainTextEdit::keyReleaseEvent(event);
+}
+
+void TextEdit::mouseReleaseEvent(QMouseEvent *event)
+{
+    for (auto filter : mFilters) {
+        if (filter->mouseRelease(event)) {
+            return;
+        }
+    }
+    QPlainTextEdit::mouseReleaseEvent(event);
 }
 
 bool TextEdit::canRemoveIndentation() const
@@ -166,4 +131,9 @@ void TextEdit::insertIndentedLine()
     QString indentation = getIndentation(textCursor().block().text());
     insertPlainText('\n' + indentation);
     ensureCursorVisible();
+}
+
+void TextEdit::addFilter(TextEditFilter *filter)
+{
+    mFilters << filter;
 }

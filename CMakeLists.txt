@@ -16,6 +16,7 @@ add_subdirectory(singleapplication)
 set(nanonote_SRCS
     main.cpp
     LinkSyntaxHighlighter.cpp
+    LinkTextEditFilter.cpp
     MainWindow.cpp
     Settings.cpp
     SettingsDialog.cpp
