@@ -1,5 +1,6 @@
 #include "IndentTextEditFilter.h"
 
+#include <QDebug>
 #include <QTextBlock>
 
 #include <optional>
@@ -36,10 +37,35 @@ IndentTextEditFilter::IndentTextEditFilter(TextEdit *textEdit)
 {
 }
 
+static void indent(QTextCursor &cursor)
+{
+    static QString spaces = QString(INDENT_SIZE, ' ');
+    cursor.insertText(spaces);
+}
+
+static void unindent(QTextCursor &cursor)
+{
+    const auto text = cursor.block().text();
+    for (int idx = 0; idx < std::min(INDENT_SIZE, text.size()) && text.at(idx) == ' '; ++idx) {
+        cursor.deleteChar();
+    }
+}
+
 bool IndentTextEditFilter::keyPress(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Tab) {
-        insertIndentation();
+        if (mTextEdit->textCursor().hasSelection()) {
+            processSelection(indent);
+        } else {
+            insertIndentation();
+        }
+        event->accept();
+        return true;
+    }
+    if (event->key() == Qt::Key_Backtab) {
+        if (mTextEdit->textCursor().hasSelection()) {
+            processSelection(unindent);
+        }
         event->accept();
         return true;
     }
@@ -75,6 +101,27 @@ bool IndentTextEditFilter::canRemoveIndentation() const
 void IndentTextEditFilter::insertIndentation()
 {
     mTextEdit->insertPlainText(QString(INDENT_SIZE, ' '));
+}
+
+void IndentTextEditFilter::processSelection(ProcessSelectionCallback callback)
+{
+    auto doc = mTextEdit->document();
+    auto cursor = mTextEdit->textCursor();
+
+    auto start = doc->findBlock(cursor.selectionStart());
+    auto end = doc->findBlock(cursor.selectionEnd());
+    if (cursor.columnNumber() > 0) {
+        end = end.next();
+    }
+    QTextCursor editCursor(start);
+    editCursor.beginEditBlock();
+    while (editCursor.block() != end) {
+        callback(editCursor);
+        if (!editCursor.movePosition(QTextCursor::NextBlock)) {
+            break;
+        }
+    }
+    editCursor.endEditBlock();
 }
 
 void IndentTextEditFilter::removeIndentation()

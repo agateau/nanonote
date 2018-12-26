@@ -3,6 +3,8 @@
 
 #include "TextEdit.h"
 
+#include <functional>
+
 class IndentTextEditFilter : public TextEditFilter
 {
 public:
@@ -11,10 +13,12 @@ public:
     bool keyPress(QKeyEvent *event) override;
 
 private:
+    using ProcessSelectionCallback = std::function<void(QTextCursor&)>;
     bool canRemoveIndentation() const;
     void insertIndentation();
     void removeIndentation();
     void insertIndentedLine();
+    void processSelection(ProcessSelectionCallback callback);
 };
 
 #endif // INDENTTEXTEDITFILTER_H
