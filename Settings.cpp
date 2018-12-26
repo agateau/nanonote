@@ -1,5 +1,6 @@
 #include "Settings.h"
 
+#include <QFontDatabase>
 #include <QSettings>
 
 Settings::Settings(QObject *parent) : BaseSettings(parent)
@@ -17,6 +18,8 @@ void Settings::load()
     QVariant fontVariant = settings.value("font");
     if (fontVariant.canConvert<QFont>()) {
         setFont(fontVariant.value<QFont>());
+    } else {
+        setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     }
 
     setAlwaysOnTop(settings.value("alwaysOnTop").toBool());
