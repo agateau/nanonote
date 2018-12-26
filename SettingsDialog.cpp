@@ -12,13 +12,13 @@ SettingsDialog::SettingsDialog(Settings *settings, QWidget *parent)
 {
     ui->setupUi(this);
     ui->fontComboBox->setFont(mSettings->font());
-    ui->fontSizeSpinBox->setValue(mSettings->font().pixelSize());
+    ui->fontSizeSpinBox->setValue(mSettings->font().pointSize());
 
     connect(ui->fontComboBox, &QFontComboBox::currentFontChanged, mSettings, &Settings::setFont);
     connect(ui->fontSizeSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, [this](int value) {
        auto font = mSettings->font();
-       font.setPixelSize(value);
+       font.setPointSize(value);
        mSettings->setFont(font);
     });
 }
