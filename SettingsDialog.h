@@ -18,6 +18,8 @@ public:
     ~SettingsDialog();
 
 private:
+    void updateFontFromSettings();
+
     Ui::SettingsDialog *ui;
     Settings* mSettings;
 };

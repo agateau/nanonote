@@ -11,8 +11,9 @@ SettingsDialog::SettingsDialog(Settings *settings, QWidget *parent)
     , mSettings(settings)
 {
     ui->setupUi(this);
-    ui->fontComboBox->setFont(mSettings->font());
-    ui->fontSizeSpinBox->setValue(mSettings->font().pointSize());
+    updateFontFromSettings();
+
+    connect(mSettings, &Settings::fontChanged, this, &SettingsDialog::updateFontFromSettings);
 
     connect(ui->fontComboBox, &QFontComboBox::currentFontChanged, mSettings, &Settings::setFont);
     connect(ui->fontSizeSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
@@ -26,4 +27,10 @@ SettingsDialog::SettingsDialog(Settings *settings, QWidget *parent)
 SettingsDialog::~SettingsDialog()
 {
     delete ui;
+}
+
+void SettingsDialog::updateFontFromSettings()
+{
+    ui->fontComboBox->setCurrentFont(mSettings->font());
+    ui->fontSizeSpinBox->setValue(mSettings->font().pointSize());
 }
