@@ -8,7 +8,7 @@
 static const int INDENT_SIZE = 4;
 
 static std::optional<int> findBulletSize(const QStringRef &ref) {
-    static QSet<QString> bullets = {"- ", "* "};
+    static QSet<QString> bullets = {"- ", "* ", "> "};
     for (auto bullet : bullets) {
         if (ref.startsWith(bullet)) {
             return bullet.length();
