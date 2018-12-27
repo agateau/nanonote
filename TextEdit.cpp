@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QMenu>
 
+#include <memory>
+
 #include "LinkSyntaxHighlighter.h"
 
 // TextEditExtension ---------------------
@@ -37,7 +39,7 @@ TextEdit::TextEdit(QWidget *parent)
 void TextEdit::contextMenuEvent(QContextMenuEvent *event)
 {
     auto pos = event->pos();
-    QMenu *menu = createStandardContextMenu(pos);
+    std::unique_ptr<QMenu> menu(createStandardContextMenu(pos));
     menu->addSeparator();
     for (auto extension : mExtensions) {
         extension->aboutToShowContextMenu(menu, pos);
@@ -47,7 +49,6 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *event)
         menu->addAction(action);
     }
     menu->exec(event->globalPos());
-    delete menu;
 }
 
 void TextEdit::keyPressEvent(QKeyEvent *event)
