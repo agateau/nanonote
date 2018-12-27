@@ -21,6 +21,7 @@ public:
     ~MainWindow();
 
 private:
+    void setupTextEdit();
     void setupActions();
     void loadNotes();
     void saveNotes();

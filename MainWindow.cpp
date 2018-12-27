@@ -11,6 +11,8 @@
 #include <QTimer>
 #include <QWindow>
 
+#include "IndentExtension.h"
+#include "LinkExtension.h"
 #include "Settings.h"
 #include "SettingsDialog.h"
 #include "TextEdit.h"
@@ -34,9 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("Nanonote");
     setCentralWidget(mTextEdit);
 
-    QFont font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-    mTextEdit->setFont(font);
-    mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    setupTextEdit();
 
     mAutoSaveTimer->setInterval(1000);
     mAutoSaveTimer->setSingleShot(true);
@@ -55,6 +55,13 @@ MainWindow::~MainWindow()
 {
     saveNotes();
     saveSettings();
+}
+
+void MainWindow::setupTextEdit()
+{
+    mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    mTextEdit->addExtension(new LinkExtension(mTextEdit));
+    mTextEdit->addExtension(new IndentExtension(mTextEdit));
 }
 
 void MainWindow::setupActions()
