@@ -14,6 +14,9 @@ TextEditExtension::TextEditExtension(TextEdit *textEdit)
     , mTextEdit(textEdit)
 {}
 
+void TextEditExtension::aboutToShowContextMenu(QMenu */*menu*/, const QPoint& /*pos*/)
+{}
+
 bool TextEditExtension::keyPress(QKeyEvent */*event*/) {
     return false;
 }
@@ -37,7 +40,12 @@ TextEdit::TextEdit(QWidget *parent)
 
 void TextEdit::contextMenuEvent(QContextMenuEvent *event)
 {
-    QMenu *menu = createStandardContextMenu();
+    auto pos = event->pos();
+    QMenu *menu = createStandardContextMenu(pos);
+    menu->addSeparator();
+    for (auto extension : mExtensions) {
+        extension->aboutToShowContextMenu(menu, pos);
+    }
     menu->addSeparator();
     for (QAction *action : actions()) {
         menu->addAction(action);

@@ -15,6 +15,8 @@ class TextEditExtension : public QObject {
 public:
     explicit TextEditExtension(TextEdit *textEdit);
 
+    virtual void aboutToShowContextMenu(QMenu *menu, const QPoint& pos);
+
     virtual bool keyPress(QKeyEvent *event);
 
     virtual bool keyRelease(QKeyEvent *event);

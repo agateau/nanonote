@@ -1,12 +1,38 @@
 #include "LinkExtension.h"
 
+#include <QClipboard>
 #include <QDesktopServices>
+#include <QGuiApplication>
+#include <QMenu>
+#include <QMimeData>
 
 #include "LinkSyntaxHighlighter.h"
+
+static QUrl getLinkUnderCursor(const QTextCursor &cursor)
+{
+    return LinkSyntaxHighlighter::getLinkAt(cursor.block().text(), cursor.positionInBlock());
+}
 
 LinkExtension::LinkExtension(TextEdit *textEdit)
     : TextEditExtension(textEdit)
 {}
+
+void LinkExtension::aboutToShowContextMenu(QMenu *menu, const QPoint& pos)
+{
+    auto cursor = mTextEdit->cursorForPosition(pos);
+    QUrl url = getLinkUnderCursor(cursor);
+    if (!url.isValid()) {
+        return;
+    }
+    menu->addAction(tr("Copy link address"), this, [url] {
+        auto data = new QMimeData;
+        data->setUrls({url});
+        qGuiApp->clipboard()->setMimeData(data);
+    });
+    menu->addAction(tr("Open link"), this, [url] {
+        QDesktopServices::openUrl(url);
+    });
+}
 
 bool LinkExtension::keyPress(QKeyEvent *event)
 {
@@ -40,8 +66,7 @@ bool LinkExtension::mouseRelease(QMouseEvent *event)
 
 void LinkExtension::openLinkUnderCursor()
 {
-    auto cursor = mTextEdit->textCursor();
-    QUrl url = LinkSyntaxHighlighter::getLinkAt(cursor.block().text(), cursor.positionInBlock());
+    QUrl url = getLinkUnderCursor(mTextEdit->textCursor());
     if (url.isValid()) {
         QDesktopServices::openUrl(url);
     }

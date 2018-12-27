@@ -7,6 +7,8 @@ class LinkExtension : public TextEditExtension {
 public:
     explicit LinkExtension(TextEdit *textEdit);
 
+    void aboutToShowContextMenu(QMenu *menu, const QPoint& pos) override;
+
     bool keyPress(QKeyEvent *event) override;
 
     bool keyRelease(QKeyEvent *event) override;
