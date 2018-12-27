@@ -1,14 +1,14 @@
-#ifndef INDENTTEXTEDITFILTER_H
-#define INDENTTEXTEDITFILTER_H
+#ifndef INDENTEXTENSION_H
+#define INDENTEXTENSION_H
 
 #include "TextEdit.h"
 
 #include <functional>
 
-class IndentTextEditFilter : public TextEditExtension
+class IndentExtension : public TextEditExtension
 {
 public:
-    explicit IndentTextEditFilter(TextEdit *textEdit);
+    explicit IndentExtension(TextEdit *textEdit);
 
     bool keyPress(QKeyEvent *event) override;
 
@@ -21,4 +21,4 @@ private:
     void processSelection(ProcessSelectionCallback callback);
 };
 
-#endif // INDENTTEXTEDITFILTER_H
+#endif // INDENTEXTENSION_H

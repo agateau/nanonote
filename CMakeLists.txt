@@ -15,9 +15,9 @@ add_subdirectory(singleapplication)
 # Sources
 set(nanonote_SRCS
     main.cpp
-    IndentTextEditFilter.cpp
+    IndentExtension.cpp
     LinkSyntaxHighlighter.cpp
-    LinkTextEditFilter.cpp
+    LinkExtension.cpp
     MainWindow.cpp
     Settings.cpp
     SettingsDialog.cpp

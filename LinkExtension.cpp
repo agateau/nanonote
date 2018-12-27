@@ -1,14 +1,14 @@
-#include "LinkTextEditFilter.h"
+#include "LinkExtension.h"
 
 #include <QDesktopServices>
 
 #include "LinkSyntaxHighlighter.h"
 
-LinkTextEditFilter::LinkTextEditFilter(TextEdit *textEdit)
+LinkExtension::LinkExtension(TextEdit *textEdit)
     : TextEditExtension(textEdit)
 {}
 
-bool LinkTextEditFilter::keyPress(QKeyEvent *event)
+bool LinkExtension::keyPress(QKeyEvent *event)
 {
     bool ctrlPressed = event->modifiers() == Qt::CTRL;
     bool enterPressed = event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return;
@@ -22,7 +22,7 @@ bool LinkTextEditFilter::keyPress(QKeyEvent *event)
     return false;
 }
 
-bool LinkTextEditFilter::keyRelease(QKeyEvent *event)
+bool LinkExtension::keyRelease(QKeyEvent *event)
 {
     if (event->modifiers() != Qt::CTRL) {
         mTextEdit->viewport()->setCursor(Qt::IBeamCursor);
@@ -30,7 +30,7 @@ bool LinkTextEditFilter::keyRelease(QKeyEvent *event)
     return false;
 }
 
-bool LinkTextEditFilter::mouseRelease(QMouseEvent *event)
+bool LinkExtension::mouseRelease(QMouseEvent *event)
 {
     if (event->modifiers() == Qt::CTRL) {
         openLinkUnderCursor();
@@ -38,7 +38,7 @@ bool LinkTextEditFilter::mouseRelease(QMouseEvent *event)
     return false;
 }
 
-void LinkTextEditFilter::openLinkUnderCursor()
+void LinkExtension::openLinkUnderCursor()
 {
     auto cursor = mTextEdit->textCursor();
     QUrl url = LinkSyntaxHighlighter::getLinkAt(cursor.block().text(), cursor.positionInBlock());

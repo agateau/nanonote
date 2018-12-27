@@ -1,11 +1,11 @@
-#ifndef LINKTEXTEDITFILTER_H
-#define LINKTEXTEDITFILTER_H
+#ifndef LINKEXTENSION_H
+#define LINKEXTENSION_H
 
 #include "TextEdit.h"
 
-class LinkTextEditFilter : public TextEditExtension {
+class LinkExtension : public TextEditExtension {
 public:
-    explicit LinkTextEditFilter(TextEdit *textEdit);
+    explicit LinkExtension(TextEdit *textEdit);
 
     bool keyPress(QKeyEvent *event) override;
 
@@ -17,6 +17,4 @@ private:
     void openLinkUnderCursor();
 };
 
-
-
-#endif // LINKTEXTEDITFILTER_H
+#endif // LINKEXTENSION_H

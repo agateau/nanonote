@@ -4,9 +4,9 @@
 #include <QDebug>
 #include <QMenu>
 
-#include "IndentTextEditFilter.h"
+#include "IndentExtension.h"
 #include "LinkSyntaxHighlighter.h"
-#include "LinkTextEditFilter.h"
+#include "LinkExtension.h"
 
 // TextEditExtension ---------------------
 TextEditExtension::TextEditExtension(TextEdit *textEdit)
@@ -31,8 +31,8 @@ TextEdit::TextEdit(QWidget *parent)
     : QPlainTextEdit(parent)
 {
     new LinkSyntaxHighlighter(document());
-    addExtension(new LinkTextEditFilter(this));
-    addExtension(new IndentTextEditFilter(this));
+    addExtension(new LinkExtension(this));
+    addExtension(new IndentExtension(this));
 }
 
 void TextEdit::contextMenuEvent(QContextMenuEvent *event)

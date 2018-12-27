@@ -1,4 +1,4 @@
-#include "IndentTextEditFilter.h"
+#include "IndentExtension.h"
 
 #include <QDebug>
 #include <QTextBlock>
@@ -32,7 +32,7 @@ static QString findCommonPrefix(const QString &line)
     return line.left(idx);
 }
 
-IndentTextEditFilter::IndentTextEditFilter(TextEdit *textEdit)
+IndentExtension::IndentExtension(TextEdit *textEdit)
     : TextEditExtension(textEdit)
 {
 }
@@ -51,7 +51,7 @@ static void unindent(QTextCursor &cursor)
     }
 }
 
-bool IndentTextEditFilter::keyPress(QKeyEvent *event)
+bool IndentExtension::keyPress(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Tab) {
         if (mTextEdit->textCursor().hasSelection()) {
@@ -82,7 +82,7 @@ bool IndentTextEditFilter::keyPress(QKeyEvent *event)
     return false;
 }
 
-bool IndentTextEditFilter::canRemoveIndentation() const
+bool IndentExtension::canRemoveIndentation() const
 {
     auto cursor = mTextEdit->textCursor();
     int col = cursor.columnNumber();
@@ -98,12 +98,12 @@ bool IndentTextEditFilter::canRemoveIndentation() const
     return true;
 }
 
-void IndentTextEditFilter::insertIndentation()
+void IndentExtension::insertIndentation()
 {
     mTextEdit->insertPlainText(QString(INDENT_SIZE, ' '));
 }
 
-void IndentTextEditFilter::processSelection(ProcessSelectionCallback callback)
+void IndentExtension::processSelection(ProcessSelectionCallback callback)
 {
     auto doc = mTextEdit->document();
     auto cursor = mTextEdit->textCursor();
@@ -124,7 +124,7 @@ void IndentTextEditFilter::processSelection(ProcessSelectionCallback callback)
     editCursor.endEditBlock();
 }
 
-void IndentTextEditFilter::removeIndentation()
+void IndentExtension::removeIndentation()
 {
     auto cursor = mTextEdit->textCursor();
     int col = cursor.columnNumber();
@@ -133,7 +133,7 @@ void IndentTextEditFilter::removeIndentation()
     cursor.removeSelectedText();
 }
 
-void IndentTextEditFilter::insertIndentedLine()
+void IndentExtension::insertIndentedLine()
 {
     auto cursor = mTextEdit->textCursor();
     if (cursor.columnNumber() > 0) {
