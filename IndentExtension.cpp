@@ -59,24 +59,20 @@ bool IndentExtension::keyPress(QKeyEvent *event)
         } else {
             insertIndentation();
         }
-        event->accept();
         return true;
     }
     if (event->key() == Qt::Key_Backtab) {
         if (mTextEdit->textCursor().hasSelection()) {
             processSelection(unindent);
         }
-        event->accept();
         return true;
     }
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
         insertIndentedLine();
-        event->accept();
         return true;
     }
     if (event->key() == Qt::Key_Backspace && canRemoveIndentation()) {
         removeIndentation();
-        event->accept();
         return true;
     }
     return false;
