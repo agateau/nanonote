@@ -48,8 +48,8 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *event)
 
 void TextEdit::keyPressEvent(QKeyEvent *event)
 {
-    for (auto filter : mExtensions) {
-        if (filter->keyPress(event)) {
+    for (auto extension : mExtensions) {
+        if (extension->keyPress(event)) {
             return;
         }
     }
@@ -58,8 +58,8 @@ void TextEdit::keyPressEvent(QKeyEvent *event)
 
 void TextEdit::keyReleaseEvent(QKeyEvent *event)
 {
-    for (auto filter : mExtensions) {
-        if (filter->keyRelease(event)) {
+    for (auto extension : mExtensions) {
+        if (extension->keyRelease(event)) {
             return;
         }
     }
@@ -68,15 +68,15 @@ void TextEdit::keyReleaseEvent(QKeyEvent *event)
 
 void TextEdit::mouseReleaseEvent(QMouseEvent *event)
 {
-    for (auto filter : mExtensions) {
-        if (filter->mouseRelease(event)) {
+    for (auto extension : mExtensions) {
+        if (extension->mouseRelease(event)) {
             return;
         }
     }
     QPlainTextEdit::mouseReleaseEvent(event);
 }
 
-void TextEdit::addExtension(TextEditExtension *filter)
+void TextEdit::addExtension(TextEditExtension *extension)
 {
-    mExtensions << filter;
+    mExtensions << extension;
 }
