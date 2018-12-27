@@ -5,7 +5,7 @@
 #include "LinkSyntaxHighlighter.h"
 
 LinkTextEditFilter::LinkTextEditFilter(TextEdit *textEdit)
-    : TextEditFilter(textEdit)
+    : TextEditExtension(textEdit)
 {}
 
 bool LinkTextEditFilter::keyPress(QKeyEvent *event)

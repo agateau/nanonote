@@ -5,7 +5,7 @@
 
 #include <functional>
 
-class IndentTextEditFilter : public TextEditFilter
+class IndentTextEditFilter : public TextEditExtension
 {
 public:
     explicit IndentTextEditFilter(TextEdit *textEdit);

@@ -5,9 +5,9 @@
 
 class TextEdit;
 
-class TextEditFilter : public QObject {
+class TextEditExtension : public QObject {
 public:
-    explicit TextEditFilter(TextEdit *textEdit);
+    explicit TextEditExtension(TextEdit *textEdit);
 
     virtual bool keyPress(QKeyEvent *event);
 
@@ -24,7 +24,7 @@ class TextEdit : public QPlainTextEdit {
 public:
     TextEdit(QWidget *parent = nullptr);
 
-    void addFilter(TextEditFilter *filter);
+    void addExtension(TextEditExtension *extension);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
@@ -33,7 +33,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
-    QList<TextEditFilter*> mFilters;
+    QList<TextEditExtension*> mExtensions;
 };
 
 #endif /* TEXTEDIT_H */

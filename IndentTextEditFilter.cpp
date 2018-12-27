@@ -33,7 +33,7 @@ static QString findCommonPrefix(const QString &line)
 }
 
 IndentTextEditFilter::IndentTextEditFilter(TextEdit *textEdit)
-    : TextEditFilter(textEdit)
+    : TextEditExtension(textEdit)
 {
 }
 

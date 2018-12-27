@@ -3,7 +3,7 @@
 
 #include "TextEdit.h"
 
-class LinkTextEditFilter : public TextEditFilter {
+class LinkTextEditFilter : public TextEditExtension {
 public:
     explicit LinkTextEditFilter(TextEdit *textEdit);
 

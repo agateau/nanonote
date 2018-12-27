@@ -8,30 +8,31 @@
 #include "LinkSyntaxHighlighter.h"
 #include "LinkTextEditFilter.h"
 
-// TextEditFilter ------------------------
-TextEditFilter::TextEditFilter(TextEdit *textEdit)
+// TextEditExtension ---------------------
+TextEditExtension::TextEditExtension(TextEdit *textEdit)
     : QObject(textEdit)
     , mTextEdit(textEdit)
 {}
 
-bool TextEditFilter::keyPress(QKeyEvent */*event*/) {
+bool TextEditExtension::keyPress(QKeyEvent */*event*/) {
     return false;
 }
 
-bool TextEditFilter::keyRelease(QKeyEvent */*event*/) {
+bool TextEditExtension::keyRelease(QKeyEvent */*event*/) {
     return false;
 }
 
-bool TextEditFilter::mouseRelease(QMouseEvent */*event*/) {
+bool TextEditExtension::mouseRelease(QMouseEvent */*event*/) {
     return false;
 }
+
 // TextEdit ------------------------------
 TextEdit::TextEdit(QWidget *parent)
     : QPlainTextEdit(parent)
 {
     new LinkSyntaxHighlighter(document());
-    addFilter(new LinkTextEditFilter(this));
-    addFilter(new IndentTextEditFilter(this));
+    addExtension(new LinkTextEditFilter(this));
+    addExtension(new IndentTextEditFilter(this));
 }
 
 void TextEdit::contextMenuEvent(QContextMenuEvent *event)
@@ -47,7 +48,7 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *event)
 
 void TextEdit::keyPressEvent(QKeyEvent *event)
 {
-    for (auto filter : mFilters) {
+    for (auto filter : mExtensions) {
         if (filter->keyPress(event)) {
             return;
         }
@@ -57,7 +58,7 @@ void TextEdit::keyPressEvent(QKeyEvent *event)
 
 void TextEdit::keyReleaseEvent(QKeyEvent *event)
 {
-    for (auto filter : mFilters) {
+    for (auto filter : mExtensions) {
         if (filter->keyRelease(event)) {
             return;
         }
@@ -67,7 +68,7 @@ void TextEdit::keyReleaseEvent(QKeyEvent *event)
 
 void TextEdit::mouseReleaseEvent(QMouseEvent *event)
 {
-    for (auto filter : mFilters) {
+    for (auto filter : mExtensions) {
         if (filter->mouseRelease(event)) {
             return;
         }
@@ -75,7 +76,7 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *event)
     QPlainTextEdit::mouseReleaseEvent(event);
 }
 
-void TextEdit::addFilter(TextEditFilter *filter)
+void TextEdit::addExtension(TextEditExtension *filter)
 {
-    mFilters << filter;
+    mExtensions << filter;
 }
