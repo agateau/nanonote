@@ -135,8 +135,13 @@ void IndentTextEditFilter::removeIndentation()
 
 void IndentTextEditFilter::insertIndentedLine()
 {
-    QString line = mTextEdit->textCursor().block().text();
-    QString prefix = findCommonPrefix(line);
-    mTextEdit->insertPlainText('\n' + prefix);
+    auto cursor = mTextEdit->textCursor();
+    if (cursor.columnNumber() > 0) {
+        QString line = cursor.block().text();
+        QString prefix = findCommonPrefix(line);
+        mTextEdit->insertPlainText('\n' + prefix);
+    } else {
+        mTextEdit->insertPlainText("\n");
+    }
     mTextEdit->ensureCursorVisible();
 }
