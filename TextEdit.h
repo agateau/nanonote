@@ -5,6 +5,12 @@
 
 class TextEdit;
 
+/**
+ * @brief Extension system for TextEdit
+ *
+ * event-like methods must return true if they processed the event and do not
+ * want other extensions to receive it.
+ */
 class TextEditExtension : public QObject {
 public:
     explicit TextEditExtension(TextEdit *textEdit);
