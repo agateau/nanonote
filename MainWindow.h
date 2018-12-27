@@ -4,13 +4,29 @@
 #include <QMainWindow>
 #include <QPointer>
 
+#include "TextEdit.h"
+
 class Settings;
 class TextEdit;
 
 class QAction;
 class QTimer;
 
+class MainWindowExtension;
 class SettingsDialog;
+
+class MainWindow;
+
+class MainWindowExtension : public TextEditExtension
+{
+public:
+    explicit MainWindowExtension(MainWindow *window);
+
+    void aboutToShowContextMenu(QMenu *menu, const QPoint &/*pos*/) override;
+
+private:
+    MainWindow *mWindow;
+};
 
 class MainWindow : public QMainWindow
 {
@@ -40,6 +56,8 @@ private:
     QAction* mAlwaysOnTopAction;
     QAction* mSettingsAction;
     QPointer<SettingsDialog> mSettingsDialog;
+
+    friend class MainWindowExtension;
 };
 
 #endif // MAINWINDOW_H

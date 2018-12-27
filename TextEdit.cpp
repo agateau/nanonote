@@ -42,11 +42,7 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *event)
     std::unique_ptr<QMenu> menu(createStandardContextMenu(pos));
     menu->addSeparator();
     for (auto extension : mExtensions) {
-        extension->aboutToShowContextMenu(menu, pos);
-    }
-    menu->addSeparator();
-    for (QAction *action : actions()) {
-        menu->addAction(action);
+        extension->aboutToShowContextMenu(menu.get(), pos);
     }
     menu->exec(event->globalPos());
 }

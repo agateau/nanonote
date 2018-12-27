@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QGuiApplication>
+#include <QMenu>
 #include <QScreen>
 #include <QStandardPaths>
 #include <QTimer>
@@ -23,6 +24,22 @@ static QString notePath()
     return dirPath + "/nanonote.txt";
 }
 
+//- MainWindowExtension --------------------------------
+MainWindowExtension::MainWindowExtension(MainWindow *window)
+    : TextEditExtension(window->mTextEdit)
+    , mWindow(window)
+{}
+
+void MainWindowExtension::aboutToShowContextMenu(QMenu *menu, const QPoint &)
+{
+    menu->addAction(mWindow->mIncreaseFontAction);
+    menu->addAction(mWindow->mDecreaseFontAction);
+    menu->addAction(mWindow->mAlwaysOnTopAction);
+    menu->addSeparator();
+    menu->addAction(mWindow->mSettingsAction);
+}
+
+//- MainWindow -----------------------------------------
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , mSettings(new Settings(this))
@@ -62,6 +79,7 @@ void MainWindow::setupTextEdit()
     mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
     mTextEdit->addExtension(new LinkExtension(mTextEdit));
     mTextEdit->addExtension(new IndentExtension(mTextEdit));
+    mTextEdit->addExtension(new MainWindowExtension(this));
 }
 
 void MainWindow::setupActions()
@@ -74,22 +92,20 @@ void MainWindow::setupActions()
     mDecreaseFontAction->setText(tr("Decrease Font Size"));
     mDecreaseFontAction->setShortcut(QKeySequence::ZoomOut);
 
-    mAlwaysOnTopAction->setText(tr("Always on Top"));
-    mAlwaysOnTopAction->setShortcut(Qt::CTRL + Qt::Key_T);
-
-    mSettingsAction->setText(tr("Settings..."));
-
     connect(mIncreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(1); });
     connect(mDecreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(-1); });
-    connect(mAlwaysOnTopAction, &QAction::toggled, this, &MainWindow::setAlwaysOnTop);
-    connect(mSettingsAction, &QAction::triggered, this, &MainWindow::showSettingsDialog);
 
     addAction(mIncreaseFontAction);
     addAction(mDecreaseFontAction);
-    addAction(mAlwaysOnTopAction);
-    addAction(mSettingsAction);
 
-    mTextEdit->addActions(actions());
+    mAlwaysOnTopAction->setText(tr("Always on Top"));
+    mAlwaysOnTopAction->setShortcut(Qt::CTRL + Qt::Key_T);
+    connect(mAlwaysOnTopAction, &QAction::toggled, this, &MainWindow::setAlwaysOnTop);
+    addAction(mAlwaysOnTopAction);
+
+    mSettingsAction->setText(tr("Settings..."));
+    connect(mSettingsAction, &QAction::triggered, this, &MainWindow::showSettingsDialog);
+    addAction(mSettingsAction);
 
     // Add the standard "quit" shortcut
     auto quitAction = new QAction(this);
