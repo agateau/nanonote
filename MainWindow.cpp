@@ -83,6 +83,12 @@ void MainWindow::setupActions()
     addAction(mSettingsAction);
 
     mTextEdit->addActions(actions());
+
+    // Add the standard "quit" shortcut
+    auto quitAction = new QAction(this);
+    quitAction->setShortcut(QKeySequence::Quit);
+    connect(quitAction, &QAction::triggered, QCoreApplication::instance(), &QCoreApplication::quit);
+    addAction(quitAction);
 }
 
 void MainWindow::loadNotes()
