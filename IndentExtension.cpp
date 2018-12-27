@@ -3,18 +3,16 @@
 #include <QDebug>
 #include <QTextBlock>
 
-#include <optional>
-
 static const int INDENT_SIZE = 4;
 
-static std::optional<int> findBulletSize(const QStringRef &ref) {
+static int findBulletSize(const QStringRef &ref) {
     static QSet<QString> bullets = {"- ", "* ", "> "};
     for (auto bullet : bullets) {
         if (ref.startsWith(bullet)) {
             return bullet.length();
         }
     }
-    return {};
+    return 0;
 }
 
 static QString findCommonPrefix(const QString &line)
@@ -25,10 +23,7 @@ static QString findCommonPrefix(const QString &line)
             break;
         }
     }
-    auto bulletSize = findBulletSize(line.midRef(idx));
-    if (bulletSize) {
-        idx += bulletSize.value();
-    }
+    idx += findBulletSize(line.midRef(idx));
     return line.left(idx);
 }
 
