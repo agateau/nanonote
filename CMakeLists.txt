@@ -2,6 +2,8 @@ project(nanonote)
 
 cmake_minimum_required(VERSION 3.5)
 
+set(NANONOTE_VERSION 0.1.0)
+
 # Dependencies
 find_package(Qt5 CONFIG REQUIRED Core Widgets)
 include(qpropgen/cmake/qpropgen.cmake)
@@ -13,6 +15,10 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
 add_subdirectory(singleapplication)
 
 # Sources
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Config.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/Config.h)
+
 set(nanonote_SRCS
     main.cpp
     IndentExtension.cpp

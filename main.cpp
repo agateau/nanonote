@@ -4,11 +4,14 @@
 
 #include <singleapplication.h>
 
+#include "Config.h"
+
 int main(int argc, char *argv[])
 {
     SingleApplication app(argc, argv);
     app.setOrganizationName("agateau.com");
     app.setApplicationName("nanonote");
+    app.setApplicationVersion(NANONOTE_VERSION);
     app.setWindowIcon(QIcon(":/icons/appicon.svg"));
 
     MainWindow window;

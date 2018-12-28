@@ -1,0 +1,6 @@
+#ifndef CONFIG_H_IN
+#define CONFIG_H_IN
+
+#define NANONOTE_VERSION "@NANONOTE_VERSION@"
+
+#endif // CONFIG_H_IN
