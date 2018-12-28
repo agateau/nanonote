@@ -18,6 +18,7 @@ public:
     ~SettingsDialog();
 
 private:
+    void setupAboutTab();
     void updateFontFromSettings();
 
     Ui::SettingsDialog *ui;

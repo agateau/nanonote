@@ -11,6 +11,9 @@ SettingsDialog::SettingsDialog(Settings *settings, QWidget *parent)
     , mSettings(settings)
 {
     ui->setupUi(this);
+    setupAboutTab();
+    ui->tabWidget->setCurrentIndex(0);
+
     updateFontFromSettings();
 
     connect(mSettings, &Settings::fontChanged, this, &SettingsDialog::updateFontFromSettings);
@@ -27,6 +30,13 @@ SettingsDialog::SettingsDialog(Settings *settings, QWidget *parent)
 SettingsDialog::~SettingsDialog()
 {
     delete ui;
+}
+
+void SettingsDialog::setupAboutTab()
+{
+    auto text = ui->aboutLabel->text();
+    text.replace("$VERSION", qApp->applicationVersion());
+    ui->aboutLabel->setText(text);
 }
 
 void SettingsDialog::updateFontFromSettings()
