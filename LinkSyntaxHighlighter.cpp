@@ -2,7 +2,13 @@
 
 #include <QRegularExpression>
 
-static const char LINK_REGEX[] = "\\bhttp[s]?://[-_a-zA-Z.0-9/?=&#]+";
+// These chars are allowed anywhere in the url
+#define COMMON_CHARS "-_a-zA-Z0-9/?=&#"
+
+// These chars are not allowed at the end of the url, because they are used as punctuation
+#define MIDDLE_CHARS ".,;:"
+
+static const char LINK_REGEX[] = "\\b(https?://|ftp://|file:/)[" COMMON_CHARS MIDDLE_CHARS "]+[" COMMON_CHARS "]";
 
 LinkSyntaxHighlighter::LinkSyntaxHighlighter(QTextDocument *document)
     : QSyntaxHighlighter(document)

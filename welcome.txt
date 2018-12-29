@@ -15,7 +15,7 @@ It also has a few handy editing features, like auto-bullet lists:
     - nested lists
     * and asterisks
 
-It also makes any http url like this clickable: https://github.com/agateau/nanonote
+It also makes urls like this clickable: https://github.com/agateau/nanonote.
 
 Finally, you can indent/unindent text by selecting it and pressing Tab and Shift+Tab.
 
