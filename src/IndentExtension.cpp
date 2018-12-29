@@ -1,6 +1,8 @@
 #include "IndentExtension.h"
 
+#include <QAction>
 #include <QDebug>
+#include <QMenu>
 #include <QTextBlock>
 
 static const int INDENT_SIZE = 4;
@@ -27,18 +29,13 @@ static QString findCommonPrefix(const QString &line)
     return line.left(idx);
 }
 
-IndentExtension::IndentExtension(TextEdit *textEdit)
-    : TextEditExtension(textEdit)
-{
-}
-
-static void indent(QTextCursor &cursor)
+static void indentLine(QTextCursor &cursor)
 {
     static QString spaces = QString(INDENT_SIZE, ' ');
     cursor.insertText(spaces);
 }
 
-static void unindent(QTextCursor &cursor)
+static void unindentLine(QTextCursor &cursor)
 {
     const auto text = cursor.block().text();
     for (int idx = 0; idx < std::min(INDENT_SIZE, text.size()) && text.at(idx) == ' '; ++idx) {
@@ -46,22 +43,35 @@ static void unindent(QTextCursor &cursor)
     }
 }
 
+IndentExtension::IndentExtension(TextEdit *textEdit)
+    : TextEditExtension(textEdit)
+    , mIndentAction(new QAction(this))
+    , mUnindentAction(new QAction(this))
+{
+    mIndentAction->setText(tr("Indent"));
+    mIndentAction->setShortcut(Qt::CTRL | Qt::Key_I);
+    connect(mIndentAction, &QAction::triggered, this, [this] {
+        processSelection(indentLine);
+    });
+    mTextEdit->addAction(mIndentAction);
+
+    mUnindentAction->setText(tr("Unindent"));
+    mUnindentAction->setShortcuts({Qt::CTRL | Qt::Key_U, Qt::CTRL | Qt::SHIFT | Qt::Key_I});
+    connect(mUnindentAction, &QAction::triggered, this, [this] {
+        processSelection(unindentLine);
+    });
+    mTextEdit->addAction(mUnindentAction);
+}
+
+void IndentExtension::aboutToShowContextMenu(QMenu *menu, const QPoint &/*pos*/)
+{
+    menu->addAction(mIndentAction);
+    menu->addAction(mUnindentAction);
+    menu->addSeparator();
+}
+
 bool IndentExtension::keyPress(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Tab) {
-        if (mTextEdit->textCursor().hasSelection()) {
-            processSelection(indent);
-        } else {
-            insertIndentation();
-        }
-        return true;
-    }
-    if (event->key() == Qt::Key_Backtab) {
-        if (mTextEdit->textCursor().hasSelection()) {
-            processSelection(unindent);
-        }
-        return true;
-    }
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
         insertIndentedLine();
         return true;
@@ -96,14 +106,20 @@ void IndentExtension::insertIndentation()
 
 void IndentExtension::processSelection(ProcessSelectionCallback callback)
 {
-    auto doc = mTextEdit->document();
     auto cursor = mTextEdit->textCursor();
-
-    auto start = doc->findBlock(cursor.selectionStart());
-    auto end = doc->findBlock(cursor.selectionEnd());
-    if (cursor.columnNumber() > 0) {
-        end = end.next();
+    auto doc = mTextEdit->document();
+    QTextBlock start, end;
+    if (cursor.hasSelection()) {
+        start = doc->findBlock(cursor.selectionStart());
+        end = doc->findBlock(cursor.selectionEnd());
+        if (cursor.columnNumber() > 0) {
+            end = end.next();
+        }
+    } else {
+        start = cursor.block();
+        end = start.next();
     }
+
     QTextCursor editCursor(start);
     editCursor.beginEditBlock();
     while (editCursor.block() != end) {
