@@ -8,7 +8,6 @@
 #include <QGuiApplication>
 #include <QMenu>
 #include <QScreen>
-#include <QStandardPaths>
 #include <QTimer>
 #include <QWindow>
 
@@ -17,12 +16,6 @@
 #include "Settings.h"
 #include "SettingsDialog.h"
 #include "TextEdit.h"
-
-static QString notePath()
-{
-    QString dirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    return dirPath + "/nanonote.txt";
-}
 
 //- MainWindowExtension --------------------------------
 MainWindowExtension::MainWindowExtension(MainWindow *window)
@@ -131,7 +124,7 @@ void MainWindow::loadNotes()
 
 void MainWindow::saveNotes()
 {
-    QString path = notePath();
+    QString path = Settings::notePath();
     QString dirPath = QFileInfo(path).absolutePath();
     if (!QDir(dirPath).mkpath(".")) {
         qWarning() << "Failed to create" << dirPath;

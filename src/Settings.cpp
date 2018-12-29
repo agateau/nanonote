@@ -2,9 +2,16 @@
 
 #include <QFontDatabase>
 #include <QSettings>
+#include <QStandardPaths>
 
 Settings::Settings(QObject *parent) : BaseSettings(parent)
 {
+}
+
+QString Settings::notePath()
+{
+    QString dirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    return dirPath + "/nanonote.txt";
 }
 
 void Settings::load()
