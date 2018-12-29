@@ -114,14 +114,26 @@ void MainWindow::setupActions()
     addAction(quitAction);
 }
 
+static QString readFile(const QString &path)
+{
+    QFile file(path);
+    QString text;
+    if (!file.open(QIODevice::ReadOnly)) {
+        return QString();
+    }
+    return QString::fromUtf8(file.readAll());
+}
+
 void MainWindow::loadNotes()
 {
     QString path = notePath();
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly)) {
-        return;
+    QString text;
+    if (QFile::exists(path)) {
+        text = readFile(path);
+    } else {
+        text = readFile(":/welcome.txt");
+        text.replace("$NOTE_PATH", path);
     }
-    QString text = QString::fromUtf8(file.readAll());
     mTextEdit->setPlainText(text);
 }
 

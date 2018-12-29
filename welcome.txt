@@ -1,0 +1,22 @@
+Welcome to Nanonote!
+
+Nanonote is a minimalist note taking application.
+
+It's meant for short-lived notes. Any text you type here is automatically saved (in $NOTE_PATH).
+
+The only UI is the context menu, try it out!
+
+As you can see in the context menu, Nanonote has an "Always on Top" mode. This feature is handy to keep the window around.
+
+It also has a few handy editing features, like auto-bullet lists:
+
+- Try to move the cursor at the end of this line and press Enter
+- This works for
+    - nested lists
+    * and asterisks
+
+It also makes any http url like this clickable: https://github.com/agateau/nanonote
+
+Finally, you can indent/unindent text by selecting it and pressing Tab and Shift+Tab.
+
+That's all there is to say, now you can erase this text and start taking notes!
