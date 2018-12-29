@@ -34,8 +34,13 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::setupAboutTab()
 {
-    auto text = ui->aboutLabel->text();
-    text.replace("$VERSION", qApp->applicationVersion());
+    QString text = tr(R"(
+                   <h2>Nanonote %1</h2>
+                   <p>A minimalist note taking application.<br>
+                   <a href="https://github.com/agateau/nanonote">https://github.com/agateau/nanonote</a></p>
+                   <p>Your notes are stored in <a href="file:%2">%2</a>.</p>
+                   )").arg(qApp->applicationVersion(), Settings::notePath());
+
     ui->aboutLabel->setText(text);
 }
 
