@@ -38,6 +38,7 @@ public:
 
 private:
     void setupTextEdit();
+    void setupAutoSaveTimer();
     void setupActions();
     void loadNotes();
     void saveNotes();

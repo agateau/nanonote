@@ -11,11 +11,17 @@
 #include <QTimer>
 #include <QWindow>
 
+#include <chrono>
+
 #include "IndentExtension.h"
 #include "LinkExtension.h"
 #include "Settings.h"
 #include "SettingsDialog.h"
 #include "TextEdit.h"
+
+using namespace std::chrono_literals;
+
+static const auto AUTOSAVE_INTERVAL = 1s;
 
 //- MainWindowExtension --------------------------------
 MainWindowExtension::MainWindowExtension(MainWindow *window)
@@ -47,15 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(mTextEdit);
 
     setupTextEdit();
-
-    mAutoSaveTimer->setInterval(1000);
-    mAutoSaveTimer->setSingleShot(true);
-    connect(mAutoSaveTimer, &QTimer::timeout, this, &MainWindow::saveNotes);
-
-    connect(mTextEdit, &QPlainTextEdit::textChanged, this, [this]() {
-        mAutoSaveTimer->start();
-    });
-
+    setupAutoSaveTimer();
     setupActions();
     loadNotes();
     loadSettings();
@@ -73,6 +71,17 @@ void MainWindow::setupTextEdit()
     mTextEdit->addExtension(new LinkExtension(mTextEdit));
     mTextEdit->addExtension(new IndentExtension(mTextEdit));
     mTextEdit->addExtension(new MainWindowExtension(this));
+}
+
+void MainWindow::setupAutoSaveTimer()
+{
+    mAutoSaveTimer->setInterval(AUTOSAVE_INTERVAL);
+    mAutoSaveTimer->setSingleShot(true);
+    connect(mAutoSaveTimer, &QTimer::timeout, this, &MainWindow::saveNotes);
+
+    connect(mTextEdit, &QPlainTextEdit::textChanged, this, [this]() {
+        mAutoSaveTimer->start();
+    });
 }
 
 void MainWindow::setupActions()
