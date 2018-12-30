@@ -19,7 +19,7 @@ Nanonote requires Qt 5 and CMake. To build it, do the following:
 
     git clone https://github.com/agateau/nanonote
     cd nanonote
-    git submodule --update --init
+    git submodule update --init
     mkdir build
     cd build
     cmake ..
