@@ -17,9 +17,18 @@ as well, but haven't tested it. If you give it a try, let me know how it goes.
 
 Nanonote requires Qt 5 and CMake. To build it, do the following:
 
+Get the source:
+
     git clone https://github.com/agateau/nanonote
     cd nanonote
     git submodule update --init
+
+Install [qpropgen](https://github.com/agateau/qpropgen) requirements:
+
+    pip3 install -r qpropgen/requirements.txt
+
+Build Nanonote:
+
     mkdir build
     cd build
     cmake ..
