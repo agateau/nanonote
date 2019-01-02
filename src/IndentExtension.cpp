@@ -105,7 +105,8 @@ bool IndentExtension::canRemoveIndentation() const
 
 void IndentExtension::insertIndentation()
 {
-    mTextEdit->insertPlainText(QString(INDENT_SIZE, ' '));
+    auto cursor = mTextEdit->textCursor();
+    indentLine(cursor);
 }
 
 void IndentExtension::processSelection(ProcessSelectionCallback callback)
