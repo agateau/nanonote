@@ -72,6 +72,10 @@ void IndentExtension::aboutToShowContextMenu(QMenu *menu, const QPoint &/*pos*/)
 
 bool IndentExtension::keyPress(QKeyEvent *event)
 {
+    if (event->key() == Qt::Key_Tab && event->modifiers() == 0) {
+        insertIndentation();
+        return true;
+    }
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
         insertIndentedLine();
         return true;
