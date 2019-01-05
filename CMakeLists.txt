@@ -1,8 +1,6 @@
-project(nanonote)
-
 cmake_minimum_required(VERSION 3.5)
+project(nanonote VERSION 1.0.1)
 
-set(NANONOTE_VERSION 1.0.0)
 
 # Dependencies
 find_package(Qt5 CONFIG REQUIRED Core Widgets)
