@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(nanonote
     VERSION 1.0.1
     DESCRIPTION "Minimalist note taking application for short-lived notes"

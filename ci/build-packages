@@ -1,0 +1,46 @@
+#!/bin/sh
+set -ev
+# Builds source package from git checkout, then binary packages from the source
+# package.
+
+cd $(dirname $0)/..
+SRC_DIR=$PWD
+DIST_DIR=$PWD/dist
+
+setup_work_dir() {
+    cd /tmp
+    cd $(mktemp -d cibuild.XXXXXX)
+    WORK_DIR=$PWD
+}
+
+create_source_package() {
+    cd $WORK_DIR
+    mkdir srcpkg
+    cd srcpkg
+
+    cmake -G Ninja $SRC_DIR
+    ninja package_source
+    SOURCE_PACKAGE=$(ls *.tar.bz2)
+    mv $SOURCE_PACKAGE $DIST_DIR
+}
+
+create_binary_packages() {
+    cd $WORK_DIR
+    mkdir binpkg
+    cd binpkg
+    tar xf $DIST_DIR/$SOURCE_PACKAGE
+    cd $(echo $SOURCE_PACKAGE | sed s/.tar.bz2$//)
+    mkdir build
+    cd build
+    cmake -G Ninja ..
+    ninja
+    ninja package
+    mv *.deb *.rpm $DIST_DIR
+}
+
+rm -rf $DIST_DIR
+mkdir $DIST_DIR
+setup_work_dir
+create_source_package
+create_binary_packages
+rm -rf $WORK_DIR
