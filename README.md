@@ -1,4 +1,6 @@
- # Nanonote
+[![Build Status](https://travis-ci.org/agateau/nanonote.svg?branch=master)](https://travis-ci.org/agateau/nanonote)
+
+# Nanonote
 
 Nanonote is a minimalist note taking application meant for short-lived notes.
 
