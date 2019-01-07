@@ -1,0 +1,11 @@
+dist: xenial
+language: minimal
+
+services:
+- docker
+
+install:
+- ci/docker-build
+
+script:
+- docker run -v $TRAVIS_BUILD_DIR:/root/nanonote nanonote:1 /root/nanonote/ci/build-packages

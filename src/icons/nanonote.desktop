@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Nanonote
 GenericName=Note taking application
-Comment=Minimalist not taking application
+Comment=Minimalist note taking application
 Type=Application
 Exec=nanonote
 Icon=nanonote

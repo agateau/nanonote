@@ -34,3 +34,5 @@ Build Nanonote:
     cmake ..
     make
     sudo make install
+
+You can also build rpm and deb files using `make package` after `make`.
