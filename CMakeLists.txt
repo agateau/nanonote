@@ -6,13 +6,9 @@ project(nanonote
 
 # Dependencies
 find_package(Qt5 CONFIG REQUIRED Core Widgets)
-include(qpropgen/cmake/qpropgen.cmake)
+include(3rdparty/qpropgen/cmake/qpropgen.cmake)
+add_subdirectory(3rdparty/singleapplication)
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
-
-add_subdirectory(singleapplication)
 add_subdirectory(src)
 
 # Packaging
