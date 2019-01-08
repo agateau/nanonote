@@ -4,7 +4,6 @@ configure_file(
     ${CMAKE_CURRENT_BINARY_DIR}/Config.h)
 
 set(nanonote_SRCS
-    main.cpp
     IndentExtension.cpp
     LinkSyntaxHighlighter.cpp
     LinkExtension.cpp
@@ -22,22 +21,26 @@ qpropgen(QPROPGEN_SRCS
 )
 
 # Building
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual")
-set(CMAKE_CXX_STANDARD 17)
-add_executable(nanonote ${nanonote_SRCS} ${nanonote_RESOURCES} ${QPROPGEN_SRCS})
 
-target_link_libraries(nanonote
-    singleapplication
+# Lib
+add_library(nanonotelib STATIC ${nanonote_SRCS} ${nanonote_RESOURCES} ${QPROPGEN_SRCS})
+target_include_directories(nanonotelib PUBLIC
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+target_link_libraries(nanonotelib
     Qt5::Core
     Qt5::Widgets
+)
+
+# Main
+add_executable(nanonote main.cpp)
+target_link_libraries(nanonote
+    nanonotelib
+    singleapplication
 )
 
 # Install
