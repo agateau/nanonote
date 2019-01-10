@@ -12,11 +12,19 @@ TEST_CASE("textedit") {
     TextEdit *edit = new TextEdit;
     window.setCentralWidget(edit);
     edit->addExtension(new IndentExtension(edit));
-
-    SECTION("indent from beginning of line") {
+    SECTION("indent insert spaces") {
         edit->setPlainText("Hello");
-        QTest::keyClick(edit, Qt::Key_Tab);
-        REQUIRE(edit->toPlainText() == QString("    Hello"));
+
+        SECTION("indent from beginning of line") {
+            QTest::keyClick(edit, Qt::Key_Tab);
+            REQUIRE(edit->toPlainText() == QString("    Hello"));
+        }
+
+        SECTION("indent from middle of word") {
+            QTest::keyClick(edit, Qt::Key_Right);
+            QTest::keyClick(edit, Qt::Key_Tab);
+            REQUIRE(edit->toPlainText() == QString("H   ello"));
+        }
     }
 
     SECTION("indent from middle of word") {
