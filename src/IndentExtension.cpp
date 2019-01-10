@@ -73,7 +73,11 @@ void IndentExtension::aboutToShowContextMenu(QMenu *menu, const QPoint &/*pos*/)
 bool IndentExtension::keyPress(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Tab && event->modifiers() == 0) {
-        insertIndentation();
+        onTabPressed();
+        return true;
+    }
+    if (event->key() == Qt::Key_Backtab) {
+        processSelection(unindentLine);
         return true;
     }
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
@@ -135,6 +139,16 @@ void IndentExtension::processSelection(ProcessSelectionCallback callback)
         }
     }
     editCursor.endEditBlock();
+}
+
+void IndentExtension::onTabPressed()
+{
+    auto cursor = mTextEdit->textCursor();
+    if (cursor.selectedText().contains(QChar::ParagraphSeparator)) {
+        processSelection(indentLine);
+    } else {
+        insertIndentation();
+    }
 }
 
 void IndentExtension::removeIndentation()

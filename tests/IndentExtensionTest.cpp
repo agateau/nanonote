@@ -2,6 +2,7 @@
 
 #include <QMainWindow>
 #include <QTest>
+#include <QTextCursor>
 
 #include <catch2/catch.hpp>
 
@@ -27,11 +28,20 @@ TEST_CASE("textedit") {
         }
     }
 
-    SECTION("indent from middle of word") {
-        edit->setPlainText("Hello");
-        QTest::keyClick(edit, Qt::Key_Right);
+    SECTION("indent whole lines") {
+        edit->setPlainText("1\n2\n3\n");
+        edit->moveCursor(QTextCursor::Down, QTextCursor::KeepAnchor);
+        edit->moveCursor(QTextCursor::Down, QTextCursor::KeepAnchor);
         QTest::keyClick(edit, Qt::Key_Tab);
-        REQUIRE(edit->toPlainText() == QString("H   ello"));
+        REQUIRE(edit->toPlainText() == QString("    1\n    2\n3\n"));
+    }
+
+    SECTION("unindent whole lines") {
+        edit->setPlainText("    1\n    2\n3\n");
+        edit->moveCursor(QTextCursor::Down, QTextCursor::KeepAnchor);
+        edit->moveCursor(QTextCursor::Down, QTextCursor::KeepAnchor);
+        QTest::keyClick(edit, Qt::Key_Backtab);
+        REQUIRE(edit->toPlainText() == QString("1\n2\n3\n"));
     }
 
     /* broken ATM
