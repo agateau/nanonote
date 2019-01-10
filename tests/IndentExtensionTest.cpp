@@ -13,10 +13,17 @@ TEST_CASE("textedit") {
     window.setCentralWidget(edit);
     edit->addExtension(new IndentExtension(edit));
 
-    SECTION("indent with tab") {
+    SECTION("indent from beginning of line") {
         edit->setPlainText("Hello");
         QTest::keyClick(edit, Qt::Key_Tab);
         REQUIRE(edit->toPlainText() == QString("    Hello"));
+    }
+
+    SECTION("indent from middle of word") {
+        edit->setPlainText("Hello");
+        QTest::keyClick(edit, Qt::Key_Right);
+        QTest::keyClick(edit, Qt::Key_Tab);
+        REQUIRE(edit->toPlainText() == QString("H   ello"));
     }
 
     /* broken ATM

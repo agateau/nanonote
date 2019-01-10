@@ -106,7 +106,8 @@ bool IndentExtension::canRemoveIndentation() const
 void IndentExtension::insertIndentation()
 {
     auto cursor = mTextEdit->textCursor();
-    indentLine(cursor);
+    int count = INDENT_SIZE - (cursor.columnNumber() % INDENT_SIZE);
+    cursor.insertText(QString(count, ' '));
 }
 
 void IndentExtension::processSelection(ProcessSelectionCallback callback)
