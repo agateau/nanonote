@@ -9,6 +9,7 @@
 int main(int argc, char *argv[])
 {
     SingleApplication app(argc, argv);
+    Q_INIT_RESOURCE(nanonote);
     app.setOrganizationName("agateau.com");
     app.setApplicationName("nanonote");
     app.setApplicationVersion(NANONOTE_VERSION);
