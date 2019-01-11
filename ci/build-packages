@@ -36,7 +36,7 @@ build_and_test() {
     cd build
     cmake -G Ninja ..
     ninja
-    ninja test
+    xvfb-run ninja test
 }
 
 create_binary_packages() {
