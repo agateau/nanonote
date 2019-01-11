@@ -17,6 +17,6 @@ It also has a few handy editing features, like auto-bullet lists:
 
 You can also open urls using Control + click. You can try clicking on this one for example: https://github.com/agateau/nanonote.
 
-Finally, you can indent selected lines with Ctrl+I and unindent with Ctrl+U.
+Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with Shift+Tab or Ctrl+U.
 
 That's all there is to say, now you can erase this text and start taking notes!
