@@ -43,12 +43,4 @@ TEST_CASE("textedit") {
         QTest::keyClick(edit, Qt::Key_Backtab);
         REQUIRE(edit->toPlainText() == QString("1\n2\n3\n"));
     }
-
-    /* broken ATM
-    SECTION("indent with ctrl+I") {
-        edit->setPlainText("Hello");
-        QTest::keyClick(edit, Qt::Key_I, Qt::ControlModifier);
-        REQUIRE(edit->toPlainText() == QString("    Hello"));
-    }
-    */
 }
