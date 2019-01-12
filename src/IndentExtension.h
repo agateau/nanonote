@@ -20,6 +20,7 @@ private:
     void removeIndentation();
     void insertIndentedLine();
     void processSelection(ProcessSelectionCallback callback);
+    void onTabPressed();
 
     QAction *mIndentAction;
     QAction *mUnindentAction;
