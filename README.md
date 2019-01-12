@@ -15,6 +15,12 @@ more permanent place.
 It is developed and tested on Linux. I expect it to work on macOS and Windows
 as well, but haven't tested it. If you give it a try, let me know how it goes.
 
+## Packages
+
+Binary packages are available on the [release page][].
+
+[release page]: https://github.com/agateau/nanonote/releases
+
 ## Building it
 
 Nanonote requires Qt 5 and CMake. To build it, do the following:
