@@ -13,6 +13,7 @@ RUN apt-get update \
         python3-setuptools \
         qt5-default \
         qtbase5-dev \
+        qttools5-dev \
         rpm \
         xvfb
 

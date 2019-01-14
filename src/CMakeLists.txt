@@ -20,13 +20,31 @@ qpropgen(QPROPGEN_SRCS
     BaseSettings.yaml
 )
 
+# Translations
+set(TS_FILES
+    translations/nanonote_fr.ts
+)
+
+# To update .ts (also builds .qm files)
+qt5_create_translation(_TRANSLATION_UPDATE ${nanonote_SRCS} ${TS_FILES})
+add_custom_target(lupdate DEPENDS ${_TRANSLATION_UPDATE})
+
+# To build .qm from .ts files
+qt5_add_translation(QM_FILES ${TS_FILES})
+add_custom_target(lrelease DEPENDS ${TRANSLATION_QM})
+
 # Building
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
 
 # Lib
-add_library(nanonotelib STATIC ${nanonote_SRCS} ${nanonote_RESOURCES} ${QPROPGEN_SRCS})
+add_library(nanonotelib STATIC
+    ${nanonote_SRCS}
+    ${nanonote_RESOURCES}
+    ${QPROPGEN_SRCS}
+    ${QM_FILES}
+)
 target_include_directories(nanonotelib PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
