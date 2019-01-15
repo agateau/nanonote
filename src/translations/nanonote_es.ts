@@ -74,7 +74,29 @@ Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with
 
 That&apos;s all there is to say, now you can erase this text and start taking notes!
 </source>
-        <translation type="unfinished"></translation>
+        <translation>¡Bienvenido/a a Nanonote!
+
+Nanonote es una aplicación minimalista para tomar notas.
+
+Su uso es principalmente para tomar notas. Cualquier cosa que escribas aquí es automaticamente guardada en tu disco.
+
+La única interfaz disponible es el menú contextual, ¡pruébalo!
+
+Como puedes ver en el menú contextual, Nanonote utiliza el modo &quot;Siempre encima&quot;. Esta característica es útil para mantener la ventana abierta siempre a mano.
+
+También tiene algunas características útiles, como por ejemplo la creación de listas de manera automática:
+
+- Prueba a mover el cursor al final de esta línea y pulsa la tecla Enter
+- Esto también funciona para
+    - listas anidadas
+    * y con asteriscos
+
+También puedes abrir enlaces utilizando la combinación de Control + clic. Puedes probarlo haciendo clic en este ejemplo: https://github.com/agateau/nanonote.
+
+Finalmente, se puede identar las líneas seleccionadas con pulsando el tabulador o mediante Ctrl+I y eliminar la identación con Shift+Tab o Ctrl+U.
+
+Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empezar a tomar notas!
+</translation>
     </message>
 </context>
 <context>
