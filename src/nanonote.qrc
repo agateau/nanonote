@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/appicon.svg</file>
-        <file>welcome.txt</file>
     </qresource>
 </RCC>

@@ -5,6 +5,8 @@
 
 #include "Settings.h"
 
+static const char PROJECT_URL[] = "https://github.com/agateau/nanonote";
+
 SettingsDialog::SettingsDialog(Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::SettingsDialog)
@@ -34,12 +36,15 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::setupAboutTab()
 {
-    QString text = tr(R"(
-                   <h2>Nanonote %1</h2>
-                   <p>A minimalist note taking application.<br>
-                   <a href="https://github.com/agateau/nanonote">https://github.com/agateau/nanonote</a></p>
-                   <p>Your notes are stored in <a href="file:%2">%2</a>.</p>
-                   )").arg(qApp->applicationVersion(), Settings::notePath());
+    auto projectLink = QString("<a href='%1'>%1</a>").arg(PROJECT_URL);
+    auto noteLink = QString("<a href='file:%1'>%1</a>").arg(Settings::notePath());
+    auto text = tr(
+        "<h2>Nanonote %1</h2>"
+        "<p>A minimalist note taking application.<br>"
+        "%2</p>"
+        "<p>Your notes are stored in %3.</p>",
+        "%1=version %2=projectLink %3=noteLink"
+    ).arg(qApp->applicationVersion(), projectLink, noteLink);
 
     ui->aboutLabel->setText(text);
 }
