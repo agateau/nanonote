@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/translations">
+        <file>nanonote_fr.qm</file>
+    </qresource>
+</RCC>

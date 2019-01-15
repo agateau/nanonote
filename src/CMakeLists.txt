@@ -29,9 +29,9 @@ set(TS_FILES
 qt5_create_translation(_TRANSLATION_UPDATE ${nanonote_SRCS} ${TS_FILES})
 add_custom_target(lupdate DEPENDS ${_TRANSLATION_UPDATE})
 
-# To build .qm from .ts files
-qt5_add_translation(QM_FILES ${TS_FILES})
-add_custom_target(lrelease DEPENDS ${TRANSLATION_QM})
+set(TRANSLATIONS_QRC translations.qrc)
+configure_file(${TRANSLATIONS_QRC} ${TRANSLATIONS_QRC} COPYONLY)
+qt5_add_resources(TRANSLATIONS_RESOURCES ${CMAKE_CURRENT_BINARY_DIR}/${TRANSLATIONS_QRC})
 
 # Building
 set(CMAKE_AUTOMOC ON)
@@ -43,7 +43,7 @@ add_library(nanonotelib STATIC
     ${nanonote_SRCS}
     ${nanonote_RESOURCES}
     ${QPROPGEN_SRCS}
-    ${QM_FILES}
+    ${TRANSLATIONS_RESOURCES}
 )
 target_include_directories(nanonotelib PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR}
