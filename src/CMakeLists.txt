@@ -23,6 +23,7 @@ qpropgen(QPROPGEN_SRCS
 # Translations
 set(TS_FILES
     translations/nanonote_fr.ts
+    translations/nanonote_es.ts
 )
 
 # To update .ts (also builds .qm files)
