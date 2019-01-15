@@ -3,7 +3,9 @@
 
 #include "TextEdit.h"
 
-class LinkExtension : public TextEditExtension {
+class LinkExtension : public TextEditExtension
+{
+    Q_OBJECT
 public:
     explicit LinkExtension(TextEdit *textEdit);
 

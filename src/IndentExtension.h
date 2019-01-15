@@ -7,6 +7,7 @@
 
 class IndentExtension : public TextEditExtension
 {
+    Q_OBJECT
 public:
     explicit IndentExtension(TextEdit *textEdit);
 
