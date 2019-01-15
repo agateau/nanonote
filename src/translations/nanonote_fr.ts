@@ -77,5 +77,11 @@
         <source>About</source>
         <translation>À propos</translation>
     </message>
+    <message>
+        <location filename="../SettingsDialog.cpp" line="41"/>
+        <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;A minimalist note taking application.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Your notes are stored in %3.&lt;/p&gt;</source>
+        <comment>%1=version %2=projectLink %3=noteLink</comment>
+        <translation>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;Une application de prise de note minimaliste.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Vos notes sont stockées ici : %3.&lt;/p&gt;</translation>
+    </message>
 </context>
 </TS>
