@@ -5,12 +5,12 @@
     <name>IndentExtension</name>
     <message>
         <location filename="../IndentExtension.cpp" line="51"/>
-        <source>Indent</source>
+        <source>Sangrar el texto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../IndentExtension.cpp" line="58"/>
-        <source>Unindent</source>
+        <source>Quitar sangrado de texto</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -19,12 +19,12 @@
     <message>
         <location filename="../LinkExtension.cpp" line="27"/>
         <source>Copy link address</source>
-        <translation type="unfinished"></translation>
+        <translation type="Copiar dirección del enlace"></translation>
     </message>
     <message>
         <location filename="../LinkExtension.cpp" line="32"/>
         <source>Open link</source>
-        <translation type="unfinished"></translation>
+        <translation type="Abrir enlace"></translation>
     </message>
 </context>
 <context>
@@ -32,22 +32,22 @@
     <message>
         <location filename="../MainWindow.cpp" line="91"/>
         <source>Increase Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="Aumentar tamaño de la fuente"></translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="94"/>
         <source>Decrease Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="Disminuir tamaño de la fuente"></translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="103"/>
         <source>Always on Top</source>
-        <translation type="unfinished"></translation>
+        <translation type="Ventana siempre encima"></translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="108"/>
         <source>Settings...</source>
-        <translation type="unfinished"></translation>
+        <translation type="Ajustes..."></translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="124"/>
@@ -82,7 +82,7 @@ Su uso es principalmente para tomar notas. Cualquier cosa que escribas aquí es 
 
 La única interfaz disponible es el menú contextual, ¡pruébalo!
 
-Como puedes ver en el menú contextual, Nanonote utiliza el modo &quot;Siempre encima&quot;. Esta característica es útil para mantener la ventana abierta siempre a mano.
+Como puedes ver en el menú contextual, Nanonote tiene disponible el modo &quot;Siempre encima&quot;. Esta característica es útil para mantener la ventana abierta siempre a mano.
 
 También tiene algunas características útiles, como por ejemplo la creación de listas de manera automática:
 
@@ -104,33 +104,33 @@ Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empeza
     <message>
         <location filename="../SettingsDialog.ui" line="14"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="Ajustes"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="24"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation type="Apariencia"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="30"/>
         <source>Font family:</source>
-        <translation type="unfinished"></translation>
+        <translation type="Familia de la fuente"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="42"/>
         <source>Size:</source>
-        <translation type="unfinished"></translation>
+        <translation type="Tamaño"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="68"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation type="Acerca de"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.cpp" line="41"/>
         <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;A minimalist note taking application.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Your notes are stored in %3.&lt;/p&gt;</source>
         <comment>%1=version %2=projectLink %3=noteLink</comment>
-        <translation type="unfinished"></translation>
+        <translation type="&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;Una aplicación minimalista para tomar notas.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Tus notas son almacenadas en %3.&lt;/p&gt;"></translation>
     </message>
 </context>
 </TS>
