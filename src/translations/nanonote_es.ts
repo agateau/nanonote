@@ -5,13 +5,13 @@
     <name>IndentExtension</name>
     <message>
         <location filename="../IndentExtension.cpp" line="51"/>
-        <source>Sangrar el texto</source>
-        <translation type="unfinished"></translation>
+        <source>Indent</source>
+        <translation type="Sangrar el texto"></translation>
     </message>
     <message>
         <location filename="../IndentExtension.cpp" line="58"/>
-        <source>Quitar sangrado de texto</source>
-        <translation type="unfinished"></translation>
+        <source>Unindent</source>
+        <translation type="Quitar sangrado de texto"></translation>
     </message>
 </context>
 <context>
