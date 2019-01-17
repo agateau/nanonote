@@ -14,7 +14,7 @@ Commit and push
 
 Build packages:
 
-    docker run -v $PWD:/root/nanonote nanonote:1 /root/nanonote/ci/build-packages
+    docker run -v $PWD:/root/nanonote nanonote:1 /root/nanonote/ci/build-app
 
 Smoke test binary packages
 
