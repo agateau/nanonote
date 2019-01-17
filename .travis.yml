@@ -5,7 +5,7 @@ services:
 - docker
 
 install:
-- ci/docker-build
+- ci/build-docker
 
 script:
-- docker run -v $TRAVIS_BUILD_DIR:/root/nanonote nanonote:1 /root/nanonote/ci/build-packages
+- docker run -v $PWD:/root/nanonote nanonote:1 /root/nanonote/ci/build-app
