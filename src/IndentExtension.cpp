@@ -118,21 +118,27 @@ void IndentExtension::processSelection(ProcessSelectionCallback callback)
 {
     auto cursor = mTextEdit->textCursor();
     auto doc = mTextEdit->document();
-    QTextBlock start, end;
+    QTextBlock startBlock, endBlock;
     if (cursor.hasSelection()) {
-        start = doc->findBlock(cursor.selectionStart());
-        end = doc->findBlock(cursor.selectionEnd());
-        if (cursor.columnNumber() > 0) {
-            end = end.next();
+        auto start = cursor.selectionStart();
+        auto end = cursor.selectionEnd();
+        if (start > end) {
+            std::swap(start, end);
+        }
+        startBlock = doc->findBlock(cursor.selectionStart());
+        endBlock = doc->findBlock(cursor.selectionEnd());
+        // If the end is not at the start of the block, select this block too
+        if (end - endBlock.position() > 0) {
+            endBlock = endBlock.next();
         }
     } else {
-        start = cursor.block();
-        end = start.next();
+        startBlock = cursor.block();
+        endBlock = startBlock.next();
     }
 
-    QTextCursor editCursor(start);
+    QTextCursor editCursor(startBlock);
     editCursor.beginEditBlock();
-    while (editCursor.block() != end) {
+    while (editCursor.block() != endBlock) {
         callback(editCursor);
         if (!editCursor.movePosition(QTextCursor::NextBlock)) {
             break;
