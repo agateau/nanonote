@@ -6,12 +6,12 @@
     <message>
         <location filename="../IndentExtension.cpp" line="51"/>
         <source>Indent</source>
-        <translation type="Sangrar el texto"></translation>
+        <translation>Sangrar el texto</translation>
     </message>
     <message>
         <location filename="../IndentExtension.cpp" line="58"/>
         <source>Unindent</source>
-        <translation type="Quitar sangrado de texto"></translation>
+        <translation>Quitar sangrado de texto</translation>
     </message>
 </context>
 <context>
@@ -19,12 +19,12 @@
     <message>
         <location filename="../LinkExtension.cpp" line="27"/>
         <source>Copy link address</source>
-        <translation type="Copiar dirección del enlace"></translation>
+        <translation>Copiar dirección del enlace</translation>
     </message>
     <message>
         <location filename="../LinkExtension.cpp" line="32"/>
         <source>Open link</source>
-        <translation type="Abrir enlace"></translation>
+        <translation>Abrir enlace</translation>
     </message>
 </context>
 <context>
@@ -32,22 +32,22 @@
     <message>
         <location filename="../MainWindow.cpp" line="91"/>
         <source>Increase Font Size</source>
-        <translation type="Aumentar tamaño de la fuente"></translation>
+        <translation>Aumentar tamaño de la fuente</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="94"/>
         <source>Decrease Font Size</source>
-        <translation type="Disminuir tamaño de la fuente"></translation>
+        <translation>Disminuir tamaño de la fuente</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="103"/>
         <source>Always on Top</source>
-        <translation type="Ventana siempre encima"></translation>
+        <translation>Ventana siempre encima</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="108"/>
         <source>Settings...</source>
-        <translation type="Ajustes..."></translation>
+        <translation>Ajustes...</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="124"/>
@@ -104,33 +104,33 @@ Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empeza
     <message>
         <location filename="../SettingsDialog.ui" line="14"/>
         <source>Settings</source>
-        <translation type="Ajustes"></translation>
+        <translation>Ajustes</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="24"/>
         <source>Appearance</source>
-        <translation type="Apariencia"></translation>
+        <translation>Apariencia</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="30"/>
         <source>Font family:</source>
-        <translation type="Familia de la fuente"></translation>
+        <translation>Familia de la fuente:</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="42"/>
         <source>Size:</source>
-        <translation type="Tamaño"></translation>
+        <translation>Tamaño:</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="68"/>
         <source>About</source>
-        <translation type="Acerca de"></translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.cpp" line="41"/>
         <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;A minimalist note taking application.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Your notes are stored in %3.&lt;/p&gt;</source>
         <comment>%1=version %2=projectLink %3=noteLink</comment>
-        <translation type="&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;Una aplicación minimalista para tomar notas.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Tus notas son almacenadas en %3.&lt;/p&gt;"></translation>
+        <translation>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;Una aplicación minimalista para tomar notas.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Tus notas son almacenadas en %3.&lt;/p&gt;</translation>
     </message>
 </context>
 </TS>
