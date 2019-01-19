@@ -20,7 +20,7 @@ qpropgen(QPROPGEN_SRCS
     BaseSettings.yaml
 )
 
-# Translations
+# Translations (a matching entry must be added to translations.qrc)
 set(TS_FILES
     translations/nanonote_fr.ts
     translations/nanonote_es.ts
