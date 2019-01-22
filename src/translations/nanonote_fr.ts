@@ -4,12 +4,12 @@
 <context>
     <name>IndentExtension</name>
     <message>
-        <location filename="../IndentExtension.cpp" line="67"/>
+        <location filename="../IndentExtension.cpp" line="59"/>
         <source>Indent</source>
         <translation>Indenter</translation>
     </message>
     <message>
-        <location filename="../IndentExtension.cpp" line="74"/>
+        <location filename="../IndentExtension.cpp" line="66"/>
         <source>Unindent</source>
         <translation>Désindenter</translation>
     </message>

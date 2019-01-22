@@ -17,7 +17,12 @@ static int findBulletSize(const QStringRef &ref) {
     return 0;
 }
 
-static QString findCommonPrefix(const QString &line)
+struct PrefixInfo {
+    QString text;
+    bool isBullet = false;
+};
+
+static PrefixInfo findCommonPrefix(const QString &line)
 {
     int idx;
     for (idx = 0; idx < line.length(); ++idx) {
@@ -25,24 +30,11 @@ static QString findCommonPrefix(const QString &line)
             break;
         }
     }
-    idx += findBulletSize(line.midRef(idx));
-    return line.left(idx);
-}
-
-static QString findListPrefix(const QString &line)
-{
-    int idx;
-    for (idx = 0; idx < line.length(); ++idx) {
-        if (line[idx] != ' ') {
-            break;
-        }
-    }
-
     int bulletSize = findBulletSize(line.midRef(idx));
-    if (bulletSize) {
-        return line.left(idx+bulletSize);
-    }
-    return QString();
+    PrefixInfo info;
+    info.text = line.left(idx + bulletSize);
+    info.isBullet = bulletSize > 0;
+    return info;
 }
 
 static void indentLine(QTextCursor &cursor)
@@ -131,9 +123,9 @@ bool IndentExtension::isAtStartOfListLine() const
         return false;
     }
     QString line = cursor.block().text();
-    QString prefix = findListPrefix(line);
+    auto prefixInfo = findCommonPrefix(line);
 
-    return prefix.length() == columnNumber;
+    return prefixInfo.isBullet && prefixInfo.text.length() == columnNumber;
 }
 
 void IndentExtension::insertIndentation()
@@ -201,7 +193,7 @@ void IndentExtension::insertIndentedLine()
     auto cursor = mTextEdit->textCursor();
     if (cursor.columnNumber() > 0) {
         QString line = cursor.block().text();
-        QString prefix = findCommonPrefix(line);
+        QString prefix = findCommonPrefix(line).text;
         mTextEdit->insertPlainText('\n' + prefix);
     } else {
         mTextEdit->insertPlainText("\n");
