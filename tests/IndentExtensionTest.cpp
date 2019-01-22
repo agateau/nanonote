@@ -77,4 +77,32 @@ TEST_CASE("textedit") {
         QTest::keyClick(edit, Qt::Key_Tab);
         REQUIRE(edit->toPlainText() == QString("    aa\n    bb\n"));
     }
+
+    SECTION("indent at start of unindented list") {
+        edit->setPlainText("- item\n- \n");
+        edit->moveCursor(QTextCursor::Down);
+        edit->moveCursor(QTextCursor::Right);
+        edit->moveCursor(QTextCursor::Right);
+        QTest::keyClick(edit, Qt::Key_Tab);
+        REQUIRE(edit->toPlainText() == QString("- item\n    - \n"));
+    }
+
+    SECTION("indent at start of unindented list, no trailing newline") {
+        edit->setPlainText("- item\n- ");
+        edit->moveCursor(QTextCursor::Down);
+        edit->moveCursor(QTextCursor::Right);
+        edit->moveCursor(QTextCursor::Right);
+        QTest::keyClick(edit, Qt::Key_Tab);
+        REQUIRE(edit->toPlainText() == QString("- item\n    - "));
+    }
+
+    SECTION("indent at start of indented list") {
+        edit->setPlainText("    - item\n    - ");
+        edit->moveCursor(QTextCursor::Down);
+        for (int i = 0; i < 6; ++i) {
+            edit->moveCursor(QTextCursor::Right);
+        }
+        QTest::keyClick(edit, Qt::Key_Tab);
+        REQUIRE(edit->toPlainText() == QString("    - item\n        - "));
+    }
 }
