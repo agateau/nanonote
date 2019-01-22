@@ -17,6 +17,7 @@ public:
 private:
     using ProcessSelectionCallback = std::function<void(QTextCursor&)>;
     bool canRemoveIndentation() const;
+    bool isAtStartOfListLine() const;
     void insertIndentation();
     void removeIndentation();
     void insertIndentedLine();

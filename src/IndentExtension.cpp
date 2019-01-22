@@ -123,22 +123,22 @@ bool IndentExtension::canRemoveIndentation() const
     return true;
 }
 
+bool IndentExtension::isAtStartOfListLine() const
+{
+    auto cursor = mTextEdit->textCursor();
+    int columnNumber = cursor.columnNumber();
+    if (columnNumber == 0) {
+        return false;
+    }
+    QString line = cursor.block().text();
+    QString prefix = findListPrefix(line);
+
+    return prefix.length() == columnNumber;
+}
+
 void IndentExtension::insertIndentation()
 {
     auto cursor = mTextEdit->textCursor();
-
-    if (cursor.columnNumber() > 0) {
-        QString line = cursor.block().text();
-        QString prefix = findListPrefix(line);
-
-        // If the cursor is at the start of a list item, indent the line
-        // instead of adding spaces at the cursor position.
-        if (prefix.length() == cursor.columnNumber()) {
-            processSelection(indentLine);
-            return;
-        }
-    }
-
     int count = INDENT_SIZE - (cursor.columnNumber() % INDENT_SIZE);
     cursor.insertText(QString(count, ' '));
 }
@@ -179,7 +179,8 @@ void IndentExtension::processSelection(ProcessSelectionCallback callback)
 void IndentExtension::onTabPressed()
 {
     auto cursor = mTextEdit->textCursor();
-    if (cursor.selectedText().contains(QChar::ParagraphSeparator)) {
+    if (cursor.selectedText().contains(QChar::ParagraphSeparator)
+            || isAtStartOfListLine()) {
         processSelection(indentLine);
     } else {
         insertIndentation();
