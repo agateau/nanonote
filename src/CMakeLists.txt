@@ -27,7 +27,10 @@ set(TS_FILES
 )
 
 # To update .ts (also builds .qm files)
-qt5_create_translation(_TRANSLATION_UPDATE ${nanonote_SRCS} ${TS_FILES})
+# Use "-locations none" so that .ts files do not change every time lines move
+# in source files: that results in noisy diffs
+qt5_create_translation(_TRANSLATION_UPDATE ${nanonote_SRCS} ${TS_FILES}
+    OPTIONS -locations none)
 add_custom_target(lupdate DEPENDS ${_TRANSLATION_UPDATE})
 
 set(TRANSLATIONS_QRC translations.qrc)
