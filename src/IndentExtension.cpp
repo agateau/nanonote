@@ -17,7 +17,12 @@ static int findBulletSize(const QStringRef &ref) {
     return 0;
 }
 
-static QString findCommonPrefix(const QString &line)
+struct PrefixInfo {
+    QString text;
+    bool isBullet = false;
+};
+
+static PrefixInfo findCommonPrefix(const QString &line)
 {
     int idx;
     for (idx = 0; idx < line.length(); ++idx) {
@@ -25,24 +30,11 @@ static QString findCommonPrefix(const QString &line)
             break;
         }
     }
-    idx += findBulletSize(line.midRef(idx));
-    return line.left(idx);
-}
-
-static QString findListPrefix(const QString &line)
-{
-    int idx;
-    for (idx = 0; idx < line.length(); ++idx) {
-        if (line[idx] != ' ') {
-            break;
-        }
-    }
-
     int bulletSize = findBulletSize(line.midRef(idx));
-    if (bulletSize) {
-        return line.left(idx+bulletSize);
-    }
-    return QString();
+    PrefixInfo info;
+    info.text = line.left(idx + bulletSize);
+    info.isBullet = bulletSize > 0;
+    return info;
 }
 
 static void indentLine(QTextCursor &cursor)
@@ -123,22 +115,22 @@ bool IndentExtension::canRemoveIndentation() const
     return true;
 }
 
+bool IndentExtension::isAtStartOfListLine() const
+{
+    auto cursor = mTextEdit->textCursor();
+    int columnNumber = cursor.columnNumber();
+    if (columnNumber == 0) {
+        return false;
+    }
+    QString line = cursor.block().text();
+    auto prefixInfo = findCommonPrefix(line);
+
+    return prefixInfo.isBullet && prefixInfo.text.length() == columnNumber;
+}
+
 void IndentExtension::insertIndentation()
 {
     auto cursor = mTextEdit->textCursor();
-
-    if (cursor.columnNumber() > 0) {
-        QString line = cursor.block().text();
-        QString prefix = findListPrefix(line);
-
-        // If the cursor is at the start of a list item, indent the line
-        // instead of adding spaces at the cursor position.
-        if (prefix.length() == cursor.columnNumber()) {
-            processSelection(indentLine);
-            return;
-        }
-    }
-
     int count = INDENT_SIZE - (cursor.columnNumber() % INDENT_SIZE);
     cursor.insertText(QString(count, ' '));
 }
@@ -179,7 +171,8 @@ void IndentExtension::processSelection(ProcessSelectionCallback callback)
 void IndentExtension::onTabPressed()
 {
     auto cursor = mTextEdit->textCursor();
-    if (cursor.selectedText().contains(QChar::ParagraphSeparator)) {
+    if (cursor.selectedText().contains(QChar::ParagraphSeparator)
+            || isAtStartOfListLine()) {
         processSelection(indentLine);
     } else {
         insertIndentation();
@@ -200,7 +193,7 @@ void IndentExtension::insertIndentedLine()
     auto cursor = mTextEdit->textCursor();
     if (cursor.columnNumber() > 0) {
         QString line = cursor.block().text();
-        QString prefix = findCommonPrefix(line);
+        QString prefix = findCommonPrefix(line).text;
         mTextEdit->insertPlainText('\n' + prefix);
     } else {
         mTextEdit->insertPlainText("\n");
