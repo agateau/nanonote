@@ -4,12 +4,10 @@
 <context>
     <name>IndentExtension</name>
     <message>
-        <location filename="../IndentExtension.cpp" line="59"/>
         <source>Indent</source>
         <translation>Sangrar el texto</translation>
     </message>
     <message>
-        <location filename="../IndentExtension.cpp" line="66"/>
         <source>Unindent</source>
         <translation>Quitar sangrado de texto</translation>
     </message>
@@ -17,12 +15,10 @@
 <context>
     <name>LinkExtension</name>
     <message>
-        <location filename="../LinkExtension.cpp" line="27"/>
         <source>Copy link address</source>
         <translation>Copiar dirección del enlace</translation>
     </message>
     <message>
-        <location filename="../LinkExtension.cpp" line="32"/>
         <source>Open link</source>
         <translation>Abrir enlace</translation>
     </message>
@@ -30,27 +26,22 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../MainWindow.cpp" line="91"/>
         <source>Increase Font Size</source>
         <translation>Aumentar tamaño de la fuente</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="94"/>
         <source>Decrease Font Size</source>
         <translation>Disminuir tamaño de la fuente</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="103"/>
         <source>Always on Top</source>
         <translation>Ventana siempre encima</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="108"/>
         <source>Settings...</source>
         <translation>Ajustes...</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="124"/>
         <source>Welcome to Nanonote!
 
 Nanonote is a minimalist note taking application.
@@ -102,32 +93,26 @@ Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empeza
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../SettingsDialog.ui" line="14"/>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.ui" line="24"/>
         <source>Appearance</source>
         <translation>Apariencia</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.ui" line="30"/>
         <source>Font family:</source>
         <translation>Familia de la fuente:</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.ui" line="42"/>
         <source>Size:</source>
         <translation>Tamaño:</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.ui" line="68"/>
         <source>About</source>
         <translation>Acerca de</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.cpp" line="41"/>
         <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;A minimalist note taking application.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Your notes are stored in %3.&lt;/p&gt;</source>
         <comment>%1=version %2=projectLink %3=noteLink</comment>
         <translation>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;Una aplicación minimalista para tomar notas.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Tus notas son almacenadas en %3.&lt;/p&gt;</translation>
