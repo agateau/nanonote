@@ -29,6 +29,22 @@ static QString findCommonPrefix(const QString &line)
     return line.left(idx);
 }
 
+static QString findListPrefix(const QString &line)
+{
+    int idx;
+    for (idx = 0; idx < line.length(); ++idx) {
+        if (line[idx] != ' ') {
+            break;
+        }
+    }
+
+    int bulletSize = findBulletSize(line.midRef(idx));
+    if (bulletSize) {
+        return line.left(idx+bulletSize);
+    }
+    return QString();
+}
+
 static void indentLine(QTextCursor &cursor)
 {
     static QString spaces = QString(INDENT_SIZE, ' ');
@@ -110,6 +126,19 @@ bool IndentExtension::canRemoveIndentation() const
 void IndentExtension::insertIndentation()
 {
     auto cursor = mTextEdit->textCursor();
+
+    if (cursor.columnNumber() > 0) {
+        QString line = cursor.block().text();
+        QString prefix = findListPrefix(line);
+
+        // If the cursor is at the start of a list item, indent the line
+        // instead of adding spaces at the cursor position.
+        if (prefix.length() == cursor.columnNumber()) {
+            processSelection(indentLine);
+            return;
+        }
+    }
+
     int count = INDENT_SIZE - (cursor.columnNumber() % INDENT_SIZE);
     cursor.insertText(QString(count, ' '));
 }

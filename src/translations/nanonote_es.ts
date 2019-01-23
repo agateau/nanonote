@@ -4,12 +4,12 @@
 <context>
     <name>IndentExtension</name>
     <message>
-        <location filename="../IndentExtension.cpp" line="51"/>
+        <location filename="../IndentExtension.cpp" line="67"/>
         <source>Indent</source>
         <translation>Sangrar el texto</translation>
     </message>
     <message>
-        <location filename="../IndentExtension.cpp" line="58"/>
+        <location filename="../IndentExtension.cpp" line="74"/>
         <source>Unindent</source>
         <translation>Quitar sangrado de texto</translation>
     </message>
