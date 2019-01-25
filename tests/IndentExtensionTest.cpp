@@ -8,6 +8,47 @@
 
 #include "TestUtils.h"
 
+using std::optional;
+
+/**
+ * Take a TextEdit and a text and setup the TextEdit text and selection
+ *
+ * The text parameter contains the text to use, but it *must* contain also a '{' to indicate the selection start. It
+ * *can* also contain a '}' to indicate the selection end.
+ *
+ * '{' can appear *after* '}' in case of an upward selection.
+ */
+static void setupText(TextEdit *edit, const QString &text)
+{
+    QString realText;
+    optional<int> begin, end;
+    int current = 0;
+    for (const auto& qChar : text) {
+        char ch = qChar.toLatin1();
+        switch (ch) {
+        case '{':
+            Q_ASSERT(!begin.has_value());
+            begin = current;
+            break;
+        case '}':
+            Q_ASSERT(!end.has_value());
+            end = current;
+            break;
+        default:
+            realText += ch;
+            ++current;
+        }
+    }
+    edit->setPlainText(realText);
+    auto cursor = edit->textCursor();
+    Q_ASSERT(begin.has_value());
+    cursor.setPosition(begin.value());
+    if (end.has_value()) {
+        cursor.setPosition(end.value(), QTextCursor::KeepAnchor);
+    }
+    edit->setTextCursor(cursor);
+}
+
 TEST_CASE("textedit") {
     QMainWindow window;
     TextEdit *edit = new TextEdit;
@@ -29,27 +70,26 @@ TEST_CASE("textedit") {
     }
 
     SECTION("indent whole lines") {
-        edit->setPlainText("1\n2\n3\n");
-        edit->moveCursor(QTextCursor::Down, QTextCursor::KeepAnchor);
-        edit->moveCursor(QTextCursor::Down, QTextCursor::KeepAnchor);
+        setupText(edit, "{1\n"
+                        "2\n"
+                        "}3\n");
+        auto cursor = edit->textCursor();
         QTest::keyClick(edit, Qt::Key_Tab);
         REQUIRE(edit->toPlainText() == QString("    1\n    2\n3\n"));
     }
 
     SECTION("unindent whole lines") {
-        edit->setPlainText("    1\n    2\n3\n");
-        edit->moveCursor(QTextCursor::Down, QTextCursor::KeepAnchor);
-        edit->moveCursor(QTextCursor::Down, QTextCursor::KeepAnchor);
+        setupText(edit, "{    1\n"
+                        "    2\n"
+                        "}3\n");
         QTest::keyClick(edit, Qt::Key_Backtab);
         REQUIRE(edit->toPlainText() == QString("1\n2\n3\n"));
     }
 
     // https://github.com/agateau/nanonote/issues/6
     SECTION("indent upward selection") {
-        edit->setPlainText("a\nb\n");
-        // Go down, then select the first line by going up
-        edit->moveCursor(QTextCursor::Down);
-        edit->moveCursor(QTextCursor::Up, QTextCursor::KeepAnchor);
+        setupText(edit, "}a\n"
+                        "{b\n");
         // Indent twice, only the first line should be indented
         QTest::keyClick(edit, Qt::Key_Tab);
         QTest::keyClick(edit, Qt::Key_Tab);
@@ -57,38 +97,31 @@ TEST_CASE("textedit") {
     }
 
     SECTION("indent partially selected lines") {
-        edit->setPlainText("aa\nbb\n");
-        // Select first line, then first char of second line
-        edit->moveCursor(QTextCursor::Down, QTextCursor::KeepAnchor);
-        edit->moveCursor(QTextCursor::Right, QTextCursor::KeepAnchor);
+        setupText(edit, "{aa\n"
+                        "b}b\n");
         // Indent, both lines should be indented
         QTest::keyClick(edit, Qt::Key_Tab);
         REQUIRE(edit->toPlainText() == QString("    aa\n    bb\n"));
     }
 
     SECTION("indent upward partially selected lines") {
-        edit->setPlainText("aa\nbb\n");
-        // Go to second line, move one char right then select up (so the last 'a' and the first 'b' are selected)
-        // Select first line, then first char of second line
-        edit->moveCursor(QTextCursor::Down);
-        edit->moveCursor(QTextCursor::Right);
-        edit->moveCursor(QTextCursor::Up, QTextCursor::KeepAnchor);
+        setupText(edit, "a}a\n"
+                        "b{b\n");
         // Indent, both lines should be indented
         QTest::keyClick(edit, Qt::Key_Tab);
         REQUIRE(edit->toPlainText() == QString("    aa\n    bb\n"));
     }
 
     SECTION("indent at start of unindented list") {
-        edit->setPlainText("- item\n- \n");
-        edit->moveCursor(QTextCursor::Down);
-        edit->moveCursor(QTextCursor::Right);
-        edit->moveCursor(QTextCursor::Right);
+        setupText(edit, "- item\n"
+                        "- {\n");
         QTest::keyClick(edit, Qt::Key_Tab);
         REQUIRE(edit->toPlainText() == QString("- item\n    - \n"));
     }
 
     SECTION("indent at start of unindented list, no trailing newline") {
-        edit->setPlainText("- item\n- ");
+        setupText(edit, "- item\n"
+                        "- {");
         edit->moveCursor(QTextCursor::Down);
         edit->moveCursor(QTextCursor::Right);
         edit->moveCursor(QTextCursor::Right);
@@ -97,11 +130,8 @@ TEST_CASE("textedit") {
     }
 
     SECTION("indent at start of indented list") {
-        edit->setPlainText("    - item\n    - ");
-        edit->moveCursor(QTextCursor::Down);
-        for (int i = 0; i < 6; ++i) {
-            edit->moveCursor(QTextCursor::Right);
-        }
+        setupText(edit, "    - item\n"
+                        "    - {");
         QTest::keyClick(edit, Qt::Key_Tab);
         REQUIRE(edit->toPlainText() == QString("    - item\n        - "));
     }
