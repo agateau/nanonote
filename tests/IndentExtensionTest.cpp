@@ -135,4 +135,29 @@ TEST_CASE("textedit") {
         QTest::keyClick(edit, Qt::Key_Tab);
         REQUIRE(edit->toPlainText() == QString("    - item\n        - "));
     }
+
+    SECTION("Return on empty bullet line removes the bullet") {
+        setupText(edit, "- {");
+        QTest::keyClick(edit, Qt::Key_Return);
+        REQUIRE(edit->toPlainText() == QString());
+    }
+
+    SECTION("Return on empty indented bullet line unindents") {
+        setupText(edit, "    - {");
+        QTest::keyClick(edit, Qt::Key_Return);
+        REQUIRE(edit->toPlainText() == QString("- "));
+    }
+
+    SECTION("Return on empty line inserts a new line") {
+        setupText(edit, "{");
+        QTest::keyClick(edit, Qt::Key_Return);
+        REQUIRE(edit->toPlainText() == QString("\n"));
+    }
+
+    SECTION("Return on selected text replaces it with a new line") {
+        setupText(edit, "{a\n"
+                        "b}c");
+        QTest::keyClick(edit, Qt::Key_Return);
+        REQUIRE(edit->toPlainText() == QString("\nc"));
+    }
 }

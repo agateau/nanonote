@@ -18,11 +18,14 @@ private:
     using ProcessSelectionCallback = std::function<void(QTextCursor&)>;
     bool canRemoveIndentation() const;
     bool isAtStartOfListLine() const;
+    bool isAtEndOfLine() const;
+    bool isIndentedLine() const;
     void insertIndentation();
     void removeIndentation();
     void insertIndentedLine();
     void processSelection(ProcessSelectionCallback callback);
     void onTabPressed();
+    void onEnterPressed();
 
     QAction *mIndentAction;
     QAction *mUnindentAction;

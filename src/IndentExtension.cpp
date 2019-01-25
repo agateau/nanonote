@@ -89,7 +89,7 @@ bool IndentExtension::keyPress(QKeyEvent *event)
         return true;
     }
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-        insertIndentedLine();
+        onEnterPressed();
         return true;
     }
     if (event->key() == Qt::Key_Backspace && canRemoveIndentation()) {
@@ -126,6 +126,17 @@ bool IndentExtension::isAtStartOfListLine() const
     auto prefixInfo = findCommonPrefix(line);
 
     return prefixInfo.isBullet && prefixInfo.text.length() == columnNumber;
+}
+
+bool IndentExtension::isAtEndOfLine() const
+{
+    return mTextEdit->textCursor().atBlockEnd();
+}
+
+bool IndentExtension::isIndentedLine() const
+{
+    QString line = mTextEdit->textCursor().block().text();
+    return line.startsWith(QString(INDENT_SIZE, ' '));
 }
 
 void IndentExtension::insertIndentation()
@@ -176,6 +187,27 @@ void IndentExtension::onTabPressed()
         processSelection(indentLine);
     } else {
         insertIndentation();
+    }
+}
+
+void IndentExtension::onEnterPressed()
+{
+    auto cursor = mTextEdit->textCursor();
+    if (cursor.hasSelection()) {
+        insertIndentedLine();
+        return;
+    }
+    bool atStartOfListLine = isAtStartOfListLine();
+    bool atEndOfLine = isAtEndOfLine();
+    if (atStartOfListLine && atEndOfLine) {
+        if (isIndentedLine()) {
+            processSelection(unindentLine);
+        } else {
+            cursor.movePosition(QTextCursor::StartOfLine, QTextCursor::KeepAnchor);
+            cursor.removeSelectedText();
+        }
+    } else {
+        insertIndentedLine();
     }
 }
 
