@@ -2,8 +2,10 @@
 
 #include <catch2/catch.hpp>
 
+#include "TestUtils.h"
+
 TEST_CASE("getLinkAt") {
-    QString uglyUrl = "http://foo.com/arg;foo+bar%20#";
+    QString uglyUrl = "http://foo.com/~arg;foo+bar%20#";
     QString text = QString("link to %1. The end.").arg(uglyUrl);
     QUrl expected(uglyUrl);
     SECTION("before link") {
