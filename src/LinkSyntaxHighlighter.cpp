@@ -7,7 +7,7 @@
 
 // These chars are not allowed at the end of the url, because they can be used
 // as punctuation, or are separators in urls.
-#define MIDDLE_CHARS ".,;:%+"
+#define MIDDLE_CHARS ".,;:%+~"
 
 static const char LINK_REGEX[] = "\\b(https?://|ftp://|file:/)[" COMMON_CHARS MIDDLE_CHARS "]+[" COMMON_CHARS "]";
 
