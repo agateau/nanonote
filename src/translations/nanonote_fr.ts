@@ -71,7 +71,7 @@ Nanonote est une application de prise de note minimaliste.
 
 Elle a été conçue pour les notes éphémères. Tout ce que vous tapez ici est automatiquement enregistré sur votre disque.
 
-La seule interface utilisateur est le menu contextuel, essayez- le !
+La seule interface utilisateur est le menu contextuel, essayez-le !
 
 Comme vous pouvez le voir dans le menu contextuel, Nanonote possède un mode &quot;Toujours visible&quot;. Ce mode est pratique pour garder l&apos;application à portée de main.
 
@@ -82,9 +82,9 @@ L&apos;application dispose de quelques fonctionnalités d&apos;édition pratique
     - les listes imbriquées
     * et les astérisques
 
-Vous pouvez également ouvrir des urls en utilisant Control + clic. Vous pouvez essayer de cliquer sur celle-ci par exemple : https://github.com/agateau/nanonote.
+Vous pouvez également ouvrir des urls en utilisant Control+clic. Vous pouvez essayer de cliquer sur celle-ci par exemple : https://github.com/agateau/nanonote.
 
-Enfin, vous pouvez indenter les lignes sélectionnées avec Tab ou Ctrl + I et les désindenter avec Shift+Tab ou Ctrl+U.
+Enfin, vous pouvez indenter les lignes sélectionnées avec Tab ou Ctrl+I et les désindenter avec Shift+Tab ou Ctrl+U.
 
 C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte et commencer à prendre des notes !
 </translation>
