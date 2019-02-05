@@ -82,9 +82,9 @@ También tiene algunas características útiles, como por ejemplo la creación d
     - listas anidadas
     * y con asteriscos
 
-También puedes abrir enlaces utilizando la combinación de Control + clic. Puedes probarlo haciendo clic en este ejemplo: https://github.com/agateau/nanonote.
+También puedes abrir enlaces utilizando la combinación Control + clic. Puedes probarlo haciendo clic en este ejemplo: https://github.com/agateau/nanonote.
 
-Finalmente, se puede identar las líneas seleccionadas con pulsando el tabulador o mediante Ctrl+I y eliminar la identación con Shift+Tab o Ctrl+U.
+Finalmente, se puede sangrar las líneas seleccionadas pulsando el tabulador o mediante Ctrl+I y eliminar la identación con Shift+Tab o Ctrl+U.
 
 Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empezar a tomar notas!
 </translation>
