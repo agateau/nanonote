@@ -139,7 +139,7 @@ void MainWindow::loadNotes()
 "    - nested lists\n"
 "    * and asterisks\n"
 "\n"
-"You can also open urls using Control + click. You can try clicking on this one for example: https://github.com/agateau/nanonote.\n"
+"You can also open urls using Control + click or Control + Enter while your cursor is inside a URL. You can try clicking on this one for example: https://github.com/agateau/nanonote.\n"
 "\n"
 "Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with Shift+Tab or Ctrl+U.\n"
 "\n"
