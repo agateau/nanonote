@@ -11,6 +11,7 @@ public:
     static QString notePath();
     void load();
     void save();
+    QFont defaultFont() const;
 };
 
 #endif // SETTINGS_H

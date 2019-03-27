@@ -33,6 +33,7 @@ void MainWindowExtension::aboutToShowContextMenu(QMenu *menu, const QPoint &)
 {
     menu->addAction(mWindow->mIncreaseFontAction);
     menu->addAction(mWindow->mDecreaseFontAction);
+    menu->addAction(mWindow->mResetFontAction);
     menu->addAction(mWindow->mAlwaysOnTopAction);
     menu->addSeparator();
     menu->addAction(mWindow->mSettingsAction);
@@ -46,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     , mAutoSaveTimer(new QTimer(this))
     , mIncreaseFontAction(new QAction(this))
     , mDecreaseFontAction(new QAction(this))
+    , mResetFontAction(new QAction(this))
     , mAlwaysOnTopAction(new QAction(this))
     , mSettingsAction(new QAction(this))
 {
@@ -94,11 +96,16 @@ void MainWindow::setupActions()
     mDecreaseFontAction->setText(tr("Decrease Font Size"));
     mDecreaseFontAction->setShortcut(QKeySequence::ZoomOut);
 
+    mResetFontAction->setText(tr("Reset Font Size"));
+    mResetFontAction->setShortcut(Qt::CTRL + Qt::Key_0);
+
     connect(mIncreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(1); });
     connect(mDecreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(-1); });
+    connect(mResetFontAction, &QAction::triggered, this, [this] { resetFontSize(); });
 
     addAction(mIncreaseFontAction);
     addAction(mDecreaseFontAction);
+    addAction(mResetFontAction);
 
     mAlwaysOnTopAction->setText(tr("Always on Top"));
     mAlwaysOnTopAction->setShortcut(Qt::CTRL + Qt::Key_T);
@@ -218,6 +225,15 @@ void MainWindow::adjustFontSize(int delta)
 {
     QFont font = mSettings->font();
     font.setPointSize(font.pointSize() + delta);
+    mSettings->setFont(font);
+    saveSettings();
+}
+
+void MainWindow::resetFontSize()
+{
+    QFont font = mSettings->font();
+    QFont defaultFont = mSettings->defaultFont();
+    font.setPointSize(defaultFont.pointSize());
     mSettings->setFont(font);
     saveSettings();
 }
