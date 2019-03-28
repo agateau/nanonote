@@ -23,6 +23,8 @@ public:
 
     virtual bool mouseRelease(QMouseEvent *event);
 
+    virtual bool wheel(QWheelEvent *event);
+
 protected:
     TextEdit *mTextEdit;
 };
@@ -39,6 +41,7 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
 private:
     QList<TextEditExtension*> mExtensions;
