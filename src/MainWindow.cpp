@@ -74,7 +74,7 @@ void MainWindow::setupTextEdit()
 
     WheelZoomExtension *wheelZoomExtension = new WheelZoomExtension(mTextEdit);
     mTextEdit->addExtension(wheelZoomExtension);
-    QObject::connect(wheelZoomExtension, &WheelZoomExtension::adjustFontSize, this, &MainWindow::adjustFontSize);
+    connect(wheelZoomExtension, &WheelZoomExtension::adjustFontSize, this, &MainWindow::adjustFontSize);
 
     mTextEdit->addExtension(new MainWindowExtension(this));
 }
