@@ -89,6 +89,10 @@ Finalmente, se puede sangrar las líneas seleccionadas pulsando el tabulador o m
 Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empezar a tomar notas!
 </translation>
     </message>
+    <message>
+        <source>Reset Font Size</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>

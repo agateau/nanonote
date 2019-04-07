@@ -89,6 +89,10 @@ Enfin, vous pouvez indenter les lignes sélectionnées avec Tab ou Ctrl+I et les
 C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte et commencer à prendre des notes !
 </translation>
     </message>
+    <message>
+        <source>Reset Font Size</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
