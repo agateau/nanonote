@@ -7,6 +7,7 @@
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QMenu>
+#include <QSaveFile>
 #include <QScreen>
 #include <QTimer>
 #include <QWindow>
@@ -176,12 +177,15 @@ void MainWindow::saveNotes()
         qWarning() << "Failed to create" << dirPath;
         return;
     }
-    QFile file(path);
+    QSaveFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
         qWarning() << "Failed to create" << path << ":" << file.errorString();
         return;
     }
     file.write(mTextEdit->toPlainText().toUtf8());
+    if (!file.commit()) {
+        qWarning() << "Could not save notes to" << path;
+    }
 }
 
 static QRect clampRect(const QRect& rect_, const QRect& container)

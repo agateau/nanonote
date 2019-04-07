@@ -8,8 +8,8 @@
 #define COMMON_CHARS "-_a-zA-Z0-9/?=&#"
 
 // These chars are not allowed at the end of the url, because they can be used
-// as punctuation, or are separators in urls.
-#define MIDDLE_CHARS ".,;:%+~"
+// as punctuation, are separators in urls or are unlikely to appear at the end of an url.
+#define MIDDLE_CHARS ".,;:%+~@"
 
 static const char LINK_REGEX[] = "\\b(https?://|ftp://|file:/)[" COMMON_CHARS MIDDLE_CHARS "]+[" COMMON_CHARS "]";
 
