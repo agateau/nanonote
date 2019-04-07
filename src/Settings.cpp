@@ -26,7 +26,7 @@ void Settings::load()
     if (fontVariant.canConvert<QFont>()) {
         setFont(fontVariant.value<QFont>());
     } else {
-        setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+        setFont(defaultFont());
     }
 
     setAlwaysOnTop(settings.value("alwaysOnTop").toBool());
@@ -38,4 +38,9 @@ void Settings::save()
     settings.setValue("geometry", geometry());
     settings.setValue("font", font());
     settings.setValue("alwaysOnTop", alwaysOnTop());
+}
+
+QFont Settings::defaultFont() const
+{
+    return QFontDatabase::systemFont(QFontDatabase::FixedFont);
 }

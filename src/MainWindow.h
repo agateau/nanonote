@@ -45,6 +45,7 @@ private:
     void loadSettings();
     void saveSettings();
     void adjustFontSize(int delta);
+    void resetFontSize();
     void setAlwaysOnTop(bool onTop);
     void showSettingsDialog();
 
@@ -54,6 +55,7 @@ private:
 
     QAction* mIncreaseFontAction;
     QAction* mDecreaseFontAction;
+    QAction* mResetFontAction;
     QAction* mAlwaysOnTopAction;
     QAction* mSettingsAction;
     QPointer<SettingsDialog> mSettingsDialog;
