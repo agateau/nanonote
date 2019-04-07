@@ -15,6 +15,7 @@
 
 #include "IndentExtension.h"
 #include "LinkExtension.h"
+#include "WheelZoomExtension.h"
 #include "Settings.h"
 #include "SettingsDialog.h"
 #include "TextEdit.h"
@@ -72,6 +73,11 @@ void MainWindow::setupTextEdit()
     mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
     mTextEdit->addExtension(new LinkExtension(mTextEdit));
     mTextEdit->addExtension(new IndentExtension(mTextEdit));
+
+    WheelZoomExtension *wheelZoomExtension = new WheelZoomExtension(mTextEdit);
+    mTextEdit->addExtension(wheelZoomExtension);
+    connect(wheelZoomExtension, &WheelZoomExtension::adjustFontSize, this, &MainWindow::adjustFontSize);
+
     mTextEdit->addExtension(new MainWindowExtension(this));
 }
 

@@ -12,6 +12,7 @@ set(nanonote_SRCS
     SettingsDialog.cpp
     SettingsDialog.ui
     TextEdit.cpp
+    WheelZoomExtension.cpp
 )
 
 qt5_add_resources(nanonote_RESOURCES nanonote.qrc)
