@@ -5,7 +5,7 @@
 static const int SCROLL_TIMEOUT = 1000; // in milliseconds
 
 WheelZoomExtension::WheelZoomExtension(TextEdit *textEdit)
-    : TextEditExtension(textEdit), mPartialDelta(0), mLastUpdate(0)
+    : TextEditExtension(textEdit)
 {}
 
 bool WheelZoomExtension::wheel(QWheelEvent *event)

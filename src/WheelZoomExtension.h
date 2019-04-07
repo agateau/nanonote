@@ -15,8 +15,8 @@ signals:
     void adjustFontSize(int delta);
 
 private:
-    int mPartialDelta;
-    qint64 mLastUpdate;
+    int mPartialDelta = 0;
+    qint64 mLastUpdate = 0;
 };
 
 #endif // WHEELZOOMEXTENSION_H
