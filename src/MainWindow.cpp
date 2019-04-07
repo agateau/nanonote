@@ -101,7 +101,7 @@ void MainWindow::setupActions()
 
     connect(mIncreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(1); });
     connect(mDecreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(-1); });
-    connect(mResetFontAction, &QAction::triggered, this, [this] { resetFontSize(); });
+    connect(mResetFontAction, &QAction::triggered, this, &MainWindow::resetFontSize);
 
     addAction(mIncreaseFontAction);
     addAction(mDecreaseFontAction);
