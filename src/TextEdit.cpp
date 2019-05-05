@@ -29,6 +29,10 @@ bool TextEditExtension::mouseRelease(QMouseEvent */*event*/) {
     return false;
 }
 
+bool TextEditExtension::wheel(QWheelEvent */*event*/) {
+    return false;
+}
+
 // TextEdit ------------------------------
 TextEdit::TextEdit(QWidget *parent)
     : QPlainTextEdit(parent)
@@ -75,6 +79,16 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *event)
         }
     }
     QPlainTextEdit::mouseReleaseEvent(event);
+}
+
+void TextEdit::wheelEvent(QWheelEvent *event)
+{
+    for (auto extension : mExtensions) {
+        if (extension->wheel(event)) {
+            return;
+        }
+    }
+    QPlainTextEdit::wheelEvent(event);
 }
 
 void TextEdit::addExtension(TextEditExtension *extension)

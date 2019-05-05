@@ -59,7 +59,7 @@ It also has a few handy editing features, like auto-bullet lists:
     - nested lists
     * and asterisks
 
-You can also open urls using Control + click. You can try clicking on this one for example: https://github.com/agateau/nanonote.
+You can also open urls using Control + click or Control + Enter while your cursor is inside a URL. You can try clicking on this one for example: https://github.com/agateau/nanonote.
 
 Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with Shift+Tab or Ctrl+U.
 
@@ -88,6 +88,10 @@ Enfin, vous pouvez indenter les lignes sélectionnées avec Tab ou Ctrl+I et les
 
 C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte et commencer à prendre des notes !
 </translation>
+    </message>
+    <message>
+        <source>Reset Font Size</source>
+        <translation>Revenir à la taille de texte par défaut</translation>
     </message>
 </context>
 <context>

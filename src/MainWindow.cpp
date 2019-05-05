@@ -7,6 +7,7 @@
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QMenu>
+#include <QSaveFile>
 #include <QScreen>
 #include <QTimer>
 #include <QWindow>
@@ -15,6 +16,7 @@
 
 #include "IndentExtension.h"
 #include "LinkExtension.h"
+#include "WheelZoomExtension.h"
 #include "Settings.h"
 #include "SettingsDialog.h"
 #include "TextEdit.h"
@@ -33,6 +35,7 @@ void MainWindowExtension::aboutToShowContextMenu(QMenu *menu, const QPoint &)
 {
     menu->addAction(mWindow->mIncreaseFontAction);
     menu->addAction(mWindow->mDecreaseFontAction);
+    menu->addAction(mWindow->mResetFontAction);
     menu->addAction(mWindow->mAlwaysOnTopAction);
     menu->addSeparator();
     menu->addAction(mWindow->mSettingsAction);
@@ -46,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     , mAutoSaveTimer(new QTimer(this))
     , mIncreaseFontAction(new QAction(this))
     , mDecreaseFontAction(new QAction(this))
+    , mResetFontAction(new QAction(this))
     , mAlwaysOnTopAction(new QAction(this))
     , mSettingsAction(new QAction(this))
 {
@@ -70,6 +74,11 @@ void MainWindow::setupTextEdit()
     mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
     mTextEdit->addExtension(new LinkExtension(mTextEdit));
     mTextEdit->addExtension(new IndentExtension(mTextEdit));
+
+    WheelZoomExtension *wheelZoomExtension = new WheelZoomExtension(mTextEdit);
+    mTextEdit->addExtension(wheelZoomExtension);
+    connect(wheelZoomExtension, &WheelZoomExtension::adjustFontSize, this, &MainWindow::adjustFontSize);
+
     mTextEdit->addExtension(new MainWindowExtension(this));
 }
 
@@ -94,11 +103,16 @@ void MainWindow::setupActions()
     mDecreaseFontAction->setText(tr("Decrease Font Size"));
     mDecreaseFontAction->setShortcut(QKeySequence::ZoomOut);
 
+    mResetFontAction->setText(tr("Reset Font Size"));
+    mResetFontAction->setShortcut(Qt::CTRL + Qt::Key_0);
+
     connect(mIncreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(1); });
     connect(mDecreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(-1); });
+    connect(mResetFontAction, &QAction::triggered, this, &MainWindow::resetFontSize);
 
     addAction(mIncreaseFontAction);
     addAction(mDecreaseFontAction);
+    addAction(mResetFontAction);
 
     mAlwaysOnTopAction->setText(tr("Always on Top"));
     mAlwaysOnTopAction->setShortcut(Qt::CTRL + Qt::Key_T);
@@ -139,7 +153,7 @@ void MainWindow::loadNotes()
 "    - nested lists\n"
 "    * and asterisks\n"
 "\n"
-"You can also open urls using Control + click. You can try clicking on this one for example: https://github.com/agateau/nanonote.\n"
+"You can also open urls using Control + click or Control + Enter while your cursor is inside a URL. You can try clicking on this one for example: https://github.com/agateau/nanonote.\n"
 "\n"
 "Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with Shift+Tab or Ctrl+U.\n"
 "\n"
@@ -163,12 +177,15 @@ void MainWindow::saveNotes()
         qWarning() << "Failed to create" << dirPath;
         return;
     }
-    QFile file(path);
+    QSaveFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
         qWarning() << "Failed to create" << path << ":" << file.errorString();
         return;
     }
     file.write(mTextEdit->toPlainText().toUtf8());
+    if (!file.commit()) {
+        qWarning() << "Could not save notes to" << path;
+    }
 }
 
 static QRect clampRect(const QRect& rect_, const QRect& container)
@@ -218,6 +235,15 @@ void MainWindow::adjustFontSize(int delta)
 {
     QFont font = mSettings->font();
     font.setPointSize(font.pointSize() + delta);
+    mSettings->setFont(font);
+    saveSettings();
+}
+
+void MainWindow::resetFontSize()
+{
+    QFont font = mSettings->font();
+    QFont defaultFont = mSettings->defaultFont();
+    font.setPointSize(defaultFont.pointSize());
     mSettings->setFont(font);
     saveSettings();
 }
