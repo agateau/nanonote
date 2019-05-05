@@ -91,7 +91,7 @@ Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empeza
     </message>
     <message>
         <source>Reset Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Restablecer tamaño de la fuente</translation>
     </message>
 </context>
 <context>
