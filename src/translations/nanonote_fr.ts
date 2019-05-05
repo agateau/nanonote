@@ -91,7 +91,7 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
     </message>
     <message>
         <source>Reset Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Revenir à la taille de texte par défaut</translation>
     </message>
 </context>
 <context>
