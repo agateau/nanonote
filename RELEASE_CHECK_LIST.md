@@ -21,6 +21,7 @@ Smoke test binary packages
 
 - Test welcome text is OK
 - Test screenshot matches
+- Test translations are complete
 
 Merge dev in master:
 
