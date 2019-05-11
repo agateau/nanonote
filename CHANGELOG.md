@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.0 - 2019-05-11
+
+### Added
+- New German translation by Vinzenz Vietzke
+- Allow changing the font size using Ctrl + mouse wheel (Daniel Laidig)
+- Use the link color of the color theme instead of an hardcoded blue (Daniel Laidig)
+- Added a way to reset the font size to the default value (Daniel Laidig)
+
+### Fixed
+- Added explanation of how to open URLs to the welcome text (Robert Barat)
+- Allow '@' in URLs (Aurelien Gateau)
+- Use QSaveFile for safer saving (Aurelien Gateau)
+
 ## 1.1.0 - 2019-02-04
 
 ### Added
