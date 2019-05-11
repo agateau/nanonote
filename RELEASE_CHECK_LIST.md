@@ -2,6 +2,7 @@ Check working tree is up to date and clean:
 
     git checkout dev
     git pull
+    git merge origin/master
     git status
 
 Update CHANGELOG.md:
