@@ -91,7 +91,7 @@ Das ist alles, was es zu sagen gibt. Jetzt kannst du diesen Text löschen und an
     </message>
     <message>
         <source>Reset Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Schriftgröße zurücksetzen</translation>
     </message>
     <message>
         <source>Welcome to Nanonote!
@@ -117,7 +117,29 @@ Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with
 
 That&apos;s all there is to say, now you can erase this text and start taking notes!
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Willkommen bei Nanonote!
+
+Nanonote ist eine minimalistische Notizapplikation.
+
+Es ist für kurzlebige Noten gedacht. Alles, was Sie hier eingeben, wird automatisch auf Ihrer Festplatte gespeichert.
+
+Die einzige Benutzeroberfläche ist das Kontextmenü, probieren Sie es aus!
+
+Wie Sie im Kontextmenü sehen können, hat Nanonote einen &quot; Immer oben&quot; Modus. Diese Funktion ist praktisch, um das Fenster in der Nähe zu halten.
+
+Es hat auch ein paar praktische Bearbeitungsfunktionen, wie z.B. Auto-Bullet Listen:
+
+- Versuchen Sie, den Cursor an das Ende dieser Zeile zu bewegen und drücken Sie Enter.
+- Dies funktioniert bei
+    - verschachtelte Listen
+    * und Sternchen
+
+Sie können URLs auch mit Steuerung + Klick oder Steuerung + Enter öffnen, während sich der Mauszeiger innerhalb einer URL befindet. Du kannst versuchen, auf diesen zu klicken, z.B.: https://github.com/agateau/nanonote.
+
+Schließlich können Sie ausgewählte Zeilen mit Tab oder Strg+I einrücken und mit Shift+Tab oder Strg+U wieder lösen.
+
+Das ist alles, was es zu sagen gibt, jetzt kannst du diesen Text löschen und anfangen, Notizen zu machen!
+        </translation>
     </message>
 </context>
 <context>
