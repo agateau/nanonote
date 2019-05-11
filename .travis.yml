@@ -5,7 +5,7 @@ services:
 - docker
 
 install:
-- ci/build-docker
+- ci/build-docker-image
 
 script:
-- docker run -v $PWD:/root/nanonote nanonote:1 /root/nanonote/ci/build-app
+- ci/docker-build-app

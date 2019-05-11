@@ -1,0 +1,2 @@
+#!/bin/sh
+docker run -v $PWD:/root/nanonote nanonote:1 /root/nanonote/ci/build-app
