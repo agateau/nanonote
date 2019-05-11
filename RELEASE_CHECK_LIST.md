@@ -2,6 +2,7 @@ Check working tree is up to date and clean:
 
     git checkout dev
     git pull
+    git merge origin/master
     git status
 
 Update CHANGELOG.md:
@@ -14,12 +15,13 @@ Commit and push
 
 Build packages:
 
-    docker run -v $PWD:/root/nanonote nanonote:1 /root/nanonote/ci/build-app
+    ci/docker-build-app
 
 Smoke test binary packages
 
 - Test welcome text is OK
 - Test screenshot matches
+- Test translations are complete
 
 Merge dev in master:
 
