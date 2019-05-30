@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     app.setApplicationName("nanonote");
     app.setApplicationVersion(NANONOTE_VERSION);
     app.setWindowIcon(QIcon(":/icons/appicon.svg"));
+    app.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     loadTranslations(&app);
 

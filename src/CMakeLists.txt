@@ -62,7 +62,9 @@ target_link_libraries(nanonotelib
 )
 
 # Main
-add_executable(nanonote main.cpp)
+add_executable(nanonote MACOSX_BUNDLE main.cpp)
+set_target_properties(nanonote PROPERTIES MACOSX_BUNDLE_INFO_PLIST
+    ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in)
 target_link_libraries(nanonote
     nanonotelib
     singleapplication
