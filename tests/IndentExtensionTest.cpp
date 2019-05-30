@@ -8,6 +8,8 @@
 
 #include "TestUtils.h"
 
+#include <optional>
+
 using std::optional;
 
 /**
