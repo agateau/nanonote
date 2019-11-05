@@ -20,6 +20,14 @@
 #include "Settings.h"
 #include "SettingsDialog.h"
 #include "TextEdit.h"
+#include "Search.h"
+
+#include <QLayout>
+#include <QDockWidget>
+#include <QToolBar>
+
+#include <QApplication>
+#include <QClipboard>
 
 using namespace std::chrono_literals;
 
@@ -33,6 +41,7 @@ MainWindowExtension::MainWindowExtension(MainWindow *window)
 
 void MainWindowExtension::aboutToShowContextMenu(QMenu *menu, const QPoint &)
 {
+    menu->addAction(mWindow->mSearchAction);
     menu->addAction(mWindow->mIncreaseFontAction);
     menu->addAction(mWindow->mDecreaseFontAction);
     menu->addAction(mWindow->mResetFontAction);
@@ -52,9 +61,14 @@ MainWindow::MainWindow(QWidget *parent)
     , mResetFontAction(new QAction(this))
     , mAlwaysOnTopAction(new QAction(this))
     , mSettingsAction(new QAction(this))
+    , mSearchAction(new QAction(this))
+    , mCloseSearchAction(new QAction(this))
 {
     setWindowTitle("Nanonote");
+
     setCentralWidget(mTextEdit);
+
+    loadSearchWidget();
 
     setupTextEdit();
     setupAutoSaveTimer();
@@ -122,6 +136,17 @@ void MainWindow::setupActions()
     mSettingsAction->setText(tr("Settings..."));
     connect(mSettingsAction, &QAction::triggered, this, &MainWindow::showSettingsDialog);
     addAction(mSettingsAction);
+
+    // Add find shortcut
+    mSearchAction->setText(tr("Find in text"));
+    mSearchAction->setShortcut(QKeySequence::Find);
+    connect(mSearchAction, &QAction::triggered, this, [this] { openSearchBar(true); });
+    addAction(mSearchAction);
+
+    mCloseSearchAction->setText(tr("Close search tab"));
+    mCloseSearchAction->setShortcut(Qt::Key_Escape);
+    connect(mCloseSearchAction, &QAction::triggered, this, [this] { openSearchBar(false); });
+    addAction(mCloseSearchAction);
 
     // Add the standard "quit" shortcut
     auto quitAction = new QAction(this);
@@ -264,4 +289,41 @@ void MainWindow::showSettingsDialog()
         mSettingsDialog = new SettingsDialog(mSettings, this);
     }
     mSettingsDialog->show();
+}
+
+void MainWindow::loadSearchWidget()
+{
+
+    if (!mSearchWidget) {
+        mSearchWidget = new Search(mTextEdit, this);
+
+        QObject::connect(mSearchWidget, SIGNAL(closeSearchDialog(bool)), this, SLOT(openSearchBar(bool)));
+    }
+
+    if (!mSearchToolBar) {
+       mSearchToolBar = new QToolBar(this);
+       mSearchToolBar->addWidget(mSearchWidget);
+       mSearchToolBar->setVisible(false);
+       addToolBar(Qt::BottomToolBarArea, mSearchToolBar);
+    }
+}
+
+void MainWindow::openSearchBar(bool open)
+{
+    if(open)
+    {
+        mSearchWidget->initialize(mTextEdit->textCursor().selectedText());
+    }
+    else
+    {
+        mSearchWidget->uninitialize();
+    }
+
+    if(mSearchToolBar->isVisible() == open)
+    {
+        return;
+    }
+
+    mSearchToolBar->setVisible(open);
+
 }

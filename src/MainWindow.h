@@ -14,6 +14,7 @@ class QTimer;
 
 class MainWindowExtension;
 class SettingsDialog;
+class Search;
 
 class MainWindow;
 
@@ -36,6 +37,10 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    protected slots:
+    void openSearchBar(bool open);
+
+
 private:
     void setupTextEdit();
     void setupAutoSaveTimer();
@@ -48,16 +53,21 @@ private:
     void resetFontSize();
     void setAlwaysOnTop(bool onTop);
     void showSettingsDialog();
+    void loadSearchWidget();
 
     Settings* mSettings;
     TextEdit* mTextEdit;
     QTimer* mAutoSaveTimer;
+    Search* mSearchWidget = nullptr;
+    QToolBar* mSearchToolBar = nullptr;
 
     QAction* mIncreaseFontAction;
     QAction* mDecreaseFontAction;
     QAction* mResetFontAction;
     QAction* mAlwaysOnTopAction;
     QAction* mSettingsAction;
+    QAction* mSearchAction;
+    QAction* mCloseSearchAction = nullptr;
     QPointer<SettingsDialog> mSettingsDialog;
 
     friend class MainWindowExtension;

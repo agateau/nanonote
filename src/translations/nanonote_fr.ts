@@ -1,45 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR" sourcelanguage="en_US">
+<TS version="2.1" language="fr_FR">
 <context>
     <name>IndentExtension</name>
     <message>
         <source>Indent</source>
-        <translation>Indenter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unindent</source>
-        <translation>Désindenter</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>LinkExtension</name>
     <message>
         <source>Copy link address</source>
-        <translation>Copier l&apos;adresse du lien</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open link</source>
-        <translation>Ouvrir le lien</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Increase Font Size</source>
-        <translation>Augmenter la taille du texte</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Decrease Font Size</source>
-        <translation>Réduire la taille du texte</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset Font Size</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Always on Top</source>
-        <translation>Toujours visible</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings...</source>
-        <translation>Configuration...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Welcome to Nanonote!
@@ -65,61 +69,85 @@ Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with
 
 That&apos;s all there is to say, now you can erase this text and start taking notes!
 </source>
-        <translation>Bienvenue dans Nanonote !
-
-Nanonote est une application de prise de note minimaliste.
-
-Elle a été conçue pour les notes éphémères. Tout ce que vous tapez ici est automatiquement enregistré sur votre disque.
-
-La seule interface utilisateur est le menu contextuel, essayez-le !
-
-Comme vous pouvez le voir dans le menu contextuel, Nanonote possède un mode &quot;Toujours visible&quot;. Ce mode est pratique pour garder l&apos;application à portée de main.
-
-L&apos;application dispose de quelques fonctionnalités d&apos;édition pratiques, comme les listes à puces automatique :
-
-- Placez le curseur à la fin de cette ligne et appuyez sur Entrée
-- Ça fonctionne pour
-    - les listes imbriquées
-    * et les astérisques
-
-Vous pouvez également ouvrir des urls en utilisant Control+clic. Vous pouvez essayer de cliquer sur celle-ci par exemple : https://github.com/agateau/nanonote.
-
-Enfin, vous pouvez indenter les lignes sélectionnées avec Tab ou Ctrl+I et les désindenter avec Shift+Tab ou Ctrl+U.
-
-C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte et commencer à prendre des notes !
-</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Reset Font Size</source>
-        <translation>Revenir à la taille de texte par défaut</translation>
+        <source>Close search tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find in text</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Search</name>
+    <message>
+        <source>- / -</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SearchForm</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Highlighted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- / -</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Case Sensitive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Whole Words</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SettingsDialog</name>
     <message>
         <source>Settings</source>
-        <translation>Configuration</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Appearance</source>
-        <translation>Apparence</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Font family:</source>
-        <translation>Police :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Size:</source>
-        <translation>Taille :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About</source>
-        <translation>À propos</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;A minimalist note taking application.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Your notes are stored in %3.&lt;/p&gt;</source>
         <comment>%1=version %2=projectLink %3=noteLink</comment>
-        <translation>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;Une application de prise de note minimaliste.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Vos notes sont stockées ici : %3.&lt;/p&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
