@@ -1,63 +1,50 @@
 #pragma once
 
 #include <QWidget>
-
+#include <QTextDocument>
+#include <QTextCursor>
 #include <vector>
 
 class TextEdit;
-
-#include <QTextDocument>
-
-#include <QTextCursor>
 
 namespace Ui {
 class SearchForm;
 }
 
-class Search : public QWidget
+class SearchWidget : public QWidget
 {
         Q_OBJECT
 
     public:
-        explicit Search(TextEdit* textEdit, QWidget *parent=nullptr);
-        ~Search();
+        explicit SearchWidget(TextEdit* textEdit, QWidget *parent=nullptr);
+        ~SearchWidget();
 
-    public: // General methods
         void initialize(const QString & text);
         void uninitialize();
-
         void keyPressEvent(QKeyEvent * event);
 
-    public:
     signals:
-        void closeSearchDialog(bool value);
-
-    protected slots:
-        void onSearchButtonCLicked(bool selectNext = true);
-        void onNextButtonClicked();
-        void onPreviousButtonClicked();
-        void highLightedWords(bool highLighted);
-        void documentChange();
-        void closeSearch();
+        void closeSearchDialog();
 
     private:
+        void onNextButtonClicked();
+        void onPreviousButtonClicked();
+        void documentChange();
+        void closeSearch();
+        void setCountAndCurrentPosition();
+        void highLightedWords(bool highLighted);
+        void searchLineChanged(const QString & value);
+        void searchWord(bool selectNext = true, QString searchValue = "");
         void searchPositionsWordsInDocument(const QString & searchString,
                                             bool selectNext = true,
                                             QTextDocument * document = nullptr);
 
-        void setCountAndCurrentPosition();
-
-        QTextDocument::FindFlags getFindFlag();
-
-    private: // Members
         Ui::SearchForm *mUi;
-
-        int mCurrentSelectedWord = -1;
-        bool mSearchVisible = false;
-
         std::vector<int> mPositionWords;
         TextEdit* mTextEdit = nullptr;
         QString mTextDocument;
+        bool mSearchVisible = false;
+        int mCurrentSelectedWord = -1;
 };
 
 

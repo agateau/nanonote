@@ -13,7 +13,7 @@ set(nanonote_SRCS
     SettingsDialog.ui
     TextEdit.cpp
     WheelZoomExtension.cpp
-    Search.cpp
+    SearchWidget.cpp
     SearchForm.ui
 )
 

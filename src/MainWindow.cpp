@@ -20,10 +20,9 @@
 #include "Settings.h"
 #include "SettingsDialog.h"
 #include "TextEdit.h"
-#include "Search.h"
+#include "SearchWidget.h"
 
 #include <QLayout>
-#include <QDockWidget>
 #include <QToolBar>
 
 #include <QApplication>
@@ -140,12 +139,12 @@ void MainWindow::setupActions()
     // Add find shortcut
     mSearchAction->setText(tr("Find in text"));
     mSearchAction->setShortcut(QKeySequence::Find);
-    connect(mSearchAction, &QAction::triggered, this, [this] { openSearchBar(true); });
+    connect(mSearchAction, &QAction::triggered, this, &MainWindow::showSearchBar);
     addAction(mSearchAction);
 
     mCloseSearchAction->setText(tr("Close search tab"));
     mCloseSearchAction->setShortcut(Qt::Key_Escape);
-    connect(mCloseSearchAction, &QAction::triggered, this, [this] { openSearchBar(false); });
+    connect(mCloseSearchAction, &QAction::triggered, this, &MainWindow::hideSearchBar);
     addAction(mCloseSearchAction);
 
     // Add the standard "quit" shortcut
@@ -161,29 +160,29 @@ void MainWindow::loadNotes()
     QFile file(path);
     if (!file.exists()) {
         mTextEdit->setPlainText(tr(
-"Welcome to Nanonote!\n"
-"\n"
-"Nanonote is a minimalist note taking application.\n"
-"\n"
-"It's meant for short-lived notes. Anything you type here is automatically saved on your disk.\n"
-"\n"
-"The only UI is the context menu, try it out!\n"
-"\n"
-"As you can see in the context menu, Nanonote has an \"Always on Top\" mode. This feature is handy to keep the window around.\n"
-"\n"
-"It also has a few handy editing features, like auto-bullet lists:\n"
-"\n"
-"- Try to move the cursor at the end of this line and press Enter\n"
-"- This works for\n"
-"    - nested lists\n"
-"    * and asterisks\n"
-"\n"
-"You can also open urls using Control + click or Control + Enter while your cursor is inside a URL. You can try clicking on this one for example: https://github.com/agateau/nanonote.\n"
-"\n"
-"Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with Shift+Tab or Ctrl+U.\n"
-"\n"
-"That's all there is to say, now you can erase this text and start taking notes!\n"
-        ));
+                                    "Welcome to Nanonote!\n"
+                                    "\n"
+                                    "Nanonote is a minimalist note taking application.\n"
+                                    "\n"
+                                    "It's meant for short-lived notes. Anything you type here is automatically saved on your disk.\n"
+                                    "\n"
+                                    "The only UI is the context menu, try it out!\n"
+                                    "\n"
+                                    "As you can see in the context menu, Nanonote has an \"Always on Top\" mode. This feature is handy to keep the window around.\n"
+                                    "\n"
+                                    "It also has a few handy editing features, like auto-bullet lists:\n"
+                                    "\n"
+                                    "- Try to move the cursor at the end of this line and press Enter\n"
+                                    "- This works for\n"
+                                    "    - nested lists\n"
+                                    "    * and asterisks\n"
+                                    "\n"
+                                    "You can also open urls using Control + click or Control + Enter while your cursor is inside a URL. You can try clicking on this one for example: https://github.com/agateau/nanonote.\n"
+                                    "\n"
+                                    "Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with Shift+Tab or Ctrl+U.\n"
+                                    "\n"
+                                    "That's all there is to say, now you can erase this text and start taking notes!\n"
+                                    ));
         return;
     }
     if (!file.open(QIODevice::ReadOnly)) {
@@ -293,37 +292,31 @@ void MainWindow::showSettingsDialog()
 
 void MainWindow::loadSearchWidget()
 {
-
     if (!mSearchWidget) {
-        mSearchWidget = new Search(mTextEdit, this);
-
-        QObject::connect(mSearchWidget, SIGNAL(closeSearchDialog(bool)), this, SLOT(openSearchBar(bool)));
+        mSearchWidget = new SearchWidget(mTextEdit, this);
+        QObject::connect(mSearchWidget, &SearchWidget::closeSearchDialog, this, &MainWindow::hideSearchBar);
     }
-
     if (!mSearchToolBar) {
-       mSearchToolBar = new QToolBar(this);
-       mSearchToolBar->addWidget(mSearchWidget);
-       mSearchToolBar->setVisible(false);
-       addToolBar(Qt::BottomToolBarArea, mSearchToolBar);
+        mSearchToolBar = new QToolBar(this);
+        mSearchToolBar->addWidget(mSearchWidget);
+        mSearchToolBar->setVisible(false);
+        addToolBar(Qt::BottomToolBarArea, mSearchToolBar);
     }
 }
 
-void MainWindow::openSearchBar(bool open)
+void MainWindow::showSearchBar()
 {
-    if(open)
-    {
-        mSearchWidget->initialize(mTextEdit->textCursor().selectedText());
-    }
-    else
-    {
-        mSearchWidget->uninitialize();
-    }
-
-    if(mSearchToolBar->isVisible() == open)
-    {
+    mSearchWidget->initialize(mTextEdit->textCursor().selectedText());
+    if (mSearchToolBar->isVisible()) {
         return;
     }
+    mSearchToolBar->setVisible(true);
+}
 
-    mSearchToolBar->setVisible(open);
-
+void MainWindow::hideSearchBar()
+{
+    mSearchWidget->uninitialize();
+    if (mSearchToolBar->isVisible()) {
+        mSearchToolBar->setVisible(false);
+    }
 }

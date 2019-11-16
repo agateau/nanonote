@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/appicon.svg</file>
-        <file>icons/down.jpeg</file>
-        <file>icons/next.jpeg</file>
-        <file>icons/close.png</file>
     </qresource>
 </RCC>

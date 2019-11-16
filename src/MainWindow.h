@@ -14,7 +14,7 @@ class QTimer;
 
 class MainWindowExtension;
 class SettingsDialog;
-class Search;
+class SearchWidget;
 
 class MainWindow;
 
@@ -37,10 +37,6 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    protected slots:
-    void openSearchBar(bool open);
-
-
 private:
     void setupTextEdit();
     void setupAutoSaveTimer();
@@ -54,11 +50,13 @@ private:
     void setAlwaysOnTop(bool onTop);
     void showSettingsDialog();
     void loadSearchWidget();
+    void showSearchBar();
+    void hideSearchBar();
 
     Settings* mSettings;
     TextEdit* mTextEdit;
     QTimer* mAutoSaveTimer;
-    Search* mSearchWidget = nullptr;
+    SearchWidget* mSearchWidget = nullptr;
     QToolBar* mSearchToolBar = nullptr;
 
     QAction* mIncreaseFontAction;
