@@ -31,7 +31,6 @@ SearchWidget::~SearchWidget()
 void SearchWidget::initialize(const QString & text)
 {
     mSearchVisible = true;
-
     mUi->guiSearchLine->setFocus();
     mUi->guiSearchLine->setText(text);
     searchWord(true);
@@ -40,7 +39,6 @@ void SearchWidget::initialize(const QString & text)
 void SearchWidget::uninitialize()
 {
     mSearchVisible = false;
-
     highLightedWords(false);
 }
 
