@@ -16,11 +16,11 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget *parent )
     mUi->nextButton->setArrowType(Qt::DownArrow);
     mUi->nextButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
-    QObject::connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::onNextButtonClicked);
-    QObject::connect(mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::onPreviousButtonClicked);
-    QObject::connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::documentChange);
-    QObject::connect(mUi->searchLine, &QLineEdit::textChanged, this, &SearchWidget::searchLineChanged);
-    QObject::connect(mUi->closeButton, &QToolButton::clicked, this, &SearchWidget::closeSearch);
+    connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::onNextButtonClicked);
+    connect(mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::onPreviousButtonClicked);
+    connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::documentChange);
+    connect(mUi->searchLine, &QLineEdit::textChanged, this, &SearchWidget::searchLineChanged);
+    connect(mUi->closeButton, &QToolButton::clicked, this, &SearchWidget::closeSearch);
 }
 
 SearchWidget::~SearchWidget()
