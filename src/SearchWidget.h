@@ -35,9 +35,7 @@ class SearchWidget : public QWidget
         void highLightedWords(bool highLighted);
         void searchLineChanged(const QString & value);
         void searchWord(bool selectNext = true, QString searchValue = "");
-        void searchPositionsWordsInDocument(const QString & searchString,
-                                            bool selectNext = true,
-                                            QTextDocument * document = nullptr);
+        void searchPositionsWordsInDocument(const QString & searchString, bool selectNext = true);
 
         Ui::SearchForm *mUi;
         std::vector<int> mPositionWords;

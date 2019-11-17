@@ -58,8 +58,7 @@ void SearchWidget::searchWord(bool selectNext, QString searchValue)
     mTextDocument = mTextEdit->toPlainText();
     mCurrentSelectedWord = -1;
     mPositionWords.clear();
-    QTextDocument *document = mTextEdit->document();
-    searchPositionsWordsInDocument(searchValue, selectNext, document);
+    searchPositionsWordsInDocument(searchValue, selectNext);
 }
 
 void SearchWidget::onNextButtonClicked()
@@ -149,11 +148,9 @@ void SearchWidget::searchLineChanged(const QString & value)
     searchWord(true, value);
 }
 
-void SearchWidget::searchPositionsWordsInDocument(const QString & searchString, bool selectNext, QTextDocument * document)
+void SearchWidget::searchPositionsWordsInDocument(const QString & searchString, bool selectNext)
 {
-    if (document == nullptr) {
-        document = mTextEdit->document();
-    }
+    QTextDocument * document = mTextEdit->document();
     highLightedWords(false);
     QTextCursor highlightCursor(document);
     QTextCursor cursor(document);
