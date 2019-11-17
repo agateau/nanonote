@@ -108,7 +108,7 @@ void SearchWidget::onPreviousButtonClicked()
 void SearchWidget::highLightedWords(bool highLighted)
 {
     QList<QTextEdit::ExtraSelection> extraSelections;
-    QColor redColor = Qt::red;
+    QColor highlightColor = Qt::red;
     if (highLighted) {
         for(int position : mPositionWords) {
             QTextCursor cursor = mTextEdit->textCursor();
@@ -116,7 +116,7 @@ void SearchWidget::highLightedWords(bool highLighted)
             cursor.setPosition(position + mUi->guiSearchLine->text().size(), QTextCursor::KeepAnchor);
 
             QTextEdit::ExtraSelection currentWord;
-            currentWord.format.setBackground(redColor);
+            currentWord.format.setBackground(highlightColor);
             currentWord.cursor = cursor;
             extraSelections.append(currentWord);
         }
