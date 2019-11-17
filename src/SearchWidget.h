@@ -21,7 +21,7 @@ class SearchWidget : public QWidget
 
         void initialize(const QString & text);
         void uninitialize();
-        void keyPressEvent(QKeyEvent * event);
+//        void keyPressEvent(QKeyEvent * event);
 
     signals:
         void closeSearchDialog();

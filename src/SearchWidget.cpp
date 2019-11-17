@@ -21,6 +21,7 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget *parent )
     connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::documentChange);
     connect(mUi->searchLine, &QLineEdit::textChanged, this, &SearchWidget::searchLineChanged);
     connect(mUi->closeButton, &QToolButton::clicked, this, &SearchWidget::closeSearch);
+    connect(mUi->searchLine, &QLineEdit::returnPressed, this, &SearchWidget::onNextButtonClicked);
 }
 
 SearchWidget::~SearchWidget()
@@ -42,13 +43,6 @@ void SearchWidget::uninitialize()
     highLightedWords(false);
 }
 
-
-void SearchWidget::keyPressEvent(QKeyEvent * event)
-{
-    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
-        onNextButtonClicked();
-    }
-}
 
 void SearchWidget::searchWord(bool selectNext, QString searchValue)
 {
