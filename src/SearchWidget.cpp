@@ -11,16 +11,16 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget *parent )
     , mTextEdit(textEdit)
 {
     mUi->setupUi(this);
-    mUi->guiPreviousButton->setArrowType(Qt::UpArrow);
-    mUi->guiPreviousButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    mUi->guiNextButton->setArrowType(Qt::DownArrow);
-    mUi->guiNextButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    mUi->previousButton->setArrowType(Qt::UpArrow);
+    mUi->previousButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    mUi->nextButton->setArrowType(Qt::DownArrow);
+    mUi->nextButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
-    QObject::connect(mUi->guiNextButton, &QToolButton::clicked, this, &SearchWidget::onNextButtonClicked);
-    QObject::connect(mUi->guiPreviousButton, &QToolButton::clicked, this, &SearchWidget::onPreviousButtonClicked);
+    QObject::connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::onNextButtonClicked);
+    QObject::connect(mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::onPreviousButtonClicked);
     QObject::connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::documentChange);
-    QObject::connect(mUi->guiSearchLine, &QLineEdit::textChanged, this, &SearchWidget::searchLineChanged);
-    QObject::connect(mUi->guiCloseButton, &QToolButton::clicked, this, &SearchWidget::closeSearch);
+    QObject::connect(mUi->searchLine, &QLineEdit::textChanged, this, &SearchWidget::searchLineChanged);
+    QObject::connect(mUi->closeButton, &QToolButton::clicked, this, &SearchWidget::closeSearch);
 }
 
 SearchWidget::~SearchWidget()
@@ -31,8 +31,8 @@ SearchWidget::~SearchWidget()
 void SearchWidget::initialize(const QString & text)
 {
     mSearchVisible = true;
-    mUi->guiSearchLine->setFocus();
-    mUi->guiSearchLine->setText(text);
+    mUi->searchLine->setFocus();
+    mUi->searchLine->setText(text);
     searchWord(true);
 }
 
@@ -53,7 +53,7 @@ void SearchWidget::keyPressEvent(QKeyEvent * event)
 void SearchWidget::searchWord(bool selectNext, QString searchValue)
 {
     if (searchValue.isEmpty()) {
-        searchValue = mUi->guiSearchLine->text();
+        searchValue = mUi->searchLine->text();
     }
     mTextDocument = mTextEdit->toPlainText();
     mCurrentSelectedWord = -1;
@@ -77,7 +77,7 @@ void SearchWidget::onNextButtonClicked()
     cursor.beginEditBlock();
     int wordStartPosition = mPositionWords.at(mCurrentSelectedWord);
     cursor.setPosition(wordStartPosition, QTextCursor::MoveAnchor);
-    cursor.setPosition(wordStartPosition + mUi->guiSearchLine->text().size(), QTextCursor::KeepAnchor);
+    cursor.setPosition(wordStartPosition + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
     mTextEdit->setTextCursor(cursor);
     cursor.endEditBlock();
     setCountAndCurrentPosition();
@@ -99,7 +99,7 @@ void SearchWidget::onPreviousButtonClicked()
     cursor.beginEditBlock();
     int wordStartPosition = mPositionWords.at(mCurrentSelectedWord);
     cursor.setPosition(wordStartPosition, QTextCursor::MoveAnchor);
-    cursor.setPosition(wordStartPosition + mUi->guiSearchLine->text().size(), QTextCursor::KeepAnchor);
+    cursor.setPosition(wordStartPosition + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
     mTextEdit->setTextCursor(cursor);
     cursor.endEditBlock();
     setCountAndCurrentPosition();
@@ -113,7 +113,7 @@ void SearchWidget::highLightedWords(bool highLighted)
         for(int position : mPositionWords) {
             QTextCursor cursor = mTextEdit->textCursor();
             cursor.setPosition(position, QTextCursor::MoveAnchor);
-            cursor.setPosition(position + mUi->guiSearchLine->text().size(), QTextCursor::KeepAnchor);
+            cursor.setPosition(position + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
 
             QTextEdit::ExtraSelection currentWord;
             currentWord.format.setBackground(highlightColor);
@@ -172,7 +172,7 @@ void SearchWidget::searchPositionsWordsInDocument(const QString & searchString, 
 void SearchWidget::setCountAndCurrentPosition()
 {
     bool isEmpty = mPositionWords.empty();
-    mUi->guiCountLabel->setVisible(!isEmpty);
+    mUi->countLabel->setVisible(!isEmpty);
     QString str = QString("%1 / %2").arg(mCurrentSelectedWord + 1).arg(mPositionWords.size());
-    mUi->guiCountLabel->setText(str);
+    mUi->countLabel->setText(str);
 }
