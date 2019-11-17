@@ -65,15 +65,7 @@ void SearchWidget::onNextButtonClicked()
     else {
         mCurrentSelectedWord = 0;
     }
-    QTextDocument *document = mTextEdit->document();
-    QTextCursor cursor(document);
-    cursor.beginEditBlock();
-    int wordStartPosition = mPositionWords.at(mCurrentSelectedWord);
-    cursor.setPosition(wordStartPosition, QTextCursor::MoveAnchor);
-    cursor.setPosition(wordStartPosition + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
-    mTextEdit->setTextCursor(cursor);
-    cursor.endEditBlock();
-    setCountAndCurrentPosition();
+    selectWord();
 }
 
 void SearchWidget::onPreviousButtonClicked()
@@ -87,15 +79,7 @@ void SearchWidget::onPreviousButtonClicked()
     else {
         mCurrentSelectedWord = mPositionWords.size() - 1;
     }
-    QTextDocument *document = mTextEdit->document();
-    QTextCursor cursor(document);
-    cursor.beginEditBlock();
-    int wordStartPosition = mPositionWords.at(mCurrentSelectedWord);
-    cursor.setPosition(wordStartPosition, QTextCursor::MoveAnchor);
-    cursor.setPosition(wordStartPosition + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
-    mTextEdit->setTextCursor(cursor);
-    cursor.endEditBlock();
-    setCountAndCurrentPosition();
+    selectWord();
 }
 
 void SearchWidget::highLightedWords(bool highLighted)
@@ -161,6 +145,19 @@ void SearchWidget::searchPositionsWordsInDocument(const QString & searchString, 
     if (selectNext) {
         onNextButtonClicked();
     }
+}
+
+void SearchWidget::selectWord()
+{
+    QTextDocument *document = mTextEdit->document();
+    QTextCursor cursor(document);
+    cursor.beginEditBlock();
+    int wordStartPosition = mPositionWords.at(mCurrentSelectedWord);
+    cursor.setPosition(wordStartPosition, QTextCursor::MoveAnchor);
+    cursor.setPosition(wordStartPosition + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
+    mTextEdit->setTextCursor(cursor);
+    cursor.endEditBlock();
+    setCountAndCurrentPosition();
 }
 
 void SearchWidget::setCountAndCurrentPosition()

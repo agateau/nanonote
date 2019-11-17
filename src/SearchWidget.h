@@ -30,6 +30,7 @@ class SearchWidget : public QWidget
         void onPreviousButtonClicked();
         void documentChange();
         void closeSearch();
+        void selectWord();
         void setCountAndCurrentPosition();
         void highLightedWords(bool highLighted);
         void searchLineChanged(const QString & value);
