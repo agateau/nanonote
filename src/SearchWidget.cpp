@@ -130,7 +130,7 @@ void SearchWidget::highLightedWords(bool highLighted)
 
 void SearchWidget::documentChange()
 {
-    if (mSearchVisible == false) {
+    if (!mSearchVisible) {
         return;
     }
     if (mTextDocument == mTextEdit->toPlainText()) {
