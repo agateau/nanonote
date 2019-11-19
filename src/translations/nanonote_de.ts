@@ -141,6 +141,37 @@ Schließlich können Sie ausgewählte Zeilen mit Tab oder Strg+I einrücken und 
 Das ist alles, was es zu sagen gibt, jetzt kannst du diesen Text löschen und anfangen, Notizen zu machen!
         </translation>
     </message>
+    <message>
+        <source>Find in text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close search tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SearchForm</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- / -</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>x</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>

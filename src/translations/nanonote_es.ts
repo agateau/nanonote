@@ -93,6 +93,37 @@ Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empeza
         <source>Reset Font Size</source>
         <translation>Restablecer tamaño de la fuente</translation>
     </message>
+    <message>
+        <source>Find in text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close search tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SearchForm</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- / -</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>x</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
