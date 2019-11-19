@@ -18,23 +18,21 @@ class SearchWidget;
 
 class MainWindow;
 
-class MainWindowExtension : public TextEditExtension
-{
+class MainWindowExtension : public TextEditExtension {
 public:
-    explicit MainWindowExtension(MainWindow *window);
+    explicit MainWindowExtension(MainWindow* window);
 
-    void aboutToShowContextMenu(QMenu *menu, const QPoint &/*pos*/) override;
+    void aboutToShowContextMenu(QMenu* menu, const QPoint& /*pos*/) override;
 
 private:
-    MainWindow *mWindow;
+    MainWindow* mWindow;
 };
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
 private:

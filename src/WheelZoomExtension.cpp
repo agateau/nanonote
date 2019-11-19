@@ -4,12 +4,10 @@
 
 static const int SCROLL_TIMEOUT = 1000; // in milliseconds
 
-WheelZoomExtension::WheelZoomExtension(TextEdit *textEdit)
-    : TextEditExtension(textEdit)
-{}
+WheelZoomExtension::WheelZoomExtension(TextEdit* textEdit) : TextEditExtension(textEdit) {
+}
 
-bool WheelZoomExtension::wheel(QWheelEvent *event)
-{
+bool WheelZoomExtension::wheel(QWheelEvent* event) {
     if (event->modifiers() != Qt::CTRL) {
         return false;
     }
@@ -33,4 +31,3 @@ bool WheelZoomExtension::wheel(QWheelEvent *event)
     mLastUpdate = time;
     return true;
 }
-

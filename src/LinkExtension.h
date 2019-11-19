@@ -3,19 +3,18 @@
 
 #include "TextEdit.h"
 
-class LinkExtension : public TextEditExtension
-{
+class LinkExtension : public TextEditExtension {
     Q_OBJECT
 public:
-    explicit LinkExtension(TextEdit *textEdit);
+    explicit LinkExtension(TextEdit* textEdit);
 
-    void aboutToShowContextMenu(QMenu *menu, const QPoint& pos) override;
+    void aboutToShowContextMenu(QMenu* menu, const QPoint& pos) override;
 
-    bool keyPress(QKeyEvent *event) override;
+    bool keyPress(QKeyEvent* event) override;
 
-    bool keyRelease(QKeyEvent *event) override;
+    bool keyRelease(QKeyEvent* event) override;
 
-    bool mouseRelease(QMouseEvent *event) override;
+    bool mouseRelease(QMouseEvent* event) override;
 
 private:
     void openLinkUnderCursor();

@@ -4,18 +4,15 @@
 #include <QSettings>
 #include <QStandardPaths>
 
-Settings::Settings(QObject *parent) : BaseSettings(parent)
-{
+Settings::Settings(QObject* parent) : BaseSettings(parent) {
 }
 
-QString Settings::notePath()
-{
+QString Settings::notePath() {
     QString dirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     return dirPath + "/nanonote.txt";
 }
 
-void Settings::load()
-{
+void Settings::load() {
     QSettings settings;
     QRect geometry = settings.value("geometry").toRect();
     if (geometry.isValid()) {
@@ -32,15 +29,13 @@ void Settings::load()
     setAlwaysOnTop(settings.value("alwaysOnTop").toBool());
 }
 
-void Settings::save()
-{
+void Settings::save() {
     QSettings settings;
     settings.setValue("geometry", geometry());
     settings.setValue("font", font());
     settings.setValue("alwaysOnTop", alwaysOnTop());
 }
 
-QFont Settings::defaultFont() const
-{
+QFont Settings::defaultFont() const {
     return QFontDatabase::systemFont(QFontDatabase::FixedFont);
 }

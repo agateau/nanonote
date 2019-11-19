@@ -7,7 +7,7 @@
 
 static const int INDENT_SIZE = 4;
 
-static int findBulletSize(const QStringRef &ref) {
+static int findBulletSize(const QStringRef& ref) {
     static QSet<QString> bullets = {"- ", "* ", "> "};
     for (auto bullet : bullets) {
         if (ref.startsWith(bullet)) {
@@ -22,8 +22,7 @@ struct PrefixInfo {
     bool isBullet = false;
 };
 
-static PrefixInfo findCommonPrefix(const QString &line)
-{
+static PrefixInfo findCommonPrefix(const QString& line) {
     int idx;
     for (idx = 0; idx < line.length(); ++idx) {
         if (line[idx] != ' ') {
@@ -37,49 +36,40 @@ static PrefixInfo findCommonPrefix(const QString &line)
     return info;
 }
 
-static void indentLine(QTextCursor &cursor)
-{
+static void indentLine(QTextCursor& cursor) {
     static QString spaces = QString(INDENT_SIZE, ' ');
     cursor.insertText(spaces);
 }
 
-static void unindentLine(QTextCursor &cursor)
-{
+static void unindentLine(QTextCursor& cursor) {
     const auto text = cursor.block().text();
     for (int idx = 0; idx < std::min(INDENT_SIZE, text.size()) && text.at(idx) == ' '; ++idx) {
         cursor.deleteChar();
     }
 }
 
-IndentExtension::IndentExtension(TextEdit *textEdit)
-    : TextEditExtension(textEdit)
-    , mIndentAction(new QAction(this))
-    , mUnindentAction(new QAction(this))
-{
+IndentExtension::IndentExtension(TextEdit* textEdit)
+        : TextEditExtension(textEdit)
+        , mIndentAction(new QAction(this))
+        , mUnindentAction(new QAction(this)) {
     mIndentAction->setText(tr("Indent"));
     mIndentAction->setShortcut(Qt::CTRL | Qt::Key_I);
-    connect(mIndentAction, &QAction::triggered, this, [this] {
-        processSelection(indentLine);
-    });
+    connect(mIndentAction, &QAction::triggered, this, [this] { processSelection(indentLine); });
     mTextEdit->addAction(mIndentAction);
 
     mUnindentAction->setText(tr("Unindent"));
     mUnindentAction->setShortcuts({Qt::CTRL | Qt::Key_U, Qt::CTRL | Qt::SHIFT | Qt::Key_I});
-    connect(mUnindentAction, &QAction::triggered, this, [this] {
-        processSelection(unindentLine);
-    });
+    connect(mUnindentAction, &QAction::triggered, this, [this] { processSelection(unindentLine); });
     mTextEdit->addAction(mUnindentAction);
 }
 
-void IndentExtension::aboutToShowContextMenu(QMenu *menu, const QPoint &/*pos*/)
-{
+void IndentExtension::aboutToShowContextMenu(QMenu* menu, const QPoint& /*pos*/) {
     menu->addAction(mIndentAction);
     menu->addAction(mUnindentAction);
     menu->addSeparator();
 }
 
-bool IndentExtension::keyPress(QKeyEvent *event)
-{
+bool IndentExtension::keyPress(QKeyEvent* event) {
     if (event->key() == Qt::Key_Tab && event->modifiers() == 0) {
         onTabPressed();
         return true;
@@ -99,8 +89,7 @@ bool IndentExtension::keyPress(QKeyEvent *event)
     return false;
 }
 
-bool IndentExtension::canRemoveIndentation() const
-{
+bool IndentExtension::canRemoveIndentation() const {
     auto cursor = mTextEdit->textCursor();
     int col = cursor.columnNumber();
     if (col == 0) {
@@ -115,8 +104,7 @@ bool IndentExtension::canRemoveIndentation() const
     return true;
 }
 
-bool IndentExtension::isAtStartOfListLine() const
-{
+bool IndentExtension::isAtStartOfListLine() const {
     auto cursor = mTextEdit->textCursor();
     int columnNumber = cursor.columnNumber();
     if (columnNumber == 0) {
@@ -128,26 +116,22 @@ bool IndentExtension::isAtStartOfListLine() const
     return prefixInfo.isBullet && prefixInfo.text.length() == columnNumber;
 }
 
-bool IndentExtension::isAtEndOfLine() const
-{
+bool IndentExtension::isAtEndOfLine() const {
     return mTextEdit->textCursor().atBlockEnd();
 }
 
-bool IndentExtension::isIndentedLine() const
-{
+bool IndentExtension::isIndentedLine() const {
     QString line = mTextEdit->textCursor().block().text();
     return line.startsWith(QString(INDENT_SIZE, ' '));
 }
 
-void IndentExtension::insertIndentation()
-{
+void IndentExtension::insertIndentation() {
     auto cursor = mTextEdit->textCursor();
     int count = INDENT_SIZE - (cursor.columnNumber() % INDENT_SIZE);
     cursor.insertText(QString(count, ' '));
 }
 
-void IndentExtension::processSelection(ProcessSelectionCallback callback)
-{
+void IndentExtension::processSelection(ProcessSelectionCallback callback) {
     auto cursor = mTextEdit->textCursor();
     auto doc = mTextEdit->document();
     QTextBlock startBlock, endBlock;
@@ -179,19 +163,16 @@ void IndentExtension::processSelection(ProcessSelectionCallback callback)
     editCursor.endEditBlock();
 }
 
-void IndentExtension::onTabPressed()
-{
+void IndentExtension::onTabPressed() {
     auto cursor = mTextEdit->textCursor();
-    if (cursor.selectedText().contains(QChar::ParagraphSeparator)
-            || isAtStartOfListLine()) {
+    if (cursor.selectedText().contains(QChar::ParagraphSeparator) || isAtStartOfListLine()) {
         processSelection(indentLine);
     } else {
         insertIndentation();
     }
 }
 
-void IndentExtension::onEnterPressed()
-{
+void IndentExtension::onEnterPressed() {
     auto cursor = mTextEdit->textCursor();
     if (cursor.hasSelection()) {
         insertIndentedLine();
@@ -211,8 +192,7 @@ void IndentExtension::onEnterPressed()
     }
 }
 
-void IndentExtension::removeIndentation()
-{
+void IndentExtension::removeIndentation() {
     auto cursor = mTextEdit->textCursor();
     int col = cursor.columnNumber();
     int delta = (col % INDENT_SIZE == 0) ? INDENT_SIZE : (col % INDENT_SIZE);
@@ -220,8 +200,7 @@ void IndentExtension::removeIndentation()
     cursor.removeSelectedText();
 }
 
-void IndentExtension::insertIndentedLine()
-{
+void IndentExtension::insertIndentedLine() {
     auto cursor = mTextEdit->textCursor();
     if (cursor.columnNumber() > 0) {
         QString line = cursor.block().text();

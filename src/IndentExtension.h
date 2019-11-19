@@ -5,14 +5,13 @@
 
 #include <functional>
 
-class IndentExtension : public TextEditExtension
-{
+class IndentExtension : public TextEditExtension {
     Q_OBJECT
 public:
-    explicit IndentExtension(TextEdit *textEdit);
+    explicit IndentExtension(TextEdit* textEdit);
 
-    void aboutToShowContextMenu(QMenu *menu, const QPoint &pos) override;
-    bool keyPress(QKeyEvent *event) override;
+    void aboutToShowContextMenu(QMenu* menu, const QPoint& pos) override;
+    bool keyPress(QKeyEvent* event) override;
 
 private:
     using ProcessSelectionCallback = std::function<void(QTextCursor&)>;
@@ -27,8 +26,8 @@ private:
     void onTabPressed();
     void onEnterPressed();
 
-    QAction *mIndentAction;
-    QAction *mUnindentAction;
+    QAction* mIndentAction;
+    QAction* mUnindentAction;
 };
 
 #endif // INDENTEXTENSION_H

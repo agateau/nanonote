@@ -3,13 +3,12 @@
 
 #include "TextEdit.h"
 
-class WheelZoomExtension : public TextEditExtension
-{
+class WheelZoomExtension : public TextEditExtension {
     Q_OBJECT
 public:
-    explicit WheelZoomExtension(TextEdit *textEdit);
+    explicit WheelZoomExtension(TextEdit* textEdit);
 
-    bool wheel(QWheelEvent *event) override;
+    bool wheel(QWheelEvent* event) override;
 
 signals:
     void adjustFontSize(int delta);

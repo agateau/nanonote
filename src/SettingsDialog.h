@@ -9,19 +9,18 @@ namespace Ui {
 class SettingsDialog;
 }
 
-class SettingsDialog : public QDialog
-{
+class SettingsDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit SettingsDialog(Settings* settings, QWidget *parent = nullptr);
+    explicit SettingsDialog(Settings* settings, QWidget* parent = nullptr);
     ~SettingsDialog();
 
 private:
     void setupAboutTab();
     void updateFontFromSettings();
 
-    Ui::SettingsDialog *ui;
+    Ui::SettingsDialog* ui;
     Settings* mSettings;
 };
 

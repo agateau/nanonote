@@ -16,11 +16,11 @@
 
 #include "IndentExtension.h"
 #include "LinkExtension.h"
-#include "WheelZoomExtension.h"
+#include "SearchWidget.h"
 #include "Settings.h"
 #include "SettingsDialog.h"
 #include "TextEdit.h"
-#include "SearchWidget.h"
+#include "WheelZoomExtension.h"
 
 #include <QLayout>
 #include <QToolBar>
@@ -33,13 +33,11 @@ using namespace std::chrono_literals;
 static const auto AUTOSAVE_INTERVAL = 1s;
 
 //- MainWindowExtension --------------------------------
-MainWindowExtension::MainWindowExtension(MainWindow *window)
-    : TextEditExtension(window->mTextEdit)
-    , mWindow(window)
-{}
+MainWindowExtension::MainWindowExtension(MainWindow* window)
+        : TextEditExtension(window->mTextEdit), mWindow(window) {
+}
 
-void MainWindowExtension::aboutToShowContextMenu(QMenu *menu, const QPoint &)
-{
+void MainWindowExtension::aboutToShowContextMenu(QMenu* menu, const QPoint&) {
     menu->addAction(mWindow->mSearchAction);
     menu->addAction(mWindow->mIncreaseFontAction);
     menu->addAction(mWindow->mDecreaseFontAction);
@@ -50,19 +48,18 @@ void MainWindowExtension::aboutToShowContextMenu(QMenu *menu, const QPoint &)
 }
 
 //- MainWindow -----------------------------------------
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , mSettings(new Settings(this))
-    , mTextEdit(new TextEdit(this))
-    , mAutoSaveTimer(new QTimer(this))
-    , mIncreaseFontAction(new QAction(this))
-    , mDecreaseFontAction(new QAction(this))
-    , mResetFontAction(new QAction(this))
-    , mAlwaysOnTopAction(new QAction(this))
-    , mSettingsAction(new QAction(this))
-    , mSearchAction(new QAction(this))
-    , mCloseSearchAction(new QAction(this))
-{
+MainWindow::MainWindow(QWidget* parent)
+        : QMainWindow(parent)
+        , mSettings(new Settings(this))
+        , mTextEdit(new TextEdit(this))
+        , mAutoSaveTimer(new QTimer(this))
+        , mIncreaseFontAction(new QAction(this))
+        , mDecreaseFontAction(new QAction(this))
+        , mResetFontAction(new QAction(this))
+        , mAlwaysOnTopAction(new QAction(this))
+        , mSettingsAction(new QAction(this))
+        , mSearchAction(new QAction(this))
+        , mCloseSearchAction(new QAction(this)) {
     setWindowTitle("Nanonote");
 
     setCentralWidget(mTextEdit);
@@ -76,38 +73,33 @@ MainWindow::MainWindow(QWidget *parent)
     loadSettings();
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     saveNotes();
     saveSettings();
 }
 
-void MainWindow::setupTextEdit()
-{
+void MainWindow::setupTextEdit() {
     mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
     mTextEdit->addExtension(new LinkExtension(mTextEdit));
     mTextEdit->addExtension(new IndentExtension(mTextEdit));
 
-    WheelZoomExtension *wheelZoomExtension = new WheelZoomExtension(mTextEdit);
+    WheelZoomExtension* wheelZoomExtension = new WheelZoomExtension(mTextEdit);
     mTextEdit->addExtension(wheelZoomExtension);
-    connect(wheelZoomExtension, &WheelZoomExtension::adjustFontSize, this, &MainWindow::adjustFontSize);
+    connect(
+        wheelZoomExtension, &WheelZoomExtension::adjustFontSize, this, &MainWindow::adjustFontSize);
 
     mTextEdit->addExtension(new MainWindowExtension(this));
 }
 
-void MainWindow::setupAutoSaveTimer()
-{
+void MainWindow::setupAutoSaveTimer() {
     mAutoSaveTimer->setInterval(AUTOSAVE_INTERVAL);
     mAutoSaveTimer->setSingleShot(true);
     connect(mAutoSaveTimer, &QTimer::timeout, this, &MainWindow::saveNotes);
 
-    connect(mTextEdit, &QPlainTextEdit::textChanged, this, [this]() {
-        mAutoSaveTimer->start();
-    });
+    connect(mTextEdit, &QPlainTextEdit::textChanged, this, [this]() { mAutoSaveTimer->start(); });
 }
 
-void MainWindow::setupActions()
-{
+void MainWindow::setupActions() {
     mAlwaysOnTopAction->setCheckable(true);
 
     mIncreaseFontAction->setText(tr("Increase Font Size"));
@@ -154,35 +146,38 @@ void MainWindow::setupActions()
     addAction(quitAction);
 }
 
-void MainWindow::loadNotes()
-{
+void MainWindow::loadNotes() {
     QString path = Settings::notePath();
     QFile file(path);
     if (!file.exists()) {
         mTextEdit->setPlainText(tr(
-"Welcome to Nanonote!\n"
-"\n"
-"Nanonote is a minimalist note taking application.\n"
-"\n"
-"It's meant for short-lived notes. Anything you type here is automatically saved on your disk.\n"
-"\n"
-"The only UI is the context menu, try it out!\n"
-"\n"
-"As you can see in the context menu, Nanonote has an \"Always on Top\" mode. This feature is handy to keep the window around.\n"
-"\n"
-"It also has a few handy editing features, like auto-bullet lists:\n"
-"\n"
-"- Try to move the cursor at the end of this line and press Enter\n"
-"- This works for\n"
-"    - nested lists\n"
-"    * and asterisks\n"
-"\n"
-"You can also open urls using Control + click or Control + Enter while your cursor is inside a URL. You can try clicking on this one for example: https://github.com/agateau/nanonote.\n"
-"\n"
-"Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with Shift+Tab or Ctrl+U.\n"
-"\n"
-"That's all there is to say, now you can erase this text and start taking notes!\n"
-        ));
+            "Welcome to Nanonote!\n"
+            "\n"
+            "Nanonote is a minimalist note taking application.\n"
+            "\n"
+            "It's meant for short-lived notes. Anything you type here is automatically saved on "
+            "your disk.\n"
+            "\n"
+            "The only UI is the context menu, try it out!\n"
+            "\n"
+            "As you can see in the context menu, Nanonote has an \"Always on Top\" mode. This "
+            "feature is handy to keep the window around.\n"
+            "\n"
+            "It also has a few handy editing features, like auto-bullet lists:\n"
+            "\n"
+            "- Try to move the cursor at the end of this line and press Enter\n"
+            "- This works for\n"
+            "    - nested lists\n"
+            "    * and asterisks\n"
+            "\n"
+            "You can also open urls using Control + click or Control + Enter while your cursor is "
+            "inside a URL. You can try clicking on this one for example: "
+            "https://github.com/agateau/nanonote.\n"
+            "\n"
+            "Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with "
+            "Shift+Tab or Ctrl+U.\n"
+            "\n"
+            "That's all there is to say, now you can erase this text and start taking notes!\n"));
         return;
     }
     if (!file.open(QIODevice::ReadOnly)) {
@@ -193,8 +188,7 @@ void MainWindow::loadNotes()
     mTextEdit->setPlainText(text);
 }
 
-void MainWindow::saveNotes()
-{
+void MainWindow::saveNotes() {
     QString path = Settings::notePath();
     QString dirPath = QFileInfo(path).absolutePath();
     if (!QDir(dirPath).mkpath(".")) {
@@ -212,8 +206,7 @@ void MainWindow::saveNotes()
     }
 }
 
-static QRect clampRect(const QRect& rect_, const QRect& container)
-{
+static QRect clampRect(const QRect& rect_, const QRect& container) {
     QRect rect = rect_;
     if (rect.right() > container.right()) {
         rect.moveRight(container.right());
@@ -230,8 +223,7 @@ static QRect clampRect(const QRect& rect_, const QRect& container)
     return rect;
 }
 
-void MainWindow::loadSettings()
-{
+void MainWindow::loadSettings() {
     mSettings->load();
 
     QRect geometry = mSettings->geometry();
@@ -246,25 +238,21 @@ void MainWindow::loadSettings()
     mTextEdit->setFont(mSettings->font());
 
     connect(mSettings, &Settings::fontChanged, mTextEdit, &QPlainTextEdit::setFont);
-
 }
 
-void MainWindow::saveSettings()
-{
+void MainWindow::saveSettings() {
     mSettings->setGeometry(geometry());
     mSettings->save();
 }
 
-void MainWindow::adjustFontSize(int delta)
-{
+void MainWindow::adjustFontSize(int delta) {
     QFont font = mSettings->font();
     font.setPointSize(font.pointSize() + delta);
     mSettings->setFont(font);
     saveSettings();
 }
 
-void MainWindow::resetFontSize()
-{
+void MainWindow::resetFontSize() {
     QFont font = mSettings->font();
     QFont defaultFont = mSettings->defaultFont();
     font.setPointSize(defaultFont.pointSize());
@@ -272,8 +260,7 @@ void MainWindow::resetFontSize()
     saveSettings();
 }
 
-void MainWindow::setAlwaysOnTop(bool onTop)
-{
+void MainWindow::setAlwaysOnTop(bool onTop) {
     Qt::WindowFlags flags = windowFlags();
     flags.setFlag(Qt::WindowStaysOnTopHint, onTop);
     setWindowFlags(flags);
@@ -282,16 +269,14 @@ void MainWindow::setAlwaysOnTop(bool onTop)
     saveSettings();
 }
 
-void MainWindow::showSettingsDialog()
-{
+void MainWindow::showSettingsDialog() {
     if (!mSettingsDialog) {
         mSettingsDialog = new SettingsDialog(mSettings, this);
     }
     mSettingsDialog->show();
 }
 
-void MainWindow::loadSearchWidget()
-{
+void MainWindow::loadSearchWidget() {
     if (!mSearchWidget) {
         mSearchWidget = new SearchWidget(mTextEdit, this);
         connect(mSearchWidget, &SearchWidget::closeSearchDialog, this, &MainWindow::hideSearchBar);
@@ -304,8 +289,7 @@ void MainWindow::loadSearchWidget()
     }
 }
 
-void MainWindow::showSearchBar()
-{
+void MainWindow::showSearchBar() {
     mSearchWidget->initialize(mTextEdit->textCursor().selectedText());
     if (mSearchToolBar->isVisible()) {
         return;
@@ -313,8 +297,7 @@ void MainWindow::showSearchBar()
     mSearchToolBar->setVisible(true);
 }
 
-void MainWindow::hideSearchBar()
-{
+void MainWindow::hideSearchBar() {
     mSearchWidget->uninitialize();
     if (mSearchToolBar->isVisible()) {
         mSearchToolBar->setVisible(false);

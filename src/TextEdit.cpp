@@ -9,39 +9,34 @@
 #include "LinkSyntaxHighlighter.h"
 
 // TextEditExtension ---------------------
-TextEditExtension::TextEditExtension(TextEdit *textEdit)
-    : QObject(textEdit)
-    , mTextEdit(textEdit)
-{}
+TextEditExtension::TextEditExtension(TextEdit* textEdit) : QObject(textEdit), mTextEdit(textEdit) {
+}
 
-void TextEditExtension::aboutToShowContextMenu(QMenu */*menu*/, const QPoint& /*pos*/)
-{}
+void TextEditExtension::aboutToShowContextMenu(QMenu* /*menu*/, const QPoint& /*pos*/) {
+}
 
-bool TextEditExtension::keyPress(QKeyEvent */*event*/) {
+bool TextEditExtension::keyPress(QKeyEvent* /*event*/) {
     return false;
 }
 
-bool TextEditExtension::keyRelease(QKeyEvent */*event*/) {
+bool TextEditExtension::keyRelease(QKeyEvent* /*event*/) {
     return false;
 }
 
-bool TextEditExtension::mouseRelease(QMouseEvent */*event*/) {
+bool TextEditExtension::mouseRelease(QMouseEvent* /*event*/) {
     return false;
 }
 
-bool TextEditExtension::wheel(QWheelEvent */*event*/) {
+bool TextEditExtension::wheel(QWheelEvent* /*event*/) {
     return false;
 }
 
 // TextEdit ------------------------------
-TextEdit::TextEdit(QWidget *parent)
-    : QPlainTextEdit(parent)
-{
+TextEdit::TextEdit(QWidget* parent) : QPlainTextEdit(parent) {
     new LinkSyntaxHighlighter(document());
 }
 
-void TextEdit::contextMenuEvent(QContextMenuEvent *event)
-{
+void TextEdit::contextMenuEvent(QContextMenuEvent* event) {
     auto pos = event->pos();
     std::unique_ptr<QMenu> menu(createStandardContextMenu(pos));
     menu->addSeparator();
@@ -51,8 +46,7 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *event)
     menu->exec(event->globalPos());
 }
 
-void TextEdit::keyPressEvent(QKeyEvent *event)
-{
+void TextEdit::keyPressEvent(QKeyEvent* event) {
     for (auto extension : mExtensions) {
         if (extension->keyPress(event)) {
             return;
@@ -61,8 +55,7 @@ void TextEdit::keyPressEvent(QKeyEvent *event)
     QPlainTextEdit::keyPressEvent(event);
 }
 
-void TextEdit::keyReleaseEvent(QKeyEvent *event)
-{
+void TextEdit::keyReleaseEvent(QKeyEvent* event) {
     for (auto extension : mExtensions) {
         if (extension->keyRelease(event)) {
             return;
@@ -71,8 +64,7 @@ void TextEdit::keyReleaseEvent(QKeyEvent *event)
     QPlainTextEdit::keyReleaseEvent(event);
 }
 
-void TextEdit::mouseReleaseEvent(QMouseEvent *event)
-{
+void TextEdit::mouseReleaseEvent(QMouseEvent* event) {
     for (auto extension : mExtensions) {
         if (extension->mouseRelease(event)) {
             return;
@@ -81,8 +73,7 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *event)
     QPlainTextEdit::mouseReleaseEvent(event);
 }
 
-void TextEdit::wheelEvent(QWheelEvent *event)
-{
+void TextEdit::wheelEvent(QWheelEvent* event) {
     for (auto extension : mExtensions) {
         if (extension->wheel(event)) {
             return;
@@ -91,7 +82,6 @@ void TextEdit::wheelEvent(QWheelEvent *event)
     QPlainTextEdit::wheelEvent(event);
 }
 
-void TextEdit::addExtension(TextEditExtension *extension)
-{
+void TextEdit::addExtension(TextEditExtension* extension) {
     mExtensions << extension;
 }

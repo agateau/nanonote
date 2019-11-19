@@ -11,14 +11,13 @@
 
 #include "Config.h"
 
-static void loadTranslations(QObject *parent)
-{
+static void loadTranslations(QObject* parent) {
     // Search in current path first, to give translators an easy way to test
     // their translations
-    QStringList searchDirs = { QDir::currentPath(), ":/translations" };
+    QStringList searchDirs = {QDir::currentPath(), ":/translations"};
     auto translator = new QTranslator(parent);
     QLocale locale;
-    for (const auto &dir : searchDirs) {
+    for (const auto& dir : searchDirs) {
         if (translator->load(locale, QCoreApplication::applicationName(), "_", dir)) {
             QCoreApplication::installTranslator(translator);
             return;
@@ -26,8 +25,7 @@ static void loadTranslations(QObject *parent)
     }
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char* argv[]) {
     SingleApplication app(argc, argv);
     Q_INIT_RESOURCE(nanonote);
     Q_INIT_RESOURCE(translations);

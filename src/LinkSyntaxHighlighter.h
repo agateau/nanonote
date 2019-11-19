@@ -5,11 +5,12 @@
 
 class LinkSyntaxHighlighter : public QSyntaxHighlighter {
 public:
-    LinkSyntaxHighlighter(QTextDocument *document);
+    LinkSyntaxHighlighter(QTextDocument* document);
 
-    static QUrl getLinkAt(const QString &text, int position);
+    static QUrl getLinkAt(const QString& text, int position);
+
 protected:
-    void highlightBlock(const QString &text) override;
+    void highlightBlock(const QString& text) override;
 };
 
 #endif // LINKSYNTAXHIGHLIGHTER_H

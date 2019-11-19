@@ -3,11 +3,10 @@
 
 #include <BaseSettings.h>
 
-class Settings : public BaseSettings
-{
+class Settings : public BaseSettings {
     Q_OBJECT
 public:
-    explicit Settings(QObject *parent = nullptr);
+    explicit Settings(QObject* parent = nullptr);
     static QString notePath();
     void load();
     void save();
