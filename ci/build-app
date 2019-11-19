@@ -16,6 +16,11 @@ setup_work_dirs() {
     mkdir $WORK_SRC_PKG_DIR $WORK_BIN_PKG_DIR
 }
 
+check_codingstyle() {
+    cd $SRC_DIR
+    ci/check-codingstyle
+}
+
 create_source_package() {
     cd $WORK_SRC_PKG_DIR
 
@@ -48,6 +53,7 @@ create_binary_packages() {
 rm -rf $DIST_DIR
 mkdir $DIST_DIR
 setup_work_dirs
+check_codingstyle
 create_source_package
 unpack_source_package
 build_and_test
