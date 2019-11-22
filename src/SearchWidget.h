@@ -32,7 +32,7 @@ private:
     void selectPreviousMatch();
     void onDocumentChanged();
     void selectCurrentMatch();
-    void setCountAndCurrentPosition();
+    void updateCountLabel();
     void highlightMatches();
     void removeHighlights();
     void onSearchLineChanged();

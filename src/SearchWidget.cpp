@@ -43,7 +43,7 @@ void SearchWidget::search() {
     highlightMatches();
 
     cursor.endEditBlock();
-    setCountAndCurrentPosition();
+    updateCountLabel();
 }
 
 void SearchWidget::selectNextMatch() {
@@ -131,10 +131,10 @@ void SearchWidget::selectCurrentMatch() {
     cursor.setPosition(startPosition + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
     mTextEdit->setTextCursor(cursor);
     cursor.endEditBlock();
-    setCountAndCurrentPosition();
+    updateCountLabel();
 }
 
-void SearchWidget::setCountAndCurrentPosition() {
+void SearchWidget::updateCountLabel() {
     if (mCurrentMatch.has_value()) {
         mUi->countLabel->show();
         QString str = QString("%1 / %2").arg(mCurrentMatch.value() + 1).arg(mMatchPositions.size());
