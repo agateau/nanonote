@@ -32,7 +32,8 @@ private:
     void onDocumentChanged();
     void selectWord();
     void setCountAndCurrentPosition();
-    void highLightedWords(bool highLighted);
+    void highlightWords();
+    void removeHighlights();
     void onSearchLineChanged(const QString& value);
     void searchWord(bool selectNext = true, QString searchValue = "");
     void searchPositionsWordsInDocument(const QString& searchString, bool selectNext = true);

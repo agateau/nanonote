@@ -31,7 +31,7 @@ void SearchWidget::initialize(const QString& text) {
 
 void SearchWidget::uninitialize() {
     mSearchVisible = false;
-    highLightedWords(false);
+    removeHighlights();
 }
 
 void SearchWidget::searchWord(bool selectNext, QString searchValue) {
@@ -67,24 +67,24 @@ void SearchWidget::onPreviousButtonClicked() {
     selectWord();
 }
 
-void SearchWidget::highLightedWords(bool highLighted) {
+void SearchWidget::highlightWords() {
     QList<QTextEdit::ExtraSelection> extraSelections;
     QColor highlightColor = Qt::yellow;
-    if (highLighted) {
-        for (int position : mPositionWords) {
-            QTextCursor cursor = mTextEdit->textCursor();
-            cursor.setPosition(position, QTextCursor::MoveAnchor);
-            cursor.setPosition(position + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
+    for (int position : mPositionWords) {
+        QTextCursor cursor = mTextEdit->textCursor();
+        cursor.setPosition(position, QTextCursor::MoveAnchor);
+        cursor.setPosition(position + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
 
-            QTextEdit::ExtraSelection currentWord;
-            currentWord.format.setBackground(highlightColor);
-            currentWord.cursor = cursor;
-            extraSelections.append(currentWord);
-        }
-        mTextEdit->setExtraSelections(extraSelections);
-    } else {
-        mTextEdit->setExtraSelections(extraSelections);
+        QTextEdit::ExtraSelection currentWord;
+        currentWord.format.setBackground(highlightColor);
+        currentWord.cursor = cursor;
+        extraSelections.append(currentWord);
     }
+    mTextEdit->setExtraSelections(extraSelections);
+}
+
+void SearchWidget::removeHighlights() {
+    mTextEdit->setExtraSelections({});
 }
 
 void SearchWidget::onDocumentChanged() {
@@ -104,7 +104,7 @@ void SearchWidget::onSearchLineChanged(const QString& value) {
 void SearchWidget::searchPositionsWordsInDocument(const QString& searchString, bool selectNext) {
     mPositionWords.clear();
     QTextDocument* document = mTextEdit->document();
-    highLightedWords(false);
+    removeHighlights();
     QTextCursor highlightCursor(document);
     QTextCursor cursor(document);
     cursor.beginEditBlock();
@@ -114,7 +114,7 @@ void SearchWidget::searchPositionsWordsInDocument(const QString& searchString, b
             mPositionWords.push_back(highlightCursor.selectionStart());
         }
     }
-    highLightedWords(true);
+    highlightWords();
     cursor.endEditBlock();
     setCountAndCurrentPosition();
     if (selectNext) {
