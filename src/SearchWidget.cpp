@@ -10,13 +10,13 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
     mUi->setupUi(this);
     layout()->setContentsMargins(0, 0, 0, 0);
 
-    connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::onNextButtonClicked);
+    connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::selectNextMatch);
     connect(
-        mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::onPreviousButtonClicked);
+        mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::selectPreviousMatch);
     connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::onDocumentChanged);
     connect(mUi->searchLine, &QLineEdit::textChanged, this, &SearchWidget::onSearchLineChanged);
     connect(mUi->closeButton, &QToolButton::clicked, this, &SearchWidget::closeClicked);
-    connect(mUi->searchLine, &QLineEdit::returnPressed, this, &SearchWidget::onNextButtonClicked);
+    connect(mUi->searchLine, &QLineEdit::returnPressed, this, &SearchWidget::selectNextMatch);
 }
 
 SearchWidget::~SearchWidget() {
@@ -26,7 +26,8 @@ void SearchWidget::initialize(const QString& text) {
     mSearchVisible = true;
     mUi->searchLine->setFocus();
     mUi->searchLine->setText(text);
-    searchWord(true);
+    search();
+    selectNextMatch();
 }
 
 void SearchWidget::uninitialize() {
@@ -34,43 +35,49 @@ void SearchWidget::uninitialize() {
     removeHighlights();
 }
 
-void SearchWidget::searchWord(bool selectNext) {
+void SearchWidget::search() {
     mTextDocument = mTextEdit->toPlainText();
-    mCurrentSelectedWord = -1;
-    searchPositionsWordsInDocument(mUi->searchLine->text());
-    if (selectNext) {
-        onNextButtonClicked();
-    }
+    mCurrentMatch = -1;
+
+    QTextCursor cursor(mTextEdit->document());
+    cursor.beginEditBlock();
+
+    removeHighlights();
+    updateMatchPositions();
+    highlightMatches();
+
+    cursor.endEditBlock();
+    setCountAndCurrentPosition();
 }
 
-void SearchWidget::onNextButtonClicked() {
-    if (mPositionWords.empty()) {
+void SearchWidget::selectNextMatch() {
+    if (mMatchPositions.empty()) {
         return;
     }
-    if (mCurrentSelectedWord != ((int)mPositionWords.size() - 1)) {
-        mCurrentSelectedWord++;
+    if (mCurrentMatch != ((int)mMatchPositions.size() - 1)) {
+        mCurrentMatch++;
     } else {
-        mCurrentSelectedWord = 0;
+        mCurrentMatch = 0;
     }
-    selectWord();
+    selectCurrentMatch();
 }
 
-void SearchWidget::onPreviousButtonClicked() {
-    if (mPositionWords.empty()) {
+void SearchWidget::selectPreviousMatch() {
+    if (mMatchPositions.empty()) {
         return;
     }
-    if (mCurrentSelectedWord != 0) {
-        mCurrentSelectedWord--;
+    if (mCurrentMatch != 0) {
+        mCurrentMatch--;
     } else {
-        mCurrentSelectedWord = mPositionWords.size() - 1;
+        mCurrentMatch = mMatchPositions.size() - 1;
     }
-    selectWord();
+    selectCurrentMatch();
 }
 
-void SearchWidget::highlightWords() {
+void SearchWidget::highlightMatches() {
     QList<QTextEdit::ExtraSelection> extraSelections;
     QColor highlightColor = Qt::yellow;
-    for (int position : mPositionWords) {
+    for (int position : mMatchPositions) {
         QTextCursor cursor = mTextEdit->textCursor();
         cursor.setPosition(position, QTextCursor::MoveAnchor);
         cursor.setPosition(position + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
@@ -94,46 +101,43 @@ void SearchWidget::onDocumentChanged() {
     if (mTextDocument == mTextEdit->toPlainText()) {
         return;
     }
-    searchWord(false);
+    search();
 }
 
 void SearchWidget::onSearchLineChanged() {
-    searchWord(true);
+    search();
+    selectNextMatch();
 }
 
-void SearchWidget::searchPositionsWordsInDocument(const QString& searchString) {
-    mPositionWords.clear();
-    QTextDocument* document = mTextEdit->document();
-    removeHighlights();
-    QTextCursor highlightCursor(document);
+void SearchWidget::updateMatchPositions() {
+    auto* document = mTextEdit->document();
+    QString searchString = mUi->searchLine->text();
+
+    mMatchPositions.clear();
     QTextCursor cursor(document);
-    cursor.beginEditBlock();
-    while (!highlightCursor.isNull() && !highlightCursor.atEnd()) {
-        highlightCursor = document->find(searchString, highlightCursor);
-        if (!highlightCursor.isNull()) {
-            mPositionWords.push_back(highlightCursor.selectionStart());
+    while (!cursor.isNull() && !cursor.atEnd()) {
+        cursor = document->find(searchString, cursor);
+        if (!cursor.isNull()) {
+            mMatchPositions.push_back(cursor.selectionStart());
         }
     }
-    highlightWords();
-    cursor.endEditBlock();
-    setCountAndCurrentPosition();
 }
 
-void SearchWidget::selectWord() {
+void SearchWidget::selectCurrentMatch() {
     QTextDocument* document = mTextEdit->document();
     QTextCursor cursor(document);
     cursor.beginEditBlock();
-    int wordStartPosition = mPositionWords.at(mCurrentSelectedWord);
-    cursor.setPosition(wordStartPosition, QTextCursor::MoveAnchor);
-    cursor.setPosition(wordStartPosition + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
+    int startPosition = mMatchPositions.at(mCurrentMatch);
+    cursor.setPosition(startPosition, QTextCursor::MoveAnchor);
+    cursor.setPosition(startPosition + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
     mTextEdit->setTextCursor(cursor);
     cursor.endEditBlock();
     setCountAndCurrentPosition();
 }
 
 void SearchWidget::setCountAndCurrentPosition() {
-    bool isEmpty = mPositionWords.empty();
+    bool isEmpty = mMatchPositions.empty();
     mUi->countLabel->setVisible(!isEmpty);
-    QString str = QString("%1 / %2").arg(mCurrentSelectedWord + 1).arg(mPositionWords.size());
+    QString str = QString("%1 / %2").arg(mCurrentMatch + 1).arg(mMatchPositions.size());
     mUi->countLabel->setText(str);
 }

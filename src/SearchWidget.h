@@ -27,22 +27,22 @@ signals:
     void closeClicked();
 
 private:
-    void onNextButtonClicked();
-    void onPreviousButtonClicked();
+    void selectNextMatch();
+    void selectPreviousMatch();
     void onDocumentChanged();
-    void selectWord();
+    void selectCurrentMatch();
     void setCountAndCurrentPosition();
-    void highlightWords();
+    void highlightMatches();
     void removeHighlights();
     void onSearchLineChanged();
-    void searchWord(bool selectNext = true);
-    void searchPositionsWordsInDocument(const QString& searchString);
+    void search();
+    void updateMatchPositions();
 
     const std::unique_ptr<Ui::SearchForm> mUi;
     TextEdit* const mTextEdit;
 
-    std::vector<int> mPositionWords;
+    std::vector<int> mMatchPositions;
     QString mTextDocument;
     bool mSearchVisible = false;
-    int mCurrentSelectedWord = -1;
+    int mCurrentMatch = -1;
 };
