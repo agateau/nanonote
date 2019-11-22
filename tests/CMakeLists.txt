@@ -2,6 +2,7 @@ add_executable(tests
     tests.cpp
     IndentExtensionTest.cpp
     LinkSyntaxHighlighterTest.cpp
+    SearchWidgetTest.cpp
     TestUtils.cpp
 )
 
