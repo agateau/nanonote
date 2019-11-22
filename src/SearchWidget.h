@@ -34,9 +34,9 @@ private:
     void setCountAndCurrentPosition();
     void highlightWords();
     void removeHighlights();
-    void onSearchLineChanged(const QString& value);
-    void searchWord(bool selectNext = true, QString searchValue = "");
-    void searchPositionsWordsInDocument(const QString& searchString, bool selectNext = true);
+    void onSearchLineChanged();
+    void searchWord(bool selectNext = true);
+    void searchPositionsWordsInDocument(const QString& searchString);
 
     const std::unique_ptr<Ui::SearchForm> mUi;
     TextEdit* const mTextEdit;
