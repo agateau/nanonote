@@ -8,10 +8,7 @@
 SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
         : QWidget(parent), mUi(new Ui::SearchForm), mTextEdit(textEdit) {
     mUi->setupUi(this);
-    mUi->previousButton->setArrowType(Qt::UpArrow);
-    mUi->previousButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    mUi->nextButton->setArrowType(Qt::DownArrow);
-    mUi->nextButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    layout()->setContentsMargins(0, 0, 0, 0);
 
     connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::onNextButtonClicked);
     connect(

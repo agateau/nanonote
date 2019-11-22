@@ -285,6 +285,7 @@ void MainWindow::loadSearchWidget() {
         mSearchToolBar = new QToolBar(this);
         mSearchToolBar->addWidget(mSearchWidget);
         mSearchToolBar->setVisible(false);
+        mSearchToolBar->setMovable(false);
         addToolBar(Qt::BottomToolBarArea, mSearchToolBar);
     }
 }
