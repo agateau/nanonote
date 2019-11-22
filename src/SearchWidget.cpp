@@ -54,11 +54,7 @@ void SearchWidget::selectNextMatch() {
     if (mMatchPositions.empty()) {
         return;
     }
-    if (mCurrentMatch != ((int)mMatchPositions.size() - 1)) {
-        mCurrentMatch++;
-    } else {
-        mCurrentMatch = 0;
-    }
+    mCurrentMatch = (mCurrentMatch + 1) % mMatchPositions.size();
     selectCurrentMatch();
 }
 
@@ -69,7 +65,7 @@ void SearchWidget::selectPreviousMatch() {
     if (mCurrentMatch != 0) {
         mCurrentMatch--;
     } else {
-        mCurrentMatch = mMatchPositions.size() - 1;
+        mCurrentMatch = int(mMatchPositions.size()) - 1;
     }
     selectCurrentMatch();
 }
