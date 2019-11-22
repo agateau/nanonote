@@ -291,16 +291,15 @@ void MainWindow::loadSearchWidget() {
 }
 
 void MainWindow::showSearchBar() {
-    mSearchWidget->initialize(mTextEdit->textCursor().selectedText());
     if (mSearchToolBar->isVisible()) {
-        return;
+        mSearchWidget->setFocus();
+    } else {
+        mSearchWidget->initialize(mTextEdit->textCursor().selectedText());
+        mSearchToolBar->show();
     }
-    mSearchToolBar->setVisible(true);
 }
 
 void MainWindow::hideSearchBar() {
     mSearchWidget->uninitialize();
-    if (mSearchToolBar->isVisible()) {
-        mSearchToolBar->setVisible(false);
-    }
+    mSearchToolBar->hide();
 }

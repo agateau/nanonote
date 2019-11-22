@@ -44,6 +44,5 @@ private:
 
     std::vector<int> mMatchPositions;
     QString mTextDocument;
-    bool mSearchVisible = false;
     std::optional<std::size_t> mCurrentMatch;
 };

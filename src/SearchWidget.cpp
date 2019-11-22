@@ -22,13 +22,11 @@ SearchWidget::~SearchWidget() {
 }
 
 void SearchWidget::initialize(const QString& text) {
-    mSearchVisible = true;
     mUi->searchLine->setFocus();
     mUi->searchLine->setText(text);
 }
 
 void SearchWidget::uninitialize() {
-    mSearchVisible = false;
     removeHighlights();
 }
 
@@ -87,7 +85,7 @@ void SearchWidget::removeHighlights() {
 }
 
 void SearchWidget::onDocumentChanged() {
-    if (!mSearchVisible) {
+    if (!isVisible()) {
         return;
     }
     if (mTextDocument == mTextEdit->toPlainText()) {
