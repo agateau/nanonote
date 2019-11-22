@@ -13,8 +13,8 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
     connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::onNextButtonClicked);
     connect(
         mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::onPreviousButtonClicked);
-    connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::documentChange);
-    connect(mUi->searchLine, &QLineEdit::textChanged, this, &SearchWidget::searchLineChanged);
+    connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::onDocumentChanged);
+    connect(mUi->searchLine, &QLineEdit::textChanged, this, &SearchWidget::onSearchLineChanged);
     connect(mUi->closeButton, &QToolButton::clicked, this, &SearchWidget::closeClicked);
     connect(mUi->searchLine, &QLineEdit::returnPressed, this, &SearchWidget::onNextButtonClicked);
 }
@@ -88,7 +88,7 @@ void SearchWidget::highLightedWords(bool highLighted) {
     }
 }
 
-void SearchWidget::documentChange() {
+void SearchWidget::onDocumentChanged() {
     if (!mSearchVisible) {
         return;
     }
@@ -98,7 +98,7 @@ void SearchWidget::documentChange() {
     searchWord(false);
 }
 
-void SearchWidget::searchLineChanged(const QString& value) {
+void SearchWidget::onSearchLineChanged(const QString& value) {
     searchWord(true, value);
 }
 

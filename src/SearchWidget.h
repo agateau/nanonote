@@ -27,11 +27,11 @@ signals:
 private:
     void onNextButtonClicked();
     void onPreviousButtonClicked();
-    void documentChange();
+    void onDocumentChanged();
     void selectWord();
     void setCountAndCurrentPosition();
     void highLightedWords(bool highLighted);
-    void searchLineChanged(const QString& value);
+    void onSearchLineChanged(const QString& value);
     void searchWord(bool selectNext = true, QString searchValue = "");
     void searchPositionsWordsInDocument(const QString& searchString, bool selectNext = true);
 
