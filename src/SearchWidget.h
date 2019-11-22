@@ -22,13 +22,12 @@ public:
     void uninitialize();
 
 signals:
-    void closeSearchDialog();
+    void closeClicked();
 
 private:
     void onNextButtonClicked();
     void onPreviousButtonClicked();
     void documentChange();
-    void closeSearch();
     void selectWord();
     void setCountAndCurrentPosition();
     void highLightedWords(bool highLighted);

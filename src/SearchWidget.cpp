@@ -15,7 +15,7 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
         mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::onPreviousButtonClicked);
     connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::documentChange);
     connect(mUi->searchLine, &QLineEdit::textChanged, this, &SearchWidget::searchLineChanged);
-    connect(mUi->closeButton, &QToolButton::clicked, this, &SearchWidget::closeSearch);
+    connect(mUi->closeButton, &QToolButton::clicked, this, &SearchWidget::closeClicked);
     connect(mUi->searchLine, &QLineEdit::returnPressed, this, &SearchWidget::onNextButtonClicked);
 }
 
@@ -96,10 +96,6 @@ void SearchWidget::documentChange() {
         return;
     }
     searchWord(false);
-}
-
-void SearchWidget::closeSearch() {
-    emit closeSearchDialog();
 }
 
 void SearchWidget::searchLineChanged(const QString& value) {

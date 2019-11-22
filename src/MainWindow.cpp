@@ -279,7 +279,7 @@ void MainWindow::showSettingsDialog() {
 void MainWindow::loadSearchWidget() {
     if (!mSearchWidget) {
         mSearchWidget = new SearchWidget(mTextEdit, this);
-        connect(mSearchWidget, &SearchWidget::closeSearchDialog, this, &MainWindow::hideSearchBar);
+        connect(mSearchWidget, &SearchWidget::closeClicked, this, &MainWindow::hideSearchBar);
     }
     if (!mSearchToolBar) {
         mSearchToolBar = new QToolBar(this);
