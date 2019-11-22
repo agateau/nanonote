@@ -11,8 +11,7 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
     layout()->setContentsMargins(0, 0, 0, 0);
 
     connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::selectNextMatch);
-    connect(
-        mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::selectPreviousMatch);
+    connect(mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::selectPreviousMatch);
     connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::onDocumentChanged);
     connect(mUi->searchLine, &QLineEdit::textChanged, this, &SearchWidget::onSearchLineChanged);
     connect(mUi->closeButton, &QToolButton::clicked, this, &SearchWidget::closeClicked);
