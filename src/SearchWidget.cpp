@@ -25,8 +25,6 @@ void SearchWidget::initialize(const QString& text) {
     mSearchVisible = true;
     mUi->searchLine->setFocus();
     mUi->searchLine->setText(text);
-    search();
-    selectNextMatch();
 }
 
 void SearchWidget::uninitialize() {
@@ -36,7 +34,6 @@ void SearchWidget::uninitialize() {
 
 void SearchWidget::search() {
     mTextDocument = mTextEdit->toPlainText();
-    mCurrentMatch = -1;
 
     QTextCursor cursor(mTextEdit->document());
     cursor.beginEditBlock();
@@ -53,7 +50,7 @@ void SearchWidget::selectNextMatch() {
     if (mMatchPositions.empty()) {
         return;
     }
-    mCurrentMatch = (mCurrentMatch + 1) % mMatchPositions.size();
+    mCurrentMatch = (mCurrentMatch.value() + 1) % mMatchPositions.size();
     selectCurrentMatch();
 }
 
@@ -62,9 +59,9 @@ void SearchWidget::selectPreviousMatch() {
         return;
     }
     if (mCurrentMatch != 0) {
-        mCurrentMatch--;
+        mCurrentMatch = mCurrentMatch.value() - 1;
     } else {
-        mCurrentMatch = int(mMatchPositions.size()) - 1;
+        mCurrentMatch = mMatchPositions.size() - 1;
     }
     selectCurrentMatch();
 }
@@ -101,7 +98,9 @@ void SearchWidget::onDocumentChanged() {
 
 void SearchWidget::onSearchLineChanged() {
     search();
-    selectNextMatch();
+    if (mCurrentMatch.has_value()) {
+        selectCurrentMatch();
+    }
 }
 
 void SearchWidget::updateMatchPositions() {
@@ -116,13 +115,18 @@ void SearchWidget::updateMatchPositions() {
             mMatchPositions.push_back(cursor.selectionStart());
         }
     }
+    if (mMatchPositions.empty()) {
+        mCurrentMatch.reset();
+    } else {
+        mCurrentMatch = 0;
+    }
 }
 
 void SearchWidget::selectCurrentMatch() {
     QTextDocument* document = mTextEdit->document();
     QTextCursor cursor(document);
     cursor.beginEditBlock();
-    int startPosition = mMatchPositions.at(mCurrentMatch);
+    int startPosition = mMatchPositions.at(mCurrentMatch.value());
     cursor.setPosition(startPosition, QTextCursor::MoveAnchor);
     cursor.setPosition(startPosition + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
     mTextEdit->setTextCursor(cursor);
@@ -131,8 +135,11 @@ void SearchWidget::selectCurrentMatch() {
 }
 
 void SearchWidget::setCountAndCurrentPosition() {
-    bool isEmpty = mMatchPositions.empty();
-    mUi->countLabel->setVisible(!isEmpty);
-    QString str = QString("%1 / %2").arg(mCurrentMatch + 1).arg(mMatchPositions.size());
-    mUi->countLabel->setText(str);
+    if (mCurrentMatch.has_value()) {
+        mUi->countLabel->show();
+        QString str = QString("%1 / %2").arg(mCurrentMatch.value() + 1).arg(mMatchPositions.size());
+        mUi->countLabel->setText(str);
+    } else {
+        mUi->countLabel->hide();
+    }
 }

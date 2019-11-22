@@ -5,6 +5,7 @@
 #include <QWidget>
 
 #include <memory>
+#include <optional>
 #include <vector>
 
 class TextEdit;
@@ -44,5 +45,5 @@ private:
     std::vector<int> mMatchPositions;
     QString mTextDocument;
     bool mSearchVisible = false;
-    int mCurrentMatch = -1;
+    std::optional<std::size_t> mCurrentMatch;
 };
