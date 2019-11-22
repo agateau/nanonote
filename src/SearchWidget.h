@@ -3,6 +3,8 @@
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QWidget>
+
+#include <memory>
 #include <vector>
 
 class TextEdit;
@@ -35,9 +37,10 @@ private:
     void searchWord(bool selectNext = true, QString searchValue = "");
     void searchPositionsWordsInDocument(const QString& searchString, bool selectNext = true);
 
-    Ui::SearchForm* mUi;
+    const std::unique_ptr<Ui::SearchForm> mUi;
+    TextEdit* const mTextEdit;
+
     std::vector<int> mPositionWords;
-    TextEdit* mTextEdit = nullptr;
     QString mTextDocument;
     bool mSearchVisible = false;
     int mCurrentSelectedWord = -1;

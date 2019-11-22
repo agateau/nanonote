@@ -20,7 +20,6 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
 }
 
 SearchWidget::~SearchWidget() {
-    delete mUi;
 }
 
 void SearchWidget::initialize(const QString& text) {
