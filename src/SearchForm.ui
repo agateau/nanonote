@@ -74,6 +74,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>searchLine</tabstop>
+  <tabstop>previousButton</tabstop>
+  <tabstop>nextButton</tabstop>
+  <tabstop>closeButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -9,6 +9,7 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
         : QWidget(parent), mUi(new Ui::SearchForm), mTextEdit(textEdit) {
     mUi->setupUi(this);
     layout()->setContentsMargins(0, 0, 0, 0);
+    setFocusProxy(mUi->searchLine);
 
     connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::selectNextMatch);
     connect(mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::selectPreviousMatch);
