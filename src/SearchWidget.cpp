@@ -11,6 +11,8 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
     layout()->setContentsMargins(0, 0, 0, 0);
     setFocusProxy(mUi->searchLine);
 
+    mUi->countLabel->hide();
+
     connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::selectNextMatch);
     connect(mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::selectPreviousMatch);
     connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::onDocumentChanged);

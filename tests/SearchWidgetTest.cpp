@@ -2,6 +2,7 @@
 #include "TextEdit.h"
 
 #include <QAbstractButton>
+#include <QLabel>
 #include <QTest>
 
 #include <catch2/catch.hpp>
@@ -75,5 +76,22 @@ TEST_CASE("searchwidget") {
 
         searchWidget.initialize("b");
         REQUIRE(getSelectionRange(&edit) == SelectionRange{1, 1});
+    }
+
+    SECTION("count label") {
+        edit.setPlainText("hello");
+        auto* countLabel = searchWidget.findChild<QLabel*>("countLabel");
+        auto isVisible = [countLabel, &searchWidget]() -> bool {
+            return countLabel->isVisibleTo(&searchWidget);
+        };
+
+        searchWidget.initialize("");
+        REQUIRE(!isVisible());
+
+        searchWidget.initialize("llo");
+        REQUIRE(isVisible());
+
+        searchWidget.initialize("no match");
+        REQUIRE(!isVisible());
     }
 }
