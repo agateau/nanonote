@@ -10,10 +10,11 @@
 struct SelectionRange {
     int start;
     int end;
-    SelectionRange(int s, int e) : start(s), end(e) {}
+    SelectionRange(int s, int e) : start(s), end(e) {
+    }
 };
 
-bool operator ==(const SelectionRange& r1, const SelectionRange& r2) {
+bool operator==(const SelectionRange& r1, const SelectionRange& r2) {
     return r1.start == r2.start && r1.end == r2.end;
 }
 
