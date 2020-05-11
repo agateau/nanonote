@@ -1,44 +1,43 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.17)
 project(nanonote
     VERSION 1.2.0
     DESCRIPTION "Minimalist note taking application for short-lived notes"
+    HOMEPAGE_URL "https://github.com/agateau/nanonote"
 )
+include(CTest)
+
+set(AUTHOR_NAME "Aurélien Gâteau")
+set(AUTHOR_EMAIL "mail@agateau.com")
+set(ORGANIZATION_NAME "agateau.com")
+set(INVERSE_ORGANIZATION_NAME "com.agateau")
+
+set(APP_HUMAN_NAME "Nanonote")
+
+set(APP_NAME ${PROJECT_NAME})
+set(APPLIB_NAME ${PROJECT_NAME}lib)
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # Dependencies
 find_package(Qt5 CONFIG REQUIRED Core Widgets Test LinguistTools)
-include(3rdparty/qpropgen/cmake/qpropgen.cmake)
-add_subdirectory(3rdparty/singleapplication)
-add_subdirectory(3rdparty/catch2)
+find_package(ECM REQUIRED NO_MODULE)
+list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+include(third-party/qpropgen/cmake/qpropgen.cmake)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual")
+# Build flags
+if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANGXX)
+    add_compile_options(-Wall -Woverloaded-virtual)
+endif()
 set(CMAKE_CXX_STANDARD 17)
-enable_testing()
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
 
+# Source dirs
+add_subdirectory(third-party)
 add_subdirectory(src)
-add_subdirectory(tests)
-
-# Packaging
-set(PROJECT_URL "https://github.com/agateau/nanonote")
-
-set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
-set(CPACK_PACKAGE_CONTACT "Aurélien Gâteau <mail@agateau.com>")
-
-set(CPACK_GENERATOR "DEB;RPM")
-set(CPACK_SOURCE_GENERATOR "TBZ2")
-
-## DEB config
-set(CPACK_DEBIAN_FILE_NAME "DEB-DEFAULT")
-set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${PROJECT_URL})
-set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-set(CPACK_DEBIAN_PACKAGE_RELEASE "0agc1")
-
-## RPM config
-set(CPACK_RPM_FILE_NAME "RPM-DEFAULT")
-set(CPACK_RPM_PACKAGE_URL ${PROJECT_URL})
-
-## Source config
-set(CPACK_SOURCE_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}")
-set(CPACK_SOURCE_IGNORE_FILES "/build/;/.git/;/__pycache__/;~$")
-include(CPack)
+if (BUILD_TESTING)
+    enable_testing() # must come *before* adding tests directory
+    add_subdirectory(tests)
+endif()
+add_subdirectory(packaging)

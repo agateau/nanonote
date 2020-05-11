@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/appicon.svg</file>
+        <file>icons/sc-apps-nanonote.svg</file>
     </qresource>
 </RCC>
