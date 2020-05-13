@@ -1,11 +1,17 @@
-dist: xenial
-language: minimal
-
-services:
-- docker
-
-install:
-- ci/build-docker-image
-
-script:
-- ci/docker-build-app
+jobs:
+  include:
+    - os: linux
+      dist: xenial
+      language: minimal
+      services:
+        - docker
+      install:
+        - ci/build-docker-image
+      script:
+        - ci/docker-build-app
+    - os: osx
+      language: c++
+      install:
+        - ci/install-dependencies deps
+      script:
+        - . deps/env.sh && ci/build-app
