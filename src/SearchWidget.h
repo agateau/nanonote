@@ -3,6 +3,9 @@
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QWidget>
+
+#include <memory>
+#include <optional>
 #include <vector>
 
 class TextEdit;
@@ -22,24 +25,24 @@ public:
     void uninitialize();
 
 signals:
-    void closeSearchDialog();
+    void closeClicked();
 
 private:
-    void onNextButtonClicked();
-    void onPreviousButtonClicked();
-    void documentChange();
-    void closeSearch();
-    void selectWord();
-    void setCountAndCurrentPosition();
-    void highLightedWords(bool highLighted);
-    void searchLineChanged(const QString& value);
-    void searchWord(bool selectNext = true, QString searchValue = "");
-    void searchPositionsWordsInDocument(const QString& searchString, bool selectNext = true);
+    void selectNextMatch();
+    void selectPreviousMatch();
+    void onDocumentChanged();
+    void selectCurrentMatch();
+    void updateCountLabel();
+    void highlightMatches();
+    void removeHighlights();
+    void onSearchLineChanged();
+    void search();
+    void updateMatchPositions();
 
-    Ui::SearchForm* mUi;
-    std::vector<int> mPositionWords;
-    TextEdit* mTextEdit = nullptr;
+    const std::unique_ptr<Ui::SearchForm> mUi;
+    TextEdit* const mTextEdit;
+
+    std::vector<int> mMatchPositions;
     QString mTextDocument;
-    bool mSearchVisible = false;
-    int mCurrentSelectedWord = -1;
+    std::optional<std::size_t> mCurrentMatch;
 };

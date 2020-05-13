@@ -113,10 +113,6 @@ Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empeza
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>x</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>

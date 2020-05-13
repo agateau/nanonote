@@ -279,27 +279,27 @@ void MainWindow::showSettingsDialog() {
 void MainWindow::loadSearchWidget() {
     if (!mSearchWidget) {
         mSearchWidget = new SearchWidget(mTextEdit, this);
-        connect(mSearchWidget, &SearchWidget::closeSearchDialog, this, &MainWindow::hideSearchBar);
+        connect(mSearchWidget, &SearchWidget::closeClicked, this, &MainWindow::hideSearchBar);
     }
     if (!mSearchToolBar) {
         mSearchToolBar = new QToolBar(this);
         mSearchToolBar->addWidget(mSearchWidget);
         mSearchToolBar->setVisible(false);
+        mSearchToolBar->setMovable(false);
         addToolBar(Qt::BottomToolBarArea, mSearchToolBar);
     }
 }
 
 void MainWindow::showSearchBar() {
-    mSearchWidget->initialize(mTextEdit->textCursor().selectedText());
     if (mSearchToolBar->isVisible()) {
-        return;
+        mSearchWidget->setFocus();
+    } else {
+        mSearchWidget->initialize(mTextEdit->textCursor().selectedText());
+        mSearchToolBar->show();
     }
-    mSearchToolBar->setVisible(true);
 }
 
 void MainWindow::hideSearchBar() {
     mSearchWidget->uninitialize();
-    if (mSearchToolBar->isVisible()) {
-        mSearchToolBar->setVisible(false);
-    }
+    mSearchToolBar->hide();
 }

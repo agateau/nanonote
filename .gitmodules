@@ -1,9 +1,6 @@
 [submodule "singleapplication"]
-	path = 3rdparty/singleapplication/src
+	path = third-party/singleapplication/src
 	url = https://github.com/itay-grudev/SingleApplication
 [submodule "qpropgen"]
-	path = 3rdparty/qpropgen
+	path = third-party/qpropgen
 	url = https://github.com/agateau/qpropgen
-[submodule "3rdparty/catch2"]
-	path = 3rdparty/catch2
-	url = https://github.com/catchorg/Catch2

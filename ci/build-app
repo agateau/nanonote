@@ -1,61 +1,54 @@
-#!/bin/sh
-set -ev
-# Builds source package from git checkout, then binary packages from the source
-# package.
+#!/bin/bash
+set -euo pipefail
 
+pushd $PWD > /dev/null
 cd $(dirname $0)/..
 SRC_DIR=$PWD
-DIST_DIR=$PWD/dist
+popd > /dev/null
 
-setup_work_dirs() {
-    cd /tmp
-    cd $(mktemp -d cibuild.XXXXXX)
-    WORK_DIR=$PWD
-    WORK_SRC_PKG_DIR=$PWD/srcpkg
-    WORK_BIN_PKG_DIR=$PWD/binpkg
-    mkdir $WORK_SRC_PKG_DIR $WORK_BIN_PKG_DIR
-}
+. $SRC_DIR/ci/lib/common.sh
 
-check_codingstyle() {
+BUILD_DIR=$SRC_DIR/build
+INSTALL_DIR=$SRC_DIR/inst
+
+BUILD_TYPE=Release
+
+BUILD_CMD="cmake --build . --config $BUILD_TYPE"
+
+echo_title Checking coding style
+(
     cd $SRC_DIR
     ci/check-codingstyle
-}
+)
 
-create_source_package() {
-    cd $WORK_SRC_PKG_DIR
+echo_title Configuring
+mkdir $BUILD_DIR
+cd $BUILD_DIR
+cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR $SRC_DIR
 
-    cmake -G Ninja $SRC_DIR
-    ninja package_source
-    SOURCE_PACKAGE=$(ls *.tar.bz2)
-    mv $SOURCE_PACKAGE $DIST_DIR
-}
+echo_title Updating translations
+$BUILD_CMD --target lupdate
 
-unpack_source_package() {
-    cd $WORK_BIN_PKG_DIR
-    tar -xf $DIST_DIR/$SOURCE_PACKAGE --strip-components 1
-}
+echo_title Building
+$BUILD_CMD --parallel $NPROC
 
-build_and_test() {
-    cd $WORK_BIN_PKG_DIR
-    mkdir build
-    cd build
-    cmake -G Ninja ..
-    ninja
-    xvfb-run ninja test
-}
+echo_title Running tests
+test_cmd="$BUILD_CMD --target check"
+if is_linux && [ -z "${DISPLAY:-}" ] ; then
+    xvfb-run $test_cmd
+else
+    $test_cmd
+fi
 
-create_binary_packages() {
-    cd $WORK_BIN_PKG_DIR/build
-    ninja package
-    mv *.deb *.rpm $DIST_DIR
-}
+echo_title Installing
+$BUILD_CMD --target install
 
-rm -rf $DIST_DIR
-mkdir $DIST_DIR
-setup_work_dirs
-check_codingstyle
-create_source_package
-unpack_source_package
-build_and_test
-create_binary_packages
-rm -rf $WORK_DIR
+echo_title "Creating binary packages"
+$BUILD_CMD --target package
+
+if is_linux ; then
+    # No need to build the source package everywhere, arbitrarily decide to
+    # build it on Linux
+    echo_title "Creating source package"
+    $BUILD_CMD --target package_source
+fi

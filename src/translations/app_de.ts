@@ -161,10 +161,6 @@ Das ist alles, was es zu sagen gibt, jetzt kannst du diesen Text löschen und an
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>x</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>

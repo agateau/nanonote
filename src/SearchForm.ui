@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>832</width>
-    <height>45</height>
+    <height>48</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,10 @@
    <item row="0" column="5">
     <widget class="QToolButton" name="closeButton">
      <property name="text">
-      <string>x</string>
+      <string notr="true">⛌</string>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -35,6 +38,15 @@
     <widget class="QToolButton" name="previousButton">
      <property name="text">
       <string>Previous</string>
+     </property>
+     <property name="toolButtonStyle">
+      <enum>Qt::ToolButtonTextBesideIcon</enum>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+     <property name="arrowType">
+      <enum>Qt::UpArrow</enum>
      </property>
     </widget>
    </item>
@@ -49,12 +61,25 @@
        <height>16</height>
       </size>
      </property>
+     <property name="toolButtonStyle">
+      <enum>Qt::ToolButtonTextBesideIcon</enum>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+     <property name="arrowType">
+      <enum>Qt::DownArrow</enum>
+     </property>
     </widget>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="nanonote.qrc"/>
- </resources>
+ <tabstops>
+  <tabstop>searchLine</tabstop>
+  <tabstop>previousButton</tabstop>
+  <tabstop>nextButton</tabstop>
+  <tabstop>closeButton</tabstop>
+ </tabstops>
+ <resources/>
  <connections/>
 </ui>
