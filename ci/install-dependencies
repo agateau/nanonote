@@ -6,6 +6,8 @@ cd $(dirname $0)
 CI_DIR=$PWD
 popd > /dev/null
 
+SRC_DIR=$CI_DIR/..
+
 QT_ARCH_WINDOWS=win64_msvc2017_64
 QT_ARCH_MACOS=clang_64
 QT_VERSION=5.12.8
@@ -58,6 +60,7 @@ install_qt() {
 install_linux_packages() {
     echo_title "Installing Linux packages"
     if has_command apt-get ; then
+        $RUN_AS_ROOT apt-get update
         # file is needed by dpkg to generate shlib dependencies
         $RUN_AS_ROOT apt-get install -y --no-install-recommends \
             clang-format \
@@ -144,3 +147,5 @@ windows)
     install_windows_packages
     ;;
 esac
+
+$PYTHON_CMD -m pip install -r $SRC_DIR/third-party/qpropgen/requirements.txt

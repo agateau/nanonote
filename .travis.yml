@@ -1,11 +1,13 @@
-dist: xenial
-language: minimal
+language: c++
 
-services:
-- docker
+jobs:
+  include:
+    - os: linux
+      dist: bionic
+    - os: osx
+      osx_image: xcode11.4
 
 install:
-- ci/build-docker-image
-
+  - ci/install-dependencies deps
 script:
-- ci/docker-build-app
+  - . deps/env.sh && ci/build-app
