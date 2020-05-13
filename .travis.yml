@@ -1,17 +1,12 @@
+language: c++
+
 jobs:
   include:
     - os: linux
-      dist: xenial
-      language: minimal
-      services:
-        - docker
-      install:
-        - ci/build-docker-image
-      script:
-        - ci/docker-build-app
+      dist: bionic
     - os: osx
-      language: c++
-      install:
-        - ci/install-dependencies deps
-      script:
-        - . deps/env.sh && ci/build-app
+
+install:
+  - ci/install-dependencies deps
+script:
+  - . deps/env.sh && ci/build-app

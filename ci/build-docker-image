@@ -1,5 +1,0 @@
-#!/bin/sh
-set -ev
-cd $(dirname $0)
-cp ../third-party/qpropgen/requirements.txt .
-docker build -t nanonote:1 .
