@@ -58,7 +58,7 @@ install_ecm() {
     )
 }
 
-install_qpropgen_dependencies() {
-    echo_title "Installing qpropgen dependencies"
-    $PYTHON_CMD -m pip install -r $SRC_DIR/third-party/qpropgen/requirements.txt
+install_qpropgen() {
+    echo_title "Installing qpropgen"
+    $PYTHON_CMD -m pip install qpropgen==$QPROPGEN_VERSION
 }

@@ -3,5 +3,5 @@ main() {
     install_qt
     install_cmake
     install_ecm
-    install_qpropgen_dependencies
+    install_qpropgen
 }

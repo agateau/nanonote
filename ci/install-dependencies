@@ -16,6 +16,8 @@ ECM_VERSION=5.69.0
 
 CMAKE_VERSION=3.17.\*
 
+QPROPGEN_VERSION=0.1.\*
+
 add_env_var() {
     echo "export $1=$2" >> $ENV_FILE
     export $1=$2
