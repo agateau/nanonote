@@ -16,7 +16,7 @@ ECM_VERSION=5.69.0
 
 CMAKE_VERSION=3.17.\*
 
-. $CI_DIR/lib/common.sh
+QPROPGEN_VERSION=0.1.\*
 
 add_env_var() {
     echo "export $1=$2" >> $ENV_FILE
@@ -28,92 +28,9 @@ prepend_path() {
     export PATH=$1:$PATH
 }
 
-install_cmake() {
-    echo_title "Installing CMake"
-    $PYTHON_CMD -m pip install cmake==$CMAKE_VERSION
-}
-
-install_qt() {
-    echo_title "Installing Qt"
-    local qt_install_dir=$INST_DIR/qt
-    local aqt_args
-    if is_windows ; then
-        aqt_args="windows desktop $QT_ARCH_WINDOWS"
-    fi
-    if is_macos ; then
-        aqt_args="mac desktop"
-    fi
-    $PYTHON_CMD -m pip install aqtinstall
-    $PYTHON_CMD -m aqt install --outputdir $qt_install_dir $QT_VERSION $aqt_args
-    if is_windows ; then
-        # Add Qt bin dir to $PATH so that tests can find Qt dlls
-        prepend_path $(find $qt_install_dir -type d -a -name bin)
-    fi
-    # Add Qt plugins dir to $QT_PLUGIN_PATH because the official Qt installer
-    # patches QtCore dll so that it finds its plugins, but aqt does not.
-    # Not being able to find plugins causes tests to not run on macOS and
-    # Windows because they can't find the matching platform plugin.
-    add_env_var QT_PLUGIN_PATH $(find $qt_install_dir -type d -a -name plugins)
-    add_env_var Qt5_DIR $(find $qt_install_dir -path '*/lib/cmake')
-}
-
-install_linux_packages() {
-    echo_title "Installing Linux packages"
-    if has_command apt-get ; then
-        $RUN_AS_ROOT apt-get update
-        # file is needed by dpkg to generate shlib dependencies
-        $RUN_AS_ROOT apt-get install -y --no-install-recommends \
-            clang-format \
-            dpkg-dev \
-            extra-cmake-modules \
-            file \
-            g++ \
-            git \
-            make \
-            python3 \
-            python3-pip \
-            python3-setuptools \
-            qtbase5-dev \
-            qttools5-dev \
-            rpm \
-            xvfb
-    else
-        die "Sorry, I don't know how to install the required packages on your distribution."
-    fi
-
-    install_cmake
-}
-
-install_ecm() {
-    echo_title "Installing ECM"
-    git clone --depth 1 https://anongit.kde.org/extra-cmake-modules.git -b v$ECM_VERSION
-    (
-        cd extra-cmake-modules
-        mkdir build
-        cd build
-        cmake \
-            -DCMAKE_INSTALL_PREFIX=$INST_DIR \
-            -DBUILD_HTML_DOCS=OFF \
-            -DBUILD_MAN_DOCS=OFF \
-            -DBUILD_QTHELP_DOCS=OFF \
-            -DBUILD_TESTING=OFF \
-            ..
-        cmake --build .
-        cmake --build . --target install
-    )
-}
-
-install_macos_packages() {
-    install_qt
-    install_ecm
-    install_cmake
-}
-
-install_windows_packages() {
-    install_qt
-    install_ecm
-    install_cmake
-}
+. $CI_DIR/lib/common.sh
+. $CI_DIR/lib/common-dependencies.sh
+. $CI_DIR/lib/$OS-dependencies.sh
 
 INST_DIR=$1
 mkdir -p $INST_DIR
@@ -136,16 +53,4 @@ touch $ENV_FILE
 add_env_var CMAKE_INSTALL_PREFIX $INST_DIR
 add_env_var CMAKE_PREFIX_PATH $INST_DIR
 
-case "$OS" in
-linux)
-    install_linux_packages
-    ;;
-macos)
-    install_macos_packages
-    ;;
-windows)
-    install_windows_packages
-    ;;
-esac
-
-$PYTHON_CMD -m pip install -r $SRC_DIR/third-party/qpropgen/requirements.txt
+main
