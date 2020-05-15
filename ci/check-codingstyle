@@ -1,4 +1,5 @@
 #!/bin/sh
 set -e
-cd "$(git rev-parse --show-toplevel)"
+cd "$(dirname $0)/.."
+clang-format --version
 exec ci/run-clang-format.py --recursive src tests

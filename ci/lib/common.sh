@@ -37,14 +37,6 @@ is_windows() {
     [ "$OS" = "windows" ]
 }
 
-detect_python() {
-    if is_windows ; then
-        export PYTHON_CMD=python
-    else
-        export PYTHON_CMD=python3
-    fi
-}
-
 has_command() {
     command -v "$1" > /dev/null 2>&1
 }
@@ -71,7 +63,6 @@ init_run_as_root() {
 }
 
 detect_os
-detect_python
 init_run_as_root
 
 if is_macos ; then
