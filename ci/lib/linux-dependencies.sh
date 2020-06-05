@@ -3,6 +3,7 @@ main() {
     if has_command apt-get ; then
         $RUN_AS_ROOT apt-get update
         # file is needed by dpkg to generate shlib dependencies
+        # xvfb and openbox are needed to run UI tests in headless environments
         $RUN_AS_ROOT apt-get install -y --no-install-recommends \
             clang-format \
             dpkg-dev \
@@ -11,6 +12,7 @@ main() {
             g++ \
             git \
             make \
+            openbox \
             python3 \
             python3-pip \
             python3-setuptools \
