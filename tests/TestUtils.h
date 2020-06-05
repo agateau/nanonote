@@ -15,8 +15,7 @@
  * Wait until the active window can be qobject_cast'ed to class T.
  * @return a pointer to the active window on success, nullptr on failure
  */
-template<class T>
-static T waitForActiveWindow(int timeout = 5000) {
+template <class T> static T waitForActiveWindow(int timeout = 5000) {
     QElapsedTimer timer;
     timer.start();
     while (!timer.hasExpired(timeout)) {
