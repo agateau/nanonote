@@ -2,5 +2,9 @@
 set -euo pipefail
 
 cd "$(dirname $0)/.."
-clang-format --version
-exec ci/run-clang-format.py --recursive src tests
+CLANG_FORMAT_CMD=${CLANG_FORMAT_CMD:-clang-format}
+$CLANG_FORMAT_CMD --version
+exec ci/run-clang-format.py \
+    --clang-format-executable $CLANG_FORMAT_CMD \
+    --recursive \
+    src tests
