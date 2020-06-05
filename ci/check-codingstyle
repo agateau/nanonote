@@ -1,5 +1,6 @@
-#!/bin/sh
-set -e
+#!/bin/bash
+set -euo pipefail
+
 cd "$(dirname $0)/.."
 clang-format --version
 exec ci/run-clang-format.py --recursive src tests
