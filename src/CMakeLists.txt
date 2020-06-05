@@ -58,6 +58,7 @@ set(APP_SRCS main.cpp)
 ecm_add_app_icon(
     APP_SRCS
     ICONS
+        icons/1024-apps-${APP_NAME}.png
         icons/256-apps-${APP_NAME}.png
         icons/sc-apps-${APP_NAME}.svg
 )
