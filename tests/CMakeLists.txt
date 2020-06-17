@@ -8,6 +8,7 @@ add_executable(tests
     LinkSyntaxHighlighterTest.cpp
     SearchWidgetTest.cpp
     Catch2QtUtils.cpp
+    TextUtils.cpp
 )
 
 target_link_libraries(tests
