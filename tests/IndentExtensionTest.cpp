@@ -6,7 +6,7 @@
 
 #include <catch2/catch.hpp>
 
-#include "TestUtils.h"
+#include "Catch2QtUtils.h"
 
 #include <optional>
 

@@ -1,4 +1,4 @@
-#include "TestUtils.h"
+#include "Catch2QtUtils.h"
 
 std::ostream& operator<<(std::ostream& ostr, const QString& str) {
     ostr << '"' << str.toStdString() << '"';
