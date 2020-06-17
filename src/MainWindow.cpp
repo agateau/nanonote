@@ -16,6 +16,7 @@
 
 #include "IndentExtension.h"
 #include "LinkExtension.h"
+#include "MoveLinesExtension.h"
 #include "SearchWidget.h"
 #include "Settings.h"
 #include "SettingsDialog.h"
@@ -89,6 +90,7 @@ void MainWindow::setupTextEdit() {
         wheelZoomExtension, &WheelZoomExtension::adjustFontSize, this, &MainWindow::adjustFontSize);
 
     mTextEdit->addExtension(new MainWindowExtension(this));
+    mTextEdit->addExtension(new MoveLinesExtension(mTextEdit));
 }
 
 void MainWindow::setupAutoSaveTimer() {

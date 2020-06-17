@@ -5,6 +5,8 @@ class TextEdit;
 
 class QString;
 
+QString dumpTextEditContent(TextEdit* edit);
+
 /**
  * Take a TextEdit and a text and setup the TextEdit text and selection
  *
