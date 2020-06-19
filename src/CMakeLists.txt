@@ -14,6 +14,7 @@ set(APPLIB_SRCS
     LinkSyntaxHighlighter.cpp
     LinkExtension.cpp
     MainWindow.cpp
+    MoveLinesExtension.cpp
     Settings.cpp
     SettingsDialog.cpp
     SettingsDialog.ui
