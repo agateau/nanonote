@@ -2,7 +2,7 @@
 
 #include <catch2/catch.hpp>
 
-#include "TestUtils.h"
+#include "Catch2QtUtils.h"
 
 TEST_CASE("getLinkAt") {
     QString uglyUrl = "http://foo.com/~arg;foo+bar%20#";

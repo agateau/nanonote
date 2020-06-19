@@ -36,7 +36,7 @@ $BUILD_CMD --parallel $NPROC
 echo_title Running tests
 test_cmd="$BUILD_CMD --target check"
 if is_linux && [ -z "${DISPLAY:-}" ] ; then
-    xvfb-run $test_cmd
+    xvfb-run $SRC_DIR/ci/headless-test-helper $test_cmd
 else
     $test_cmd
 fi

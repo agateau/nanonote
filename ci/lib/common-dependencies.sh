@@ -1,3 +1,6 @@
+AQTINSTALL_VERSION=0.9.0
+AQTINSTALL_ARCHIVES="qtbase qtimageformats qtsvg qttranslations qttools"
+
 setup_python_cmd() {
     echo_title "Looking for a Python 3 + pip installation"
     for interpreter in python3 python ; do
@@ -20,8 +23,8 @@ install_qt() {
     if is_macos ; then
         aqt_args="mac desktop"
     fi
-    $PYTHON_CMD -m pip install aqtinstall
-    $PYTHON_CMD -m aqt install --outputdir $qt_install_dir $QT_VERSION $aqt_args
+    $PYTHON_CMD -m pip install aqtinstall==$AQTINSTALL_VERSION
+    $PYTHON_CMD -m aqt install --outputdir $qt_install_dir $QT_VERSION $aqt_args --archives $AQTINSTALL_ARCHIVES
     if is_windows ; then
         # Add Qt bin dir to $PATH so that tests can find Qt dlls
         prepend_path $(find $qt_install_dir -type d -a -name bin)

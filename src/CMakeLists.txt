@@ -1,4 +1,5 @@
 include(translations)
+include(ECMAddAppIcon)
 
 add_subdirectory(icons)
 
@@ -53,11 +54,25 @@ target_link_libraries(${APPLIB_NAME}
 )
 
 # App executable
-add_executable(${APP_NAME} MACOSX_BUNDLE main.cpp)
-
-set_target_properties(${APP_NAME} PROPERTIES
-    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in
+set(APP_SRCS main.cpp)
+ecm_add_app_icon(
+    APP_SRCS
+    ICONS
+        icons/1024-apps-${APP_NAME}.png
+        icons/256-apps-${APP_NAME}.png
+        icons/sc-apps-${APP_NAME}.svg
 )
+add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${APP_SRCS})
+
+if (APPLE)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in
+        ${CMAKE_CURRENT_BINARY_DIR}/macos/Info.plist
+    )
+    set_target_properties(${APP_NAME} PROPERTIES
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/macos/Info.plist
+    )
+endif()
 
 target_link_libraries(${APP_NAME}
     ${APPLIB_NAME}
@@ -67,7 +82,8 @@ target_link_libraries(${APP_NAME}
 # Install
 install(
     TARGETS ${APP_NAME}
-    DESTINATION bin
+    BUNDLE DESTINATION .
+    RUNTIME DESTINATION bin
 )
 
 if (UNIX AND NOT APPLE)
@@ -75,4 +91,14 @@ if (UNIX AND NOT APPLE)
         DESTINATION share/applications
         RENAME ${INVERSE_ORGANIZATION_NAME}.${APP_NAME}.desktop
     )
+endif()
+
+if (WIN32)
+    include(DeployQt)
+    windeployqt(${APP_NAME})
+endif()
+
+if (APPLE)
+    include(DeployQt)
+    macdeployqt(${APP_NAME})
 endif()

@@ -1,5 +1,7 @@
 include(ECMInstallIcons)
 
-ecm_install_icons(ICONS sc-apps-${APP_NAME}.svg
-    DESTINATION share/icons
-)
+if (UNIX AND NOT APPLE)
+    ecm_install_icons(ICONS sc-apps-${APP_NAME}.svg
+        DESTINATION share/icons
+    )
+endif()
