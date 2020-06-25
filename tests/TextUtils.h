@@ -5,16 +5,22 @@ class TextEdit;
 
 class QString;
 
-QString dumpTextEditContent(TextEdit* edit);
-
 /**
- * Take a TextEdit and a text and setup the TextEdit text and selection
+ * Takes a TextEdit and a string and setup the TextEdit content, selection and cursor position.
  *
- * The text parameter contains the text to use, but it *must* contain also a '{' to indicate the
- * selection start. It *can* also contain a '}' to indicate the selection end.
+ * The text parameter contains the text to use, and some special characters:
  *
- * '{' can appear *after* '}' in case of an upward selection.
+ * - It *must* contain a '|' to indicate the cursor position.
+ * - It *can* contain a '*' to indicate the selection start.
+ *
+ * '|' can appear before '*' in the case of an upward selection.
  */
 void setupTextEditContent(TextEdit* edit, const QString& text);
+
+/**
+ * Dumps the TextEdit content in the format described in setupTextEditContent() doc. It makes it
+ * easy to write tests to verify the state of the TextEdit matches expectations.
+ */
+QString dumpTextEditContent(TextEdit* edit);
 
 #endif // TEXTUTILS_H
