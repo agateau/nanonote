@@ -1,33 +1,13 @@
 #include "SearchWidget.h"
 #include "TextEdit.h"
 
+#include "TextUtils.h"
+
 #include <QAbstractButton>
 #include <QLabel>
 #include <QTest>
 
 #include <catch2/catch.hpp>
-
-struct SelectionRange {
-    int start;
-    int end;
-    SelectionRange(int s, int e) : start(s), end(e) {
-    }
-};
-
-bool operator==(const SelectionRange& r1, const SelectionRange& r2) {
-    return r1.start == r2.start && r1.end == r2.end;
-}
-
-std::ostream& operator<<(std::ostream& ostr, const SelectionRange& range) {
-    ostr << range.start << ", " << range.end;
-    return ostr;
-}
-
-static SelectionRange getSelectionRange(QPlainTextEdit* edit) {
-    int start = edit->textCursor().selectionStart();
-    int end = edit->textCursor().selectionEnd();
-    return {start, end};
-}
 
 TEST_CASE("searchwidget") {
     TextEdit edit;
@@ -40,17 +20,17 @@ TEST_CASE("searchwidget") {
     SECTION("forward search") {
         edit.setPlainText("a b b b");
         searchWidget.initialize("b");
-        REQUIRE(getSelectionRange(&edit) == SelectionRange{2, 3});
+        REQUIRE(dumpTextEditContent(&edit) == "a *b| b b");
         SECTION("search again") {
             QTest::mouseClick(nextButton, Qt::LeftButton);
-            REQUIRE(getSelectionRange(&edit) == SelectionRange{4, 5});
+            REQUIRE(dumpTextEditContent(&edit) == "a b *b| b");
 
             QTest::mouseClick(nextButton, Qt::LeftButton);
-            REQUIRE(getSelectionRange(&edit) == SelectionRange{6, 7});
+            REQUIRE(dumpTextEditContent(&edit) == "a b b *b|");
 
             SECTION("wrap around") {
                 QTest::mouseClick(nextButton, Qt::LeftButton);
-                REQUIRE(getSelectionRange(&edit) == SelectionRange{2, 3});
+                REQUIRE(dumpTextEditContent(&edit) == "a *b| b b");
             }
         }
     }
@@ -58,25 +38,23 @@ TEST_CASE("searchwidget") {
     SECTION("backward search") {
         edit.setPlainText("a b b b");
         searchWidget.initialize("b");
-        REQUIRE(getSelectionRange(&edit) == SelectionRange{2, 3});
+        REQUIRE(dumpTextEditContent(&edit) == "a *b| b b");
 
         QTest::mouseClick(previousButton, Qt::LeftButton);
-        REQUIRE(getSelectionRange(&edit) == SelectionRange{6, 7});
+        REQUIRE(dumpTextEditContent(&edit) == "a b b *b|");
 
         QTest::mouseClick(previousButton, Qt::LeftButton);
-        REQUIRE(getSelectionRange(&edit) == SelectionRange{4, 5});
+        REQUIRE(dumpTextEditContent(&edit) == "a b *b| b");
 
         QTest::mouseClick(previousButton, Qt::LeftButton);
-        REQUIRE(getSelectionRange(&edit) == SelectionRange{2, 3});
+        REQUIRE(dumpTextEditContent(&edit) == "a *b| b b");
     }
 
     SECTION("no hit") {
-        edit.setPlainText("hello");
-        edit.moveCursor(QTextCursor::Right);
-        REQUIRE(getSelectionRange(&edit) == SelectionRange{1, 1});
+        setupTextEditContent(&edit, "h|ello");
 
         searchWidget.initialize("b");
-        REQUIRE(getSelectionRange(&edit) == SelectionRange{1, 1});
+        REQUIRE(dumpTextEditContent(&edit) == "h|ello");
     }
 
     SECTION("count label") {
