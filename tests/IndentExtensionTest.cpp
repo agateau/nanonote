@@ -36,7 +36,10 @@ TEST_CASE("textedit") {
                              "|3\n");
         auto cursor = edit->textCursor();
         QTest::keyClick(edit, Qt::Key_Tab);
-        REQUIRE(edit->toPlainText() == QString("    1\n    2\n3\n"));
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("    *1\n"
+                           "    2\n"
+                           "|3\n"));
     }
 
     SECTION("unindent whole lines") {
@@ -45,7 +48,10 @@ TEST_CASE("textedit") {
                              "    2\n"
                              "|3\n");
         QTest::keyClick(edit, Qt::Key_Backtab);
-        REQUIRE(edit->toPlainText() == QString("1\n2\n3\n"));
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("*1\n"
+                           "2\n"
+                           "|3\n"));
     }
 
     // https://github.com/agateau/nanonote/issues/6
@@ -56,7 +62,9 @@ TEST_CASE("textedit") {
         // Indent twice, only the first line should be indented
         QTest::keyClick(edit, Qt::Key_Tab);
         QTest::keyClick(edit, Qt::Key_Tab);
-        REQUIRE(edit->toPlainText() == QString("        a\nb\n"));
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("        |a\n"
+                           "*b\n"));
     }
 
     SECTION("indent partially selected lines") {
@@ -65,7 +73,9 @@ TEST_CASE("textedit") {
                              "b|b\n");
         // Indent, both lines should be indented
         QTest::keyClick(edit, Qt::Key_Tab);
-        REQUIRE(edit->toPlainText() == QString("    aa\n    bb\n"));
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("    *aa\n"
+                           "    b|b\n"));
     }
 
     SECTION("indent upward partially selected lines") {
@@ -74,7 +84,9 @@ TEST_CASE("textedit") {
                              "b*b\n");
         // Indent, both lines should be indented
         QTest::keyClick(edit, Qt::Key_Tab);
-        REQUIRE(edit->toPlainText() == QString("    aa\n    bb\n"));
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("    a|a\n"
+                           "    b*b\n"));
     }
 
     SECTION("indent at start of unindented list") {
@@ -82,7 +94,9 @@ TEST_CASE("textedit") {
                              "- item\n"
                              "- |\n");
         QTest::keyClick(edit, Qt::Key_Tab);
-        REQUIRE(edit->toPlainText() == QString("- item\n    - \n"));
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("- item\n"
+                           "    - |\n"));
     }
 
     SECTION("indent at start of unindented list, no trailing newline") {
@@ -93,7 +107,9 @@ TEST_CASE("textedit") {
         edit->moveCursor(QTextCursor::Right);
         edit->moveCursor(QTextCursor::Right);
         QTest::keyClick(edit, Qt::Key_Tab);
-        REQUIRE(edit->toPlainText() == QString("- item\n    - "));
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("- item\n"
+                           "    - |"));
     }
 
     SECTION("indent at start of indented list") {
@@ -101,7 +117,9 @@ TEST_CASE("textedit") {
                              "    - item\n"
                              "    - |");
         QTest::keyClick(edit, Qt::Key_Tab);
-        REQUIRE(edit->toPlainText() == QString("    - item\n        - "));
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("    - item\n"
+                           "        - |"));
     }
 
     SECTION("Return on empty bullet line removes the bullet") {
@@ -113,13 +131,13 @@ TEST_CASE("textedit") {
     SECTION("Return on empty indented bullet line unindents") {
         setupTextEditContent(edit, "    - |");
         QTest::keyClick(edit, Qt::Key_Return);
-        REQUIRE(edit->toPlainText() == QString("- "));
+        REQUIRE(dumpTextEditContent(edit) == QString("- |"));
     }
 
     SECTION("Return on empty line inserts a new line") {
         setupTextEditContent(edit, "|");
         QTest::keyClick(edit, Qt::Key_Return);
-        REQUIRE(edit->toPlainText() == QString("\n"));
+        REQUIRE(dumpTextEditContent(edit) == QString("\n|"));
     }
 
     SECTION("Return on selected text replaces it with a new line") {
@@ -127,6 +145,8 @@ TEST_CASE("textedit") {
                              "*a\n"
                              "b|c");
         QTest::keyClick(edit, Qt::Key_Return);
-        REQUIRE(edit->toPlainText() == QString("\nc"));
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("\n"
+                           "|c"));
     }
 }
