@@ -15,6 +15,8 @@ SCENARIO("movelines") {
     TextEdit* edit = new TextEdit;
     window.setCentralWidget(edit);
     edit->addExtension(new MoveLinesExtension(edit));
+    // Some tests won't work if the window is not visible (for example word-wrapping tests)
+    window.show();
     GIVEN("A cursor at the beginning of a line") {
         setupTextEditContent(edit,
                              "1\n"
@@ -82,7 +84,6 @@ SCENARIO("movelines") {
                              "22*22\n"
                              "333|3\n"
                              "4\n");
-
         WHEN("I press modifiers+down") {
             QTest::keyClick(edit, Qt::Key_Down, MODIFIERS);
             THEN("The selected lines are moved down") {
@@ -129,6 +130,75 @@ SCENARIO("movelines") {
                                    "333*3\n"
                                    "1\n"
                                    "4\n"));
+            }
+        }
+    }
+    GIVEN("A cursor on the 2nd line of 4") {
+        QString initialContent = "1\n"
+                                 "|2\n"
+                                 "3\n"
+                                 "4";
+        setupTextEditContent(edit, initialContent);
+        AND_GIVEN("I moved the line down") {
+            QTest::keyClick(edit, Qt::Key_Down, MODIFIERS);
+            WHEN("I undo the changes") {
+                edit->undo();
+                THEN("The text edit is back to its previous state") {
+                    REQUIRE(dumpTextEditContent(edit) == initialContent);
+                }
+            }
+        }
+    }
+    GIVEN("A text with wrapped lines") {
+        constexpr int LINE_SIZE = 100;
+        auto stringFill = [](char ch) {
+            QString str;
+            str.fill(ch, LINE_SIZE);
+            return str;
+        };
+        auto initialContent =
+            QString('|') + stringFill('a') + '\n' + stringFill('b') + '\n' + stringFill('c');
+        setupTextEditContent(edit, initialContent);
+        // TODO: Add a REQUIRE checking the first line is wrapped
+
+        WHEN("I move the first line down") {
+            QTest::keyClick(edit, Qt::Key_Down, MODIFIERS);
+            THEN("The entire wrapped line is moved") {
+                auto expectedContent =
+                    stringFill('b') + "\n|" + stringFill('a') + '\n' + stringFill('c');
+                REQUIRE(dumpTextEditContent(edit) == expectedContent);
+                WHEN("I undo the changes") {
+                    edit->undo();
+                    THEN("The text edit is back to its previous state") {
+                        REQUIRE(dumpTextEditContent(edit) == initialContent);
+                    }
+                }
+            }
+        }
+    }
+    GIVEN("A text with wrapped lines and the cursor is on the last line") {
+        constexpr int LINE_SIZE = 100;
+        auto stringFill = [](char ch) {
+            QString str;
+            str.fill(ch, LINE_SIZE);
+            return str;
+        };
+        auto initialContent = stringFill('a') + '\n' + stringFill('b') + "\n|" + stringFill('c');
+        setupTextEditContent(edit, initialContent);
+        // TODO: Add a REQUIRE checking the first line is wrapped
+
+        WHEN("I move the line up") {
+            QTest::keyClick(edit, Qt::Key_Up, MODIFIERS);
+            THEN("The entire wrapped line is moved") {
+                auto expectedContent =
+                    stringFill('a') + "\n|" + stringFill('c') + '\n' + stringFill('b');
+                REQUIRE(dumpTextEditContent(edit) == expectedContent);
+                WHEN("I undo the changes") {
+                    edit->undo();
+                    THEN("The text edit is back to its previous state") {
+                        REQUIRE(dumpTextEditContent(edit) == initialContent);
+                    }
+                }
             }
         }
     }
