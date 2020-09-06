@@ -21,29 +21,34 @@ bool MoveLinesExtension::keyPress(QKeyEvent* event) {
     return false;
 }
 
+/**
+ * Add a final \\n if needed. Returns true if it added one.
+ */
+static bool addFinalNewLine(TextEdit* textEdit) {
+    if (textEdit->document()->lastBlock().text().isEmpty()) {
+        return false;
+    }
+    // Use our own cursor to avoid altering the current one
+    auto cursor = textEdit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertBlock();
+    return true;
+}
+
+static void removeFinalNewLine(QTextCursor* editCursor) {
+    editCursor->movePosition(QTextCursor::End);
+    editCursor->deletePreviousChar();
+}
+
 void MoveLinesExtension::moveSelectedLines(int delta) {
-    auto addFinalNewLine = [this](QTextCursor* editCursor) -> bool {
-        if (mTextEdit->document()->lastBlock().text() == "") {
-            return false;
-        }
-        editCursor->movePosition(QTextCursor::End);
-        editCursor->insertBlock();
-        return true;
-    };
-    auto removeFinalNewLine = [](QTextCursor* editCursor) {
-        editCursor->movePosition(QTextCursor::End);
-        editCursor->deletePreviousChar();
-    };
-
-    auto cursor = mTextEdit->textCursor();
     auto doc = mTextEdit->document();
-    QTextCursor editCursor(doc);
+    QTextCursor cursor = mTextEdit->textCursor();
 
-    editCursor.beginEditBlock();
+    cursor.beginEditBlock();
 
     // To avoid dealing with the special-case of the last line not ending with
     // a \n, we add one if there is none and remove it at the end
-    bool addedFinalNewLine = addFinalNewLine(&editCursor);
+    bool addedFinalNewLine = addFinalNewLine(mTextEdit);
 
     // Find start and end of lines to move
     QTextBlock startBlock, endBlock;
@@ -59,32 +64,32 @@ void MoveLinesExtension::moveSelectedLines(int delta) {
         startBlock = cursor.block();
         endBlock = startBlock.next();
     }
-    auto relativeStart = cursor.selectionStart() - startBlock.position();
-    auto relativeEnd = cursor.selectionEnd() - startBlock.position();
+    auto startInsideBlock = cursor.selectionStart() - startBlock.position();
+    auto endInsideBlock = cursor.selectionEnd() - startBlock.position();
     bool cursorAtStart = cursor.position() == cursor.selectionStart();
     if (cursorAtStart) {
-        std::swap(relativeStart, relativeEnd);
+        std::swap(startInsideBlock, endInsideBlock);
     }
 
     // Cut the lines to move
-    editCursor.setPosition(startBlock.position());
-    editCursor.setPosition(endBlock.position(), QTextCursor::KeepAnchor);
-    auto textToMove = editCursor.selectedText();
-    editCursor.removeSelectedText();
+    cursor.setPosition(startBlock.position());
+    cursor.setPosition(endBlock.position(), QTextCursor::KeepAnchor);
+    auto textToMove = cursor.selectedText();
+    cursor.removeSelectedText();
 
-    // Move and paste
-    editCursor.movePosition(delta > 0 ? QTextCursor::Down : QTextCursor::Up);
-    int position = editCursor.position();
-    editCursor.insertText(textToMove);
+    // Move the cursor to the right position and paste the lines
+    cursor.movePosition(delta < 0 ? QTextCursor::PreviousBlock : QTextCursor::NextBlock);
+    int position = cursor.position();
+    cursor.insertText(textToMove);
 
     // Restore selection
-    cursor.setPosition(position + relativeStart);
-    cursor.setPosition(position + relativeEnd, QTextCursor::KeepAnchor);
+    cursor.setPosition(position + startInsideBlock);
+    cursor.setPosition(position + endInsideBlock, QTextCursor::KeepAnchor);
     mTextEdit->setTextCursor(cursor);
 
     if (addedFinalNewLine) {
-        removeFinalNewLine(&editCursor);
+        removeFinalNewLine(&cursor);
     }
 
-    editCursor.endEditBlock();
+    cursor.endEditBlock();
 }
