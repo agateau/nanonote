@@ -150,10 +150,9 @@ SCENARIO("movelines") {
         }
     }
     GIVEN("A text with wrapped lines") {
-        constexpr int LINE_SIZE = 100;
         auto stringFill = [](char ch) {
             QString str;
-            str.fill(ch, LINE_SIZE);
+            str.fill(ch, 100);
             return str;
         };
         auto initialContent =
@@ -177,10 +176,9 @@ SCENARIO("movelines") {
         }
     }
     GIVEN("A text with wrapped lines and the cursor is on the last line") {
-        constexpr int LINE_SIZE = 100;
         auto stringFill = [](char ch) {
             QString str;
-            str.fill(ch, LINE_SIZE);
+            str.fill(ch, 100);
             return str;
         };
         auto initialContent = stringFill('a') + '\n' + stringFill('b') + "\n|" + stringFill('c');
