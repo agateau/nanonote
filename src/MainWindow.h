@@ -51,19 +51,19 @@ private:
     void showSearchBar();
     void hideSearchBar();
 
-    Settings* mSettings;
-    TextEdit* mTextEdit;
-    QTimer* mAutoSaveTimer;
+    Settings* const mSettings;
+    TextEdit* const mTextEdit;
+    QTimer* const mAutoSaveTimer;
     SearchWidget* mSearchWidget = nullptr;
     QToolBar* mSearchToolBar = nullptr;
+    QAction* const mIncreaseFontAction;
+    QAction* const mDecreaseFontAction;
+    QAction* const mResetFontAction;
+    QAction* const mAlwaysOnTopAction;
+    QAction* const mSettingsAction;
+    QAction* const mSearchAction;
+    QAction* const mCloseSearchAction;
 
-    QAction* mIncreaseFontAction;
-    QAction* mDecreaseFontAction;
-    QAction* mResetFontAction;
-    QAction* mAlwaysOnTopAction;
-    QAction* mSettingsAction;
-    QAction* mSearchAction;
-    QAction* mCloseSearchAction = nullptr;
     QPointer<SettingsDialog> mSettingsDialog;
 
     friend class MainWindowExtension;
