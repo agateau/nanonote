@@ -56,6 +56,8 @@ MainWindow::MainWindow(QWidget* parent)
         , mSettings(new Settings(this))
         , mTextEdit(new TextEdit(this))
         , mAutoSaveTimer(new QTimer(this))
+        , mSearchWidget(new SearchWidget(mTextEdit, this))
+        , mSearchToolBar(new QToolBar(this))
         , mIncreaseFontAction(new QAction(this))
         , mDecreaseFontAction(new QAction(this))
         , mResetFontAction(new QAction(this))
@@ -67,9 +69,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     setCentralWidget(mTextEdit);
 
-    loadSearchWidget();
-
     setupTextEdit();
+    setupSearchBar();
     setupAutoSaveTimer();
     setupActions();
     loadNotes();
@@ -280,18 +281,13 @@ void MainWindow::showSettingsDialog() {
     mSettingsDialog->show();
 }
 
-void MainWindow::loadSearchWidget() {
-    if (!mSearchWidget) {
-        mSearchWidget = new SearchWidget(mTextEdit, this);
-        connect(mSearchWidget, &SearchWidget::closeClicked, this, &MainWindow::hideSearchBar);
-    }
-    if (!mSearchToolBar) {
-        mSearchToolBar = new QToolBar(this);
-        mSearchToolBar->addWidget(mSearchWidget);
-        mSearchToolBar->setVisible(false);
-        mSearchToolBar->setMovable(false);
-        addToolBar(Qt::BottomToolBarArea, mSearchToolBar);
-    }
+void MainWindow::setupSearchBar() {
+    connect(mSearchWidget, &SearchWidget::closeClicked, this, &MainWindow::hideSearchBar);
+
+    mSearchToolBar->addWidget(mSearchWidget);
+    mSearchToolBar->setVisible(false);
+    mSearchToolBar->setMovable(false);
+    addToolBar(Qt::BottomToolBarArea, mSearchToolBar);
 }
 
 void MainWindow::showSearchBar() {

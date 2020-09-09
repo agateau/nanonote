@@ -37,6 +37,7 @@ public:
 
 private:
     void setupTextEdit();
+    void setupSearchBar();
     void setupAutoSaveTimer();
     void setupActions();
     void loadNotes();
@@ -47,15 +48,15 @@ private:
     void resetFontSize();
     void setAlwaysOnTop(bool onTop);
     void showSettingsDialog();
-    void loadSearchWidget();
     void showSearchBar();
     void hideSearchBar();
 
     Settings* const mSettings;
     TextEdit* const mTextEdit;
     QTimer* const mAutoSaveTimer;
-    SearchWidget* mSearchWidget = nullptr;
-    QToolBar* mSearchToolBar = nullptr;
+    SearchWidget* const mSearchWidget;
+    QToolBar* const mSearchToolBar;
+
     QAction* const mIncreaseFontAction;
     QAction* const mDecreaseFontAction;
     QAction* const mResetFontAction;
