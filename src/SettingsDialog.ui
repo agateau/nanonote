@@ -129,7 +129,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="nanonote.qrc"/>
+  <include location="app.qrc"/>
  </resources>
  <connections>
   <connection>
