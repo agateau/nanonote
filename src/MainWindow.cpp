@@ -40,9 +40,11 @@ MainWindowExtension::MainWindowExtension(MainWindow* window)
 
 void MainWindowExtension::aboutToShowContextMenu(QMenu* menu, const QPoint&) {
     menu->addAction(mWindow->mSearchAction);
+    menu->addSeparator();
     menu->addAction(mWindow->mIncreaseFontAction);
     menu->addAction(mWindow->mDecreaseFontAction);
     menu->addAction(mWindow->mResetFontAction);
+    menu->addSeparator();
     menu->addAction(mWindow->mAlwaysOnTopAction);
     menu->addSeparator();
     menu->addAction(mWindow->mSettingsAction);
