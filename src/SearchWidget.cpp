@@ -34,7 +34,7 @@ void SearchWidget::uninitialize() {
 }
 
 void SearchWidget::search() {
-    mTextDocument = mTextEdit->toPlainText();
+    mPreviousText = mTextEdit->toPlainText();
 
     QTextCursor cursor(mTextEdit->document());
     cursor.beginEditBlock();
@@ -91,7 +91,11 @@ void SearchWidget::onDocumentChanged() {
     if (!isVisible()) {
         return;
     }
-    if (mTextDocument == mTextEdit->toPlainText()) {
+    // When we highlight the search matches, documentChanged() is emitted. Compare current text with
+    // the previous content and do not restart a search in this case, to prevent endless recursions.
+    // This is not optimal, it would probably be better to use a syntax highlighter for matches, but
+    // this is good enough for now.
+    if (mPreviousText == mTextEdit->toPlainText()) {
         return;
     }
     search();

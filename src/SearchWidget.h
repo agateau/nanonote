@@ -43,6 +43,7 @@ private:
     TextEdit* const mTextEdit;
 
     std::vector<int> mMatchPositions;
-    QString mTextDocument;
+    // The content of the TextEdit last time we did a search
+    QString mPreviousText;
     std::optional<std::size_t> mCurrentMatch;
 };
