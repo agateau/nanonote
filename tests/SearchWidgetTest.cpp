@@ -9,6 +9,20 @@
 
 #include <catch2/catch.hpp>
 
+struct CursorSpan {
+    CursorSpan(const QTextCursor& cursor)
+            : start(cursor.selectionStart()), length(cursor.selectionEnd() - start) {
+    }
+    CursorSpan(int start, int length) : start(start), length(length) {}
+
+    const int start;
+    const int length;
+};
+
+bool operator==(const CursorSpan& c1, const CursorSpan& c2) {
+    return c1.start == c2.start && c1.length == c2.length;
+}
+
 TEST_CASE("searchwidget") {
     TextEdit edit;
     SearchWidget searchWidget(&edit);
@@ -72,5 +86,28 @@ TEST_CASE("searchwidget") {
 
         searchWidget.initialize("no match");
         REQUIRE(!isVisible());
+    }
+
+    SECTION("highlights") {
+        edit.setPlainText("a bb bb");
+        searchWidget.initialize("bb");
+        auto selections = edit.extraSelections();
+        CHECK(selections.count() == 2);
+        CHECK(CursorSpan(selections.at(0).cursor) == CursorSpan{2, 2});
+        CHECK(CursorSpan(selections.at(1).cursor) == CursorSpan{5, 2});
+
+        SECTION("uninitialize must remove highlights") {
+            searchWidget.uninitialize();
+            selections = edit.extraSelections();
+            REQUIRE(selections.count() == 0);
+
+            SECTION("initializing again with the same text must bring back highlights") {
+                searchWidget.initialize("bb");
+                selections = edit.extraSelections();
+                CHECK(selections.count() == 2);
+                CHECK(CursorSpan(selections.at(0).cursor) == CursorSpan{2, 2});
+                CHECK(CursorSpan(selections.at(1).cursor) == CursorSpan{5, 2});
+            }
+        }
     }
 }

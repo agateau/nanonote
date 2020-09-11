@@ -26,7 +26,11 @@ SearchWidget::~SearchWidget() {
 
 void SearchWidget::initialize(const QString& text) {
     mUi->searchLine->setFocus();
+    bool textChanged = mUi->searchLine->text() != text;
     mUi->searchLine->setText(text);
+    if (!textChanged) {
+        search();
+    }
 }
 
 void SearchWidget::uninitialize() {
