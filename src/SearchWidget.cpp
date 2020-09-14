@@ -55,7 +55,11 @@ void SearchWidget::selectNextMatch() {
     if (mMatchPositions.empty()) {
         return;
     }
-    mCurrentMatch = (mCurrentMatch.value() + 1) % mMatchPositions.size();
+    int minPosition = mTextEdit->textCursor().selectionStart();
+    auto it = std::find_if(mMatchPositions.begin(),
+                           mMatchPositions.end(),
+                           [minPosition](int position) { return position > minPosition; });
+    mCurrentMatch = it != mMatchPositions.end() ? std::distance(mMatchPositions.begin(), it) : 0;
     selectCurrentMatch();
 }
 
@@ -63,10 +67,17 @@ void SearchWidget::selectPreviousMatch() {
     if (mMatchPositions.empty()) {
         return;
     }
-    if (mCurrentMatch != 0) {
-        mCurrentMatch = mCurrentMatch.value() - 1;
-    } else {
+    int maxPosition = mTextEdit->textCursor().selectionStart();
+    auto it = std::find_if(mMatchPositions.rbegin(),
+                           mMatchPositions.rend(),
+                           [maxPosition](int position) { return position < maxPosition; });
+
+    if (it == mMatchPositions.rend()) {
         mCurrentMatch = mMatchPositions.size() - 1;
+    } else {
+        // rlast is the first element of mMatchPosition
+        auto rlast = std::prev(mMatchPositions.rend());
+        mCurrentMatch = std::distance(it, rlast);
     }
     selectCurrentMatch();
 }

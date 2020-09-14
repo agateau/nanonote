@@ -110,4 +110,32 @@ TEST_CASE("searchwidget") {
             }
         }
     }
+
+    SECTION("search, change selection") {
+        // GIVEN a search with multiple matches
+        edit.setPlainText("a bb bb cc bb");
+        searchWidget.initialize("bb");
+        REQUIRE(dumpTextEditContent(&edit) == "a *bb| bb cc bb");
+
+        // AND cursor has been moved after the 2nd match
+        auto cursor = edit.textCursor();
+        cursor.setPosition(cursor.position() + 4);
+        edit.setTextCursor(cursor);
+        REQUIRE(dumpTextEditContent(&edit) == "a bb bb |cc bb");
+
+        SECTION("then search forward") {
+            // WHEN I search for the next match
+            QTest::mouseClick(nextButton, Qt::LeftButton);
+
+            // THEN the first match *after the cursor* is selected
+            REQUIRE(dumpTextEditContent(&edit) == "a bb bb cc *bb|");
+        }
+        SECTION("then search backward") {
+            // WHEN I search for the previous match
+            QTest::mouseClick(previousButton, Qt::LeftButton);
+
+            // THEN the first match *before the cursor* is selected
+            REQUIRE(dumpTextEditContent(&edit) == "a bb *bb| cc bb");
+        }
+    }
 }
