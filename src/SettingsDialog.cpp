@@ -5,11 +5,13 @@
 
 #include "Settings.h"
 
-static const char PROJECT_URL[] = "https://github.com/agateau/nanonote";
+static constexpr char PROJECT_URL[] = "https://github.com/agateau/nanonote/";
+static constexpr char SUPPORT_URL[] = "https://agateau.com/support/";
 
 SettingsDialog::SettingsDialog(Settings* settings, QWidget* parent)
         : QDialog(parent), ui(new Ui::SettingsDialog), mSettings(settings) {
     ui->setupUi(this);
+    setupConfigTab();
     setupAboutTab();
     ui->tabWidget->setCurrentIndex(0);
 
@@ -32,17 +34,29 @@ SettingsDialog::~SettingsDialog() {
     delete ui;
 }
 
-void SettingsDialog::setupAboutTab() {
-    auto projectLink = QString("<a href='%1'>%1</a>").arg(PROJECT_URL);
+void SettingsDialog::setupConfigTab() {
     auto noteLink = QString("<a href='file:%1'>%1</a>").arg(Settings::notePath());
-    auto text = tr("<h2>Nanonote %1</h2>"
-                   "<p>A minimalist note taking application.<br>"
-                   "%2</p>"
-                   "<p>Your notes are stored in %3.</p>",
-                   "%1=version %2=projectLink %3=noteLink")
-                    .arg(qApp->applicationVersion(), projectLink, noteLink);
+    ui->noteLocationLabel->setText(tr("<p>Your notes are stored here:<br>%3</p>").arg(noteLink));
+}
 
+void SettingsDialog::setupAboutTab() {
+    auto text = tr(R"(<h2>Nanonote %1</h2>
+<p>A minimalist note taking application.<br>
+<a href='%2'>%2</a></p>)",
+                   "%1: version, %2: project url")
+                    .arg(qApp->applicationVersion(), PROJECT_URL);
     ui->aboutLabel->setText(text);
+
+    text = tr(R"(<p>Hi,</p>
+<p>I hope you enjoy Nanonote!</p>
+<p>If you do, it would be lovely if you could <a href='%1'>support my work</a> on free and open source software.</p>
+<p align="right">― Aurélien</p>)",
+              "%1: support url")
+               .arg(SUPPORT_URL);
+    auto font = ui->supportLabel->font();
+    font.setItalic(true);
+    ui->supportLabel->setFont(font);
+    ui->supportLabel->setText(text);
 }
 
 void SettingsDialog::updateFontFromSettings() {
