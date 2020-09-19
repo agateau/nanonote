@@ -17,6 +17,9 @@ SCENARIO("movelines") {
     edit->addExtension(new MoveLinesExtension(edit));
     // Some tests won't work if the window is not visible (for example word-wrapping tests)
     window.show();
+
+    auto moveLinesDown = [edit] { QTest::keyClick(edit, Qt::Key_Down, MODIFIERS); };
+    auto moveLinesUp = [edit] { QTest::keyClick(edit, Qt::Key_Up, MODIFIERS); };
     GIVEN("A cursor at the beginning of a line") {
         setupTextEditContent(edit,
                              "1\n"
@@ -24,7 +27,7 @@ SCENARIO("movelines") {
                              "3\n");
 
         WHEN("I press modifiers+down") {
-            QTest::keyClick(edit, Qt::Key_Down, MODIFIERS);
+            moveLinesDown();
             THEN("The line is moved down") {
                 REQUIRE(dumpTextEditContent(edit)
                         == QString("1\n"
@@ -33,7 +36,7 @@ SCENARIO("movelines") {
             }
         }
         WHEN("I press modifiers+up") {
-            QTest::keyClick(edit, Qt::Key_Up, MODIFIERS);
+            moveLinesUp();
             THEN("The line is moved up") {
                 REQUIRE(dumpTextEditContent(edit)
                         == QString("|2\n"
@@ -48,7 +51,7 @@ SCENARIO("movelines") {
                              "2");
 
         WHEN("I press modifiers+down") {
-            QTest::keyClick(edit, Qt::Key_Down, MODIFIERS);
+            moveLinesDown();
             THEN("The line is moved down") {
                 REQUIRE(dumpTextEditContent(edit)
                         == QString("2\n"
@@ -63,13 +66,13 @@ SCENARIO("movelines") {
                              "3\n");
 
         WHEN("I press modifiers+down") {
-            QTest::keyClick(edit, Qt::Key_Down, MODIFIERS);
+            moveLinesDown();
             THEN("The line is moved down") {
                 REQUIRE(dumpTextEditContent(edit) == QString("1\n3\n22|22\n"));
             }
         }
         WHEN("I press modifiers+up") {
-            QTest::keyClick(edit, Qt::Key_Up, MODIFIERS);
+            moveLinesUp();
             THEN("The line is moved up") {
                 REQUIRE(dumpTextEditContent(edit)
                         == QString("22|22\n"
@@ -85,7 +88,7 @@ SCENARIO("movelines") {
                              "333|3\n"
                              "4\n");
         WHEN("I press modifiers+down") {
-            QTest::keyClick(edit, Qt::Key_Down, MODIFIERS);
+            moveLinesDown();
             THEN("The selected lines are moved down") {
                 REQUIRE(dumpTextEditContent(edit)
                         == QString("1\n"
@@ -95,7 +98,7 @@ SCENARIO("movelines") {
             }
         }
         WHEN("I press modifiers+up") {
-            QTest::keyClick(edit, Qt::Key_Up, MODIFIERS);
+            moveLinesUp();
             THEN("The lines are moved up") {
                 REQUIRE(dumpTextEditContent(edit)
                         == QString("22*22\n"
@@ -113,7 +116,7 @@ SCENARIO("movelines") {
                              "4\n");
 
         WHEN("I press modifiers+down") {
-            QTest::keyClick(edit, Qt::Key_Down, MODIFIERS);
+            moveLinesDown();
             THEN("The selected lines are moved down") {
                 REQUIRE(dumpTextEditContent(edit)
                         == QString("1\n"
@@ -123,7 +126,7 @@ SCENARIO("movelines") {
             }
         }
         WHEN("I press modifiers+up") {
-            QTest::keyClick(edit, Qt::Key_Up, MODIFIERS);
+            moveLinesUp();
             THEN("The lines are moved up") {
                 REQUIRE(dumpTextEditContent(edit)
                         == QString("22|22\n"
@@ -140,7 +143,7 @@ SCENARIO("movelines") {
                                  "4";
         setupTextEditContent(edit, initialContent);
         AND_GIVEN("I moved the line down") {
-            QTest::keyClick(edit, Qt::Key_Down, MODIFIERS);
+            moveLinesDown();
             WHEN("I undo the changes") {
                 edit->undo();
                 THEN("The text edit is back to its previous state") {
@@ -161,7 +164,7 @@ SCENARIO("movelines") {
         // TODO: Add a REQUIRE checking the first line is wrapped
 
         WHEN("I move the first line down") {
-            QTest::keyClick(edit, Qt::Key_Down, MODIFIERS);
+            moveLinesDown();
             THEN("The entire wrapped line is moved") {
                 auto expectedContent =
                     stringFill('b') + "\n|" + stringFill('a') + '\n' + stringFill('c');
@@ -186,7 +189,7 @@ SCENARIO("movelines") {
         // TODO: Add a REQUIRE checking the first line is wrapped
 
         WHEN("I move the line up") {
-            QTest::keyClick(edit, Qt::Key_Up, MODIFIERS);
+            moveLinesUp();
             THEN("The entire wrapped line is moved") {
                 auto expectedContent =
                     stringFill('a') + "\n|" + stringFill('c') + '\n' + stringFill('b');
