@@ -14,12 +14,13 @@ SCENARIO("movelines") {
     QMainWindow window;
     TextEdit* edit = new TextEdit;
     window.setCentralWidget(edit);
-    edit->addExtension(new MoveLinesExtension(edit));
+    MoveLinesExtension extension(edit);
+    edit->addExtension(&extension);
     // Some tests won't work if the window is not visible (for example word-wrapping tests)
     window.show();
 
-    auto moveLinesDown = [edit] { QTest::keyClick(edit, Qt::Key_Down, MODIFIERS); };
-    auto moveLinesUp = [edit] { QTest::keyClick(edit, Qt::Key_Up, MODIFIERS); };
+    auto moveLinesDown = [&extension] { extension.moveDown(); };
+    auto moveLinesUp = [&extension] { extension.moveUp(); };
     GIVEN("A cursor at the beginning of a line") {
         setupTextEditContent(edit,
                              "1\n"

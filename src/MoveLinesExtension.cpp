@@ -1,24 +1,39 @@
 #include "MoveLinesExtension.h"
 
+#include <QAction>
 #include <QDebug>
+#include <QMenu>
 #include <QTextBlock>
 
-static constexpr Qt::KeyboardModifiers MODIFIERS = Qt::ShiftModifier | Qt::AltModifier;
+MoveLinesExtension::MoveLinesExtension(TextEdit* textEdit)
+        : TextEditExtension(textEdit)
+        , mMoveUpAction(std::make_unique<QAction>())
+        , mMoveDownAction(std::make_unique<QAction>()) {
+    mMoveUpAction->setText(tr("Move selected lines up"));
+    mMoveUpAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_Up);
+    connect(mMoveUpAction.get(), &QAction::triggered, this, &MoveLinesExtension::moveUp);
+    mTextEdit->addAction(mMoveUpAction.get());
 
-MoveLinesExtension::MoveLinesExtension(TextEdit* textEdit) : TextEditExtension(textEdit) {
+    mMoveDownAction->setText(tr("Move selected lines down"));
+    mMoveDownAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_Down);
+    connect(mMoveDownAction.get(), &QAction::triggered, this, &MoveLinesExtension::moveDown);
+    mTextEdit->addAction(mMoveDownAction.get());
 }
 
-bool MoveLinesExtension::keyPress(QKeyEvent* event) {
-    if (event->modifiers() == MODIFIERS) {
-        if (event->key() == Qt::Key_Down) {
-            moveSelectedLines(1);
-            return true;
-        } else if (event->key() == Qt::Key_Up) {
-            moveSelectedLines(-1);
-            return true;
-        }
-    }
-    return false;
+MoveLinesExtension::~MoveLinesExtension() {
+}
+
+void MoveLinesExtension::aboutToShowEditContextMenu(QMenu* menu, const QPoint& /*pos*/) {
+    menu->addAction(mMoveUpAction.get());
+    menu->addAction(mMoveDownAction.get());
+}
+
+void MoveLinesExtension::moveUp() {
+    moveSelectedLines(-1);
+}
+
+void MoveLinesExtension::moveDown() {
+    moveSelectedLines(1);
 }
 
 /**
