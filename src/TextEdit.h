@@ -17,6 +17,10 @@ public:
 
     virtual void aboutToShowContextMenu(QMenu* menu, const QPoint& pos);
 
+    virtual void aboutToShowEditContextMenu(QMenu* menu, const QPoint& pos);
+
+    virtual void aboutToShowViewContextMenu(QMenu* menu, const QPoint& pos);
+
     virtual bool keyPress(QKeyEvent* event);
 
     virtual bool keyRelease(QKeyEvent* event);

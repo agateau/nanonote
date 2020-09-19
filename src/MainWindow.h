@@ -23,6 +23,7 @@ public:
     explicit MainWindowExtension(MainWindow* window);
 
     void aboutToShowContextMenu(QMenu* menu, const QPoint& /*pos*/) override;
+    void aboutToShowViewContextMenu(QMenu* menu, const QPoint& /*pos*/) override;
 
 private:
     MainWindow* mWindow;

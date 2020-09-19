@@ -10,7 +10,7 @@ class IndentExtension : public TextEditExtension {
 public:
     explicit IndentExtension(TextEdit* textEdit);
 
-    void aboutToShowContextMenu(QMenu* menu, const QPoint& pos) override;
+    void aboutToShowEditContextMenu(QMenu* menu, const QPoint& pos) override;
     bool keyPress(QKeyEvent* event) override;
 
 private:

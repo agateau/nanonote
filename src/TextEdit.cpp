@@ -15,6 +15,12 @@ TextEditExtension::TextEditExtension(TextEdit* textEdit) : QObject(textEdit), mT
 void TextEditExtension::aboutToShowContextMenu(QMenu* /*menu*/, const QPoint& /*pos*/) {
 }
 
+void TextEditExtension::aboutToShowEditContextMenu(QMenu* /*menu*/, const QPoint& /*pos*/) {
+}
+
+void TextEditExtension::aboutToShowViewContextMenu(QMenu* /*menu*/, const QPoint& /*pos*/) {
+}
+
 bool TextEditExtension::keyPress(QKeyEvent* /*event*/) {
     return false;
 }
@@ -40,6 +46,18 @@ void TextEdit::contextMenuEvent(QContextMenuEvent* event) {
     auto pos = event->pos();
     std::unique_ptr<QMenu> menu(createStandardContextMenu(pos));
     menu->addSeparator();
+    auto editMenu = menu->addMenu(tr("Edit"));
+    connect(editMenu, &QMenu::aboutToShow, this, [this, editMenu, pos] {
+        for (auto extension : mExtensions) {
+            extension->aboutToShowEditContextMenu(editMenu, pos);
+        }
+    });
+    auto viewMenu = menu->addMenu(tr("View"));
+    connect(viewMenu, &QMenu::aboutToShow, this, [this, viewMenu, pos] {
+        for (auto extension : mExtensions) {
+            extension->aboutToShowViewContextMenu(viewMenu, pos);
+        }
+    });
     for (auto extension : mExtensions) {
         extension->aboutToShowContextMenu(menu.get(), pos);
     }
