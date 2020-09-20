@@ -13,7 +13,8 @@ struct CursorSpan {
     CursorSpan(const QTextCursor& cursor)
             : start(cursor.selectionStart()), length(cursor.selectionEnd() - start) {
     }
-    CursorSpan(int start, int length) : start(start), length(length) {}
+    CursorSpan(int start, int length) : start(start), length(length) {
+    }
 
     const int start;
     const int length;
