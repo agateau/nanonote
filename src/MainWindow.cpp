@@ -131,7 +131,7 @@ void MainWindow::setupActions() {
     connect(mAlwaysOnTopAction, &QAction::toggled, this, &MainWindow::setAlwaysOnTop);
     addAction(mAlwaysOnTopAction);
 
-    mSettingsAction->setText(tr("Settings..."));
+    mSettingsAction->setText(tr("Settings | About..."));
     connect(mSettingsAction, &QAction::triggered, this, &MainWindow::showSettingsDialog);
     addAction(mSettingsAction);
 
