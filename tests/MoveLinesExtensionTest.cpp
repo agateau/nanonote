@@ -82,6 +82,22 @@ SCENARIO("movelines") {
             }
         }
     }
+    GIVEN("A cursor after the last character") {
+        setupTextEditContent(edit,
+                             "1\n"
+                             "2\n"
+                             "3|");
+
+        WHEN("I press modifiers+up") {
+            moveLinesUp();
+            THEN("The line is moved up") {
+                REQUIRE(dumpTextEditContent(edit)
+                        == QString("1\n"
+                                   "3|\n"
+                                   "2"));
+            }
+        }
+    }
     GIVEN("A multi-line selection") {
         setupTextEditContent(edit,
                              "1\n"
