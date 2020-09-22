@@ -8,8 +8,6 @@
 
 #include "TextUtils.h"
 
-static constexpr Qt::KeyboardModifiers MODIFIERS = Qt::ShiftModifier | Qt::AltModifier;
-
 SCENARIO("movelines") {
     QMainWindow window;
     TextEdit* edit = new TextEdit;
