@@ -11,7 +11,7 @@
 class TextEdit;
 
 namespace Ui {
-class SearchForm;
+class SearchWidget;
 }
 
 class SearchWidget : public QWidget {
@@ -39,7 +39,7 @@ private:
     void search();
     void updateMatchPositions();
 
-    const std::unique_ptr<Ui::SearchForm> mUi;
+    const std::unique_ptr<Ui::SearchWidget> mUi;
     TextEdit* const mTextEdit;
 
     std::vector<int> mMatchPositions;

@@ -1,12 +1,12 @@
 #include "SearchWidget.h"
-#include "ui_SearchForm.h"
+#include "ui_SearchWidget.h"
 
 #include <iostream>
 
 #include "TextEdit.h"
 
 SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
-        : QWidget(parent), mUi(new Ui::SearchForm), mTextEdit(textEdit) {
+        : QWidget(parent), mUi(new Ui::SearchWidget), mTextEdit(textEdit) {
     mUi->setupUi(this);
     layout()->setContentsMargins(0, 0, 0, 0);
     setFocusProxy(mUi->searchLine);

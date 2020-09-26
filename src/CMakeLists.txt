@@ -21,7 +21,7 @@ set(APPLIB_SRCS
     TextEdit.cpp
     WheelZoomExtension.cpp
     SearchWidget.cpp
-    SearchForm.ui
+    SearchWidget.ui
 )
 
 qt5_add_resources(APPLIB_RESOURCES_SRCS app.qrc)
