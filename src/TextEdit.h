@@ -34,6 +34,7 @@ protected:
 };
 
 class TextEdit : public QPlainTextEdit {
+    Q_OBJECT
 public:
     TextEdit(QWidget* parent = nullptr);
 
