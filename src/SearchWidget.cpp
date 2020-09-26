@@ -50,6 +50,7 @@ void SearchWidget::search() {
     highlightMatches();
 
     cursor.endEditBlock();
+    updateLineEdit();
     updateCountLabel();
 }
 
@@ -164,4 +165,21 @@ void SearchWidget::updateCountLabel() {
     } else {
         mUi->countLabel->hide();
     }
+}
+
+static QColor mixColors(const QColor& c1, const QColor& c2, qreal k) {
+    return QColor::fromRgbF(c1.redF() * (1 - k) + c2.redF() * k,
+                            c1.greenF() * (1 - k) + c2.greenF() * k,
+                            c1.blueF() * (1 - k) + c2.blueF() * k);
+}
+
+void SearchWidget::updateLineEdit() {
+    static QPalette noMatchPalette = [this] {
+        auto palette = mUi->lineEdit->palette();
+        auto baseColor = palette.color(QPalette::Base);
+        palette.setColor(QPalette::Base, mixColors(baseColor, Qt::red, 0.3));
+        return palette;
+    }();
+    bool noMatch = mMatchPositions.empty() && !mUi->lineEdit->text().isEmpty();
+    mUi->lineEdit->setPalette(noMatch ? noMatchPalette : palette());
 }

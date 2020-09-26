@@ -38,6 +38,7 @@ private:
     void onLineEditChanged();
     void search();
     void updateMatchPositions();
+    void updateLineEdit();
 
     const std::unique_ptr<Ui::SearchWidget> mUi;
     TextEdit* const mTextEdit;
