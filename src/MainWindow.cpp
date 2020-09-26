@@ -141,7 +141,6 @@ void MainWindow::setupActions() {
     connect(mSearchAction, &QAction::triggered, this, &MainWindow::showSearchBar);
     addAction(mSearchAction);
 
-    mCloseSearchAction->setText(tr("Close search tab"));
     mCloseSearchAction->setShortcut(Qt::Key_Escape);
     connect(mCloseSearchAction, &QAction::triggered, this, &MainWindow::hideSearchBar);
     addAction(mCloseSearchAction);

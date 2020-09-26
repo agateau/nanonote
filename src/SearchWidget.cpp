@@ -13,6 +13,8 @@ SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
 
     mUi->countLabel->hide();
 
+    mUi->closeButton->setToolTip(tr("Close search bar"));
+
     connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::selectNextMatch);
     connect(mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::selectPreviousMatch);
     connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::onDocumentChanged);
