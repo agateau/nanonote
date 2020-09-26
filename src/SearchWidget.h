@@ -35,7 +35,7 @@ private:
     void updateCountLabel();
     void highlightMatches();
     void removeHighlights();
-    void onSearchLineChanged();
+    void onLineEditChanged();
     void search();
     void updateMatchPositions();
 
