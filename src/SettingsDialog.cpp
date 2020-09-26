@@ -35,8 +35,8 @@ SettingsDialog::~SettingsDialog() {
 }
 
 void SettingsDialog::setupConfigTab() {
-    auto noteLink = QString("<a href='file:%1'>%1</a>").arg(Settings::notePath());
-    ui->noteLocationLabel->setText(tr("<p>Your notes are stored here:<br>%3</p>").arg(noteLink));
+    auto noteLink = QString("<html><a href='file:%1'>%1</a></html>").arg(Settings::notePath());
+    ui->noteLocationLabel->setText(noteLink);
 }
 
 void SettingsDialog::setupAboutTab() {
