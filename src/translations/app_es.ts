@@ -39,7 +39,7 @@
     </message>
     <message>
         <source>Settings...</source>
-        <translation>Ajustes...</translation>
+        <translation type="vanished">Ajustes...</translation>
     </message>
     <message>
         <source>Welcome to Nanonote!
@@ -94,30 +94,37 @@ Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empeza
         <translation>Restablecer tamaño de la fuente</translation>
     </message>
     <message>
-        <source>Find in text</source>
+        <source>Settings | About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Close search tab</source>
+        <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>SearchForm</name>
+    <name>MoveLinesExtension</name>
     <message>
-        <source>Form</source>
+        <source>Move selected lines up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>- / -</source>
+        <source>Move selected lines down</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>SearchWidget</name>
     <message>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close search bar</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -129,7 +136,7 @@ Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empeza
     </message>
     <message>
         <source>Appearance</source>
-        <translation>Apariencia</translation>
+        <translation type="vanished">Apariencia</translation>
     </message>
     <message>
         <source>Font family:</source>
@@ -146,7 +153,41 @@ Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empeza
     <message>
         <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;A minimalist note taking application.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Your notes are stored in %3.&lt;/p&gt;</source>
         <comment>%1=version %2=projectLink %3=noteLink</comment>
-        <translation>&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;Una aplicación minimalista para tomar notas.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Tus notas son almacenadas en %3.&lt;/p&gt;</translation>
+        <translation type="vanished">&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;Una aplicación minimalista para tomar notas.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Tus notas son almacenadas en %3.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;
+&lt;p&gt;A minimalist note taking application.&lt;br&gt;
+&lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt;&lt;/p&gt;</source>
+        <comment>%1: version, %2: project url</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Hi,&lt;/p&gt;
+&lt;p&gt;I hope you enjoy Nanonote!&lt;/p&gt;
+&lt;p&gt;If you do, it would be lovely if you could &lt;a href=&apos;%1&apos;&gt;support my work&lt;/a&gt; on free and open source software.&lt;/p&gt;
+&lt;p align=&quot;right&quot;&gt;― Aurélien&lt;/p&gt;</source>
+        <comment>%1: support url</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your notes are stored here:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TextEdit</name>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
