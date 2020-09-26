@@ -10,14 +10,11 @@
     <height>48</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="2">
     <widget class="QLabel" name="countLabel">
      <property name="text">
-      <string>- / -</string>
+      <string notr="true">[count]</string>
      </property>
     </widget>
    </item>
