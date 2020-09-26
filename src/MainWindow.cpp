@@ -136,7 +136,7 @@ void MainWindow::setupActions() {
     addAction(mSettingsAction);
 
     // Add find shortcut
-    mSearchAction->setText(tr("Find in text"));
+    mSearchAction->setText(tr("Find"));
     mSearchAction->setShortcut(QKeySequence::Find);
     connect(mSearchAction, &QAction::triggered, this, &MainWindow::showSearchBar);
     addAction(mSearchAction);
