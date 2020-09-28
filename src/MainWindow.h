@@ -23,6 +23,7 @@ public:
     explicit MainWindowExtension(MainWindow* window);
 
     void aboutToShowContextMenu(QMenu* menu, const QPoint& /*pos*/) override;
+    void aboutToShowViewContextMenu(QMenu* menu, const QPoint& /*pos*/) override;
 
 private:
     MainWindow* mWindow;
@@ -37,6 +38,7 @@ public:
 
 private:
     void setupTextEdit();
+    void setupSearchBar();
     void setupAutoSaveTimer();
     void setupActions();
     void loadNotes();
@@ -47,23 +49,23 @@ private:
     void resetFontSize();
     void setAlwaysOnTop(bool onTop);
     void showSettingsDialog();
-    void loadSearchWidget();
     void showSearchBar();
     void hideSearchBar();
 
-    Settings* mSettings;
-    TextEdit* mTextEdit;
-    QTimer* mAutoSaveTimer;
-    SearchWidget* mSearchWidget = nullptr;
-    QToolBar* mSearchToolBar = nullptr;
+    Settings* const mSettings;
+    TextEdit* const mTextEdit;
+    QTimer* const mAutoSaveTimer;
+    SearchWidget* const mSearchWidget;
+    QToolBar* const mSearchToolBar;
 
-    QAction* mIncreaseFontAction;
-    QAction* mDecreaseFontAction;
-    QAction* mResetFontAction;
-    QAction* mAlwaysOnTopAction;
-    QAction* mSettingsAction;
-    QAction* mSearchAction;
-    QAction* mCloseSearchAction = nullptr;
+    QAction* const mIncreaseFontAction;
+    QAction* const mDecreaseFontAction;
+    QAction* const mResetFontAction;
+    QAction* const mAlwaysOnTopAction;
+    QAction* const mSettingsAction;
+    QAction* const mSearchAction;
+    QAction* const mCloseSearchAction;
+
     QPointer<SettingsDialog> mSettingsDialog;
 
     friend class MainWindowExtension;

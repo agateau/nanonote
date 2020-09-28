@@ -11,7 +11,7 @@
 class TextEdit;
 
 namespace Ui {
-class SearchForm;
+class SearchWidget;
 }
 
 class SearchWidget : public QWidget {
@@ -35,14 +35,16 @@ private:
     void updateCountLabel();
     void highlightMatches();
     void removeHighlights();
-    void onSearchLineChanged();
+    void onLineEditChanged();
     void search();
     void updateMatchPositions();
+    void updateLineEdit();
 
-    const std::unique_ptr<Ui::SearchForm> mUi;
+    const std::unique_ptr<Ui::SearchWidget> mUi;
     TextEdit* const mTextEdit;
 
     std::vector<int> mMatchPositions;
-    QString mTextDocument;
+    // The content of the TextEdit last time we did a search
+    QString mPreviousText;
     std::optional<std::size_t> mCurrentMatch;
 };

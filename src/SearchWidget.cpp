@@ -1,32 +1,38 @@
 #include "SearchWidget.h"
-#include "ui_SearchForm.h"
+#include "ui_SearchWidget.h"
 
 #include <iostream>
 
 #include "TextEdit.h"
 
 SearchWidget::SearchWidget(TextEdit* textEdit, QWidget* parent)
-        : QWidget(parent), mUi(new Ui::SearchForm), mTextEdit(textEdit) {
+        : QWidget(parent), mUi(new Ui::SearchWidget), mTextEdit(textEdit) {
     mUi->setupUi(this);
     layout()->setContentsMargins(0, 0, 0, 0);
-    setFocusProxy(mUi->searchLine);
+    setFocusProxy(mUi->lineEdit);
 
     mUi->countLabel->hide();
+
+    mUi->closeButton->setToolTip(tr("Close search bar"));
 
     connect(mUi->nextButton, &QToolButton::clicked, this, &SearchWidget::selectNextMatch);
     connect(mUi->previousButton, &QToolButton::clicked, this, &SearchWidget::selectPreviousMatch);
     connect(mTextEdit, &TextEdit::textChanged, this, &SearchWidget::onDocumentChanged);
-    connect(mUi->searchLine, &QLineEdit::textChanged, this, &SearchWidget::onSearchLineChanged);
+    connect(mUi->lineEdit, &QLineEdit::textChanged, this, &SearchWidget::onLineEditChanged);
     connect(mUi->closeButton, &QToolButton::clicked, this, &SearchWidget::closeClicked);
-    connect(mUi->searchLine, &QLineEdit::returnPressed, this, &SearchWidget::selectNextMatch);
+    connect(mUi->lineEdit, &QLineEdit::returnPressed, this, &SearchWidget::selectNextMatch);
 }
 
 SearchWidget::~SearchWidget() {
 }
 
 void SearchWidget::initialize(const QString& text) {
-    mUi->searchLine->setFocus();
-    mUi->searchLine->setText(text);
+    mUi->lineEdit->setFocus();
+    bool textChanged = mUi->lineEdit->text() != text;
+    mUi->lineEdit->setText(text);
+    if (!textChanged) {
+        search();
+    }
 }
 
 void SearchWidget::uninitialize() {
@@ -34,7 +40,7 @@ void SearchWidget::uninitialize() {
 }
 
 void SearchWidget::search() {
-    mTextDocument = mTextEdit->toPlainText();
+    mPreviousText = mTextEdit->toPlainText();
 
     QTextCursor cursor(mTextEdit->document());
     cursor.beginEditBlock();
@@ -44,6 +50,7 @@ void SearchWidget::search() {
     highlightMatches();
 
     cursor.endEditBlock();
+    updateLineEdit();
     updateCountLabel();
 }
 
@@ -51,7 +58,11 @@ void SearchWidget::selectNextMatch() {
     if (mMatchPositions.empty()) {
         return;
     }
-    mCurrentMatch = (mCurrentMatch.value() + 1) % mMatchPositions.size();
+    int minPosition = mTextEdit->textCursor().selectionStart();
+    auto it = std::find_if(mMatchPositions.begin(),
+                           mMatchPositions.end(),
+                           [minPosition](int position) { return position > minPosition; });
+    mCurrentMatch = it != mMatchPositions.end() ? std::distance(mMatchPositions.begin(), it) : 0;
     selectCurrentMatch();
 }
 
@@ -59,10 +70,17 @@ void SearchWidget::selectPreviousMatch() {
     if (mMatchPositions.empty()) {
         return;
     }
-    if (mCurrentMatch != 0) {
-        mCurrentMatch = mCurrentMatch.value() - 1;
-    } else {
+    int maxPosition = mTextEdit->textCursor().selectionStart();
+    auto it = std::find_if(mMatchPositions.rbegin(),
+                           mMatchPositions.rend(),
+                           [maxPosition](int position) { return position < maxPosition; });
+
+    if (it == mMatchPositions.rend()) {
         mCurrentMatch = mMatchPositions.size() - 1;
+    } else {
+        // rlast is the first element of mMatchPosition
+        auto rlast = std::prev(mMatchPositions.rend());
+        mCurrentMatch = std::distance(it, rlast);
     }
     selectCurrentMatch();
 }
@@ -73,7 +91,7 @@ void SearchWidget::highlightMatches() {
     for (int position : mMatchPositions) {
         QTextCursor cursor = mTextEdit->textCursor();
         cursor.setPosition(position, QTextCursor::MoveAnchor);
-        cursor.setPosition(position + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
+        cursor.setPosition(position + mUi->lineEdit->text().size(), QTextCursor::KeepAnchor);
 
         QTextEdit::ExtraSelection currentWord;
         currentWord.format.setBackground(highlightColor);
@@ -91,13 +109,17 @@ void SearchWidget::onDocumentChanged() {
     if (!isVisible()) {
         return;
     }
-    if (mTextDocument == mTextEdit->toPlainText()) {
+    // When we highlight the search matches, documentChanged() is emitted. Compare current text with
+    // the previous content and do not restart a search in this case, to prevent endless recursions.
+    // This is not optimal, it would probably be better to use a syntax highlighter for matches, but
+    // this is good enough for now.
+    if (mPreviousText == mTextEdit->toPlainText()) {
         return;
     }
     search();
 }
 
-void SearchWidget::onSearchLineChanged() {
+void SearchWidget::onLineEditChanged() {
     search();
     if (mCurrentMatch.has_value()) {
         selectCurrentMatch();
@@ -106,7 +128,7 @@ void SearchWidget::onSearchLineChanged() {
 
 void SearchWidget::updateMatchPositions() {
     auto* document = mTextEdit->document();
-    QString searchString = mUi->searchLine->text();
+    QString searchString = mUi->lineEdit->text();
 
     mMatchPositions.clear();
     QTextCursor cursor(document);
@@ -129,7 +151,7 @@ void SearchWidget::selectCurrentMatch() {
     cursor.beginEditBlock();
     int startPosition = mMatchPositions.at(mCurrentMatch.value());
     cursor.setPosition(startPosition, QTextCursor::MoveAnchor);
-    cursor.setPosition(startPosition + mUi->searchLine->text().size(), QTextCursor::KeepAnchor);
+    cursor.setPosition(startPosition + mUi->lineEdit->text().size(), QTextCursor::KeepAnchor);
     mTextEdit->setTextCursor(cursor);
     cursor.endEditBlock();
     updateCountLabel();
@@ -143,4 +165,21 @@ void SearchWidget::updateCountLabel() {
     } else {
         mUi->countLabel->hide();
     }
+}
+
+static QColor mixColors(const QColor& c1, const QColor& c2, qreal k) {
+    return QColor::fromRgbF(c1.redF() * (1 - k) + c2.redF() * k,
+                            c1.greenF() * (1 - k) + c2.greenF() * k,
+                            c1.blueF() * (1 - k) + c2.blueF() * k);
+}
+
+void SearchWidget::updateLineEdit() {
+    static QPalette noMatchPalette = [this] {
+        auto palette = mUi->lineEdit->palette();
+        auto baseColor = palette.color(QPalette::Base);
+        palette.setColor(QPalette::Base, mixColors(baseColor, Qt::red, 0.3));
+        return palette;
+    }();
+    bool noMatch = mMatchPositions.empty() && !mUi->lineEdit->text().isEmpty();
+    mUi->lineEdit->setPalette(noMatch ? noMatchPalette : palette());
 }

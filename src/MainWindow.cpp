@@ -40,12 +40,16 @@ MainWindowExtension::MainWindowExtension(MainWindow* window)
 
 void MainWindowExtension::aboutToShowContextMenu(QMenu* menu, const QPoint&) {
     menu->addAction(mWindow->mSearchAction);
+    menu->addSeparator();
+    menu->addAction(mWindow->mSettingsAction);
+}
+
+void MainWindowExtension::aboutToShowViewContextMenu(QMenu* menu, const QPoint&) {
     menu->addAction(mWindow->mIncreaseFontAction);
     menu->addAction(mWindow->mDecreaseFontAction);
     menu->addAction(mWindow->mResetFontAction);
-    menu->addAction(mWindow->mAlwaysOnTopAction);
     menu->addSeparator();
-    menu->addAction(mWindow->mSettingsAction);
+    menu->addAction(mWindow->mAlwaysOnTopAction);
 }
 
 //- MainWindow -----------------------------------------
@@ -54,6 +58,8 @@ MainWindow::MainWindow(QWidget* parent)
         , mSettings(new Settings(this))
         , mTextEdit(new TextEdit(this))
         , mAutoSaveTimer(new QTimer(this))
+        , mSearchWidget(new SearchWidget(mTextEdit, this))
+        , mSearchToolBar(new QToolBar(this))
         , mIncreaseFontAction(new QAction(this))
         , mDecreaseFontAction(new QAction(this))
         , mResetFontAction(new QAction(this))
@@ -65,9 +71,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     setCentralWidget(mTextEdit);
 
-    loadSearchWidget();
-
     setupTextEdit();
+    setupSearchBar();
     setupAutoSaveTimer();
     setupActions();
     loadNotes();
@@ -126,17 +131,16 @@ void MainWindow::setupActions() {
     connect(mAlwaysOnTopAction, &QAction::toggled, this, &MainWindow::setAlwaysOnTop);
     addAction(mAlwaysOnTopAction);
 
-    mSettingsAction->setText(tr("Settings..."));
+    mSettingsAction->setText(tr("Settings | About..."));
     connect(mSettingsAction, &QAction::triggered, this, &MainWindow::showSettingsDialog);
     addAction(mSettingsAction);
 
     // Add find shortcut
-    mSearchAction->setText(tr("Find in text"));
+    mSearchAction->setText(tr("Find"));
     mSearchAction->setShortcut(QKeySequence::Find);
     connect(mSearchAction, &QAction::triggered, this, &MainWindow::showSearchBar);
     addAction(mSearchAction);
 
-    mCloseSearchAction->setText(tr("Close search tab"));
     mCloseSearchAction->setShortcut(Qt::Key_Escape);
     connect(mCloseSearchAction, &QAction::triggered, this, &MainWindow::hideSearchBar);
     addAction(mCloseSearchAction);
@@ -278,18 +282,13 @@ void MainWindow::showSettingsDialog() {
     mSettingsDialog->show();
 }
 
-void MainWindow::loadSearchWidget() {
-    if (!mSearchWidget) {
-        mSearchWidget = new SearchWidget(mTextEdit, this);
-        connect(mSearchWidget, &SearchWidget::closeClicked, this, &MainWindow::hideSearchBar);
-    }
-    if (!mSearchToolBar) {
-        mSearchToolBar = new QToolBar(this);
-        mSearchToolBar->addWidget(mSearchWidget);
-        mSearchToolBar->setVisible(false);
-        mSearchToolBar->setMovable(false);
-        addToolBar(Qt::BottomToolBarArea, mSearchToolBar);
-    }
+void MainWindow::setupSearchBar() {
+    connect(mSearchWidget, &SearchWidget::closeClicked, this, &MainWindow::hideSearchBar);
+
+    mSearchToolBar->addWidget(mSearchWidget);
+    mSearchToolBar->setVisible(false);
+    mSearchToolBar->setMovable(false);
+    addToolBar(Qt::BottomToolBarArea, mSearchToolBar);
 }
 
 void MainWindow::showSearchBar() {

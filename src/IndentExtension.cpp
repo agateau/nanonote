@@ -63,7 +63,7 @@ IndentExtension::IndentExtension(TextEdit* textEdit)
     mTextEdit->addAction(mUnindentAction);
 }
 
-void IndentExtension::aboutToShowContextMenu(QMenu* menu, const QPoint& /*pos*/) {
+void IndentExtension::aboutToShowEditContextMenu(QMenu* menu, const QPoint& /*pos*/) {
     menu->addAction(mIndentAction);
     menu->addAction(mUnindentAction);
     menu->addSeparator();

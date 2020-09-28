@@ -17,6 +17,7 @@ public:
     ~SettingsDialog();
 
 private:
+    void setupConfigTab();
     void setupAboutTab();
     void updateFontFromSettings();
 

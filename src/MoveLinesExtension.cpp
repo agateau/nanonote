@@ -1,37 +1,67 @@
 #include "MoveLinesExtension.h"
 
+#include <QAction>
 #include <QDebug>
+#include <QMenu>
 #include <QTextBlock>
 
-static constexpr Qt::KeyboardModifiers MODIFIERS = Qt::ShiftModifier | Qt::AltModifier;
+MoveLinesExtension::MoveLinesExtension(TextEdit* textEdit)
+        : TextEditExtension(textEdit)
+        , mMoveUpAction(std::make_unique<QAction>())
+        , mMoveDownAction(std::make_unique<QAction>()) {
+    mMoveUpAction->setText(tr("Move selected lines up"));
+    mMoveUpAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_Up);
+    connect(mMoveUpAction.get(), &QAction::triggered, this, &MoveLinesExtension::moveUp);
+    mTextEdit->addAction(mMoveUpAction.get());
 
-MoveLinesExtension::MoveLinesExtension(TextEdit* textEdit) : TextEditExtension(textEdit) {
+    mMoveDownAction->setText(tr("Move selected lines down"));
+    mMoveDownAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_Down);
+    connect(mMoveDownAction.get(), &QAction::triggered, this, &MoveLinesExtension::moveDown);
+    mTextEdit->addAction(mMoveDownAction.get());
 }
 
-bool MoveLinesExtension::keyPress(QKeyEvent* event) {
-    if (event->modifiers() == MODIFIERS) {
-        if (event->key() == Qt::Key_Down) {
-            moveSelectedLines(1);
-            return true;
-        } else if (event->key() == Qt::Key_Up) {
-            moveSelectedLines(-1);
-            return true;
-        }
-    }
-    return false;
+MoveLinesExtension::~MoveLinesExtension() {
+}
+
+void MoveLinesExtension::aboutToShowEditContextMenu(QMenu* menu, const QPoint& /*pos*/) {
+    menu->addAction(mMoveUpAction.get());
+    menu->addAction(mMoveDownAction.get());
+}
+
+void MoveLinesExtension::moveUp() {
+    moveSelectedLines(-1);
+}
+
+void MoveLinesExtension::moveDown() {
+    moveSelectedLines(1);
 }
 
 /**
  * Add a final \\n if needed. Returns true if it added one.
  */
-static bool addFinalNewLine(TextEdit* textEdit) {
+static bool addFinalNewLine(TextEdit* textEdit, QTextCursor* cursor) {
     if (textEdit->document()->lastBlock().text().isEmpty()) {
         return false;
     }
-    // Use our own cursor to avoid altering the current one
-    auto cursor = textEdit->textCursor();
-    cursor.movePosition(QTextCursor::End);
-    cursor.insertBlock();
+
+    // The `cursor` from `moveSelectedLines()` must stay at the same position. A previous version of
+    // this function created its own cursor using QTextEdit::textCursor(), but if the cursor is at
+    // the very end of the document, then `moveSelectedLines()` cursor is moved when we insert the
+    // \n. I assue this is because the cursor is considered to be *after* the insertion position
+    // of the \n, so Qt maintains its position.
+    // To avoid that, we save the cursor state manually before inserting the \n, and restore the
+    // state before leaving this function.
+    int oldStart = cursor->selectionStart();
+    int oldEnd = cursor->selectionEnd();
+    if (oldStart == cursor->position()) {
+        std::swap(oldStart, oldEnd);
+    }
+
+    cursor->movePosition(QTextCursor::End);
+    cursor->insertBlock();
+
+    cursor->setPosition(oldStart);
+    cursor->setPosition(oldEnd, QTextCursor::KeepAnchor);
     return true;
 }
 
@@ -48,7 +78,7 @@ void MoveLinesExtension::moveSelectedLines(int delta) {
 
     // To avoid dealing with the special-case of the last line not ending with
     // a \n, we add one if there is none and remove it at the end
-    bool addedFinalNewLine = addFinalNewLine(mTextEdit);
+    bool addedFinalNewLine = addFinalNewLine(mTextEdit, &cursor);
 
     // Find start and end of lines to move
     QTextBlock startBlock, endBlock;

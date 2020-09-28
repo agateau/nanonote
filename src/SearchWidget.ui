@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SearchForm</class>
- <widget class="QWidget" name="SearchForm">
+ <class>SearchWidget</class>
+ <widget class="QWidget" name="SearchWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,19 +10,16 @@
     <height>48</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="2">
     <widget class="QLabel" name="countLabel">
      <property name="text">
-      <string>- / -</string>
+      <string notr="true">[count]</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="searchLine"/>
+    <widget class="QLineEdit" name="lineEdit"/>
    </item>
    <item row="0" column="5">
     <widget class="QToolButton" name="closeButton">
@@ -75,7 +72,7 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>searchLine</tabstop>
+  <tabstop>lineEdit</tabstop>
   <tabstop>previousButton</tabstop>
   <tabstop>nextButton</tabstop>
   <tabstop>closeButton</tabstop>
