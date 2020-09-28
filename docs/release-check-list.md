@@ -18,7 +18,7 @@ Update CHANGELOG.md:
 
     r!rlt-changelog
 
-Tag rc1
+Tag pre-release
 
     rlt-tag
 

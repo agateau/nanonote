@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.91 - 2020-09-28
+
+### Added
+- You can now search inside your notes with the new search bar (Pavol Oresky)
+- Move selected lines up and down (Aurelien Gateau)
+- macOS dmg (Aurelien Gateau)
+- Windows installer (Aurelien Gateau)
+
+## Changed
+- Reorganized context menu: added "Edit" and "View" submenus (Aurelien Gateau)
+
 ## 1.2.0 - 2019-05-11
 
 ### Added
@@ -26,15 +37,15 @@
 
 ## 1.0.1 - 2019-01-12
 
-### Fixed
-- Fixed indentation and make it respect indentation columns.
-- Made it possible to indent/unindent selected lines with Tab/Shift+Tab.
-- Update welcome text to reflect current shortcuts.
-
 ### Added
 - Added unit-tests.
 - Added Travis integration.
 - Added rpm and deb packages generated using CPack.
+
+### Fixed
+- Fixed indentation and make it respect indentation columns.
+- Made it possible to indent/unindent selected lines with Tab/Shift+Tab.
+- Update welcome text to reflect current shortcuts.
 
 ## 1.0.0 - 2018-12-30
 
