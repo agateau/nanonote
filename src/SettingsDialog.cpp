@@ -2,6 +2,7 @@
 #include "ui_SettingsDialog.h"
 
 #include <QSpinBox>
+#include <QUrl>
 
 #include "Settings.h"
 
@@ -35,7 +36,9 @@ SettingsDialog::~SettingsDialog() {
 }
 
 void SettingsDialog::setupConfigTab() {
-    auto noteLink = QString("<html><a href='file:%1'>%1</a></html>").arg(Settings::notePath());
+    auto url = QUrl::fromLocalFile(Settings::notePath());
+    auto noteLink =
+        QString("<html><a href='%1'>%2</a></html>").arg(url.toEncoded(), Settings::notePath());
     ui->noteLocationLabel->setText(noteLink);
 }
 
