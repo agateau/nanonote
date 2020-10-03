@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0 - 2020-10-03
+
+### Changed
+
+- Update Spanish translation (Victorhck)
+
 ## 1.2.91 - 2020-09-28
 
 ### Added
