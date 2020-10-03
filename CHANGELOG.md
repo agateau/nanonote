@@ -3,8 +3,11 @@
 ## 1.3.0 - 2020-10-03
 
 ### Changed
-
 - Update Spanish translation (Victorhck)
+
+### Fixed
+- Properly encode URL of the note path (Aurelien Gateau)
+- Fix untranslated text in About tab on Linux (Aurelien Gateau)
 
 ## 1.2.91 - 2020-09-28
 
