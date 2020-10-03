@@ -40,17 +40,20 @@ void SettingsDialog::setupConfigTab() {
 }
 
 void SettingsDialog::setupAboutTab() {
-    auto text = tr(R"(<h2>Nanonote %1</h2>
-<p>A minimalist note taking application.<br>
-<a href='%2'>%2</a></p>)",
+    // Do not use C++ raw strings here, the lupdate shipped with Ubuntu 18.04 does not understand
+    // them
+    auto text = tr("<h2>Nanonote %1</h2>\n"
+                   "<p>A minimalist note taking application.<br>\n"
+                   "<a href='%2'>%2</a></p>",
                    "%1: version, %2: project url")
                     .arg(qApp->applicationVersion(), PROJECT_URL);
     ui->aboutLabel->setText(text);
 
-    text = tr(R"(<p>Hi,</p>
-<p>I hope you enjoy Nanonote!</p>
-<p>If you do, it would be lovely if you could <a href='%1'>support my work</a> on free and open source software.</p>
-<p align="right">― Aurélien</p>)",
+    text = tr("<p>Hi,</p>\n"
+              "<p>I hope you enjoy Nanonote!</p>\n"
+              "<p>If you do, it would be lovely if you could <a href='%1'>support my work</a> on "
+              "free and open source software.</p>\n"
+              "<p align=\"right\">― Aurélien</p>",
               "%1: support url")
                .arg(SUPPORT_URL);
     auto font = ui->supportLabel->font();
