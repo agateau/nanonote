@@ -1,14 +1,23 @@
 # Changelog
 
+## 1.3.0 - 2020-10-03
+
+### Changed
+- Update Spanish translation (Victorhck)
+
+### Fixed
+- Properly encode URL of the note path (Aurelien Gateau)
+- Fix untranslated text in About tab on Linux (Aurelien Gateau)
+
 ## 1.2.91 - 2020-09-28
 
 ### Added
 - You can now search inside your notes with the new search bar (Pavol Oresky)
-- Move selected lines up and down (Aurelien Gateau)
+- You can now move selected lines up and down with Alt+Shift+Up and Down (Aurelien Gateau)
 - macOS dmg (Aurelien Gateau)
 - Windows installer (Aurelien Gateau)
 
-## Changed
+### Changed
 - Reorganized context menu: added "Edit" and "View" submenus (Aurelien Gateau)
 
 ## 1.2.0 - 2019-05-11

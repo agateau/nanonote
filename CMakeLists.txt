@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 project(nanonote
-    VERSION 1.2.91
+    VERSION 1.3.0
     DESCRIPTION "Minimalist note taking application for short-lived notes"
     HOMEPAGE_URL "https://github.com/agateau/nanonote"
 )
