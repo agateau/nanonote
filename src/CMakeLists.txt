@@ -32,6 +32,7 @@ qpropgen(QPROPGEN_SRCS
 # Translations
 set(TS_FILES
     translations/app_de.ts
+    translations/app_en.ts
     translations/app_es.ts
     translations/app_fr.ts
 )
