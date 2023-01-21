@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QIcon>
 #include <QLocale>
+#include <QStyleHints>
 #include <QTranslator>
 
 #include <singleapplication.h>
@@ -35,6 +36,10 @@ int main(int argc, char* argv[]) {
     auto iconName = QString(":/icons/sc-apps-%1.svg").arg(APP_NAME);
     app.setWindowIcon(QIcon(iconName));
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
+#ifdef Q_OS_MACOS
+    app.setAttribute(Qt::AA_DontShowShortcutsInContextMenus, false);
+    QGuiApplication::styleHints()->setShowShortcutsInContextMenus(true);
+#endif
 
     loadTranslations(&app);
 
