@@ -5,7 +5,6 @@ main() {
         # file is needed by dpkg to generate shlib dependencies
         # xvfb and openbox are needed to run UI tests in headless environments
         $RUN_AS_ROOT apt-get install -y --no-install-recommends \
-            clang-format \
             dpkg-dev \
             extra-cmake-modules \
             file \
