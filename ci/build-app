@@ -15,13 +15,6 @@ BUILD_TYPE=Release
 
 BUILD_CMD="cmake --build . --config $BUILD_TYPE"
 
-echo_title Checking coding style
-if has_command clang-format ; then
-    $SRC_DIR/ci/check-codingstyle
-else
-    echo "Skipped, clang-format is not installed"
-fi
-
 echo_title Configuring
 mkdir $BUILD_DIR
 cd $BUILD_DIR

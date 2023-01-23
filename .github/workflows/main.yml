@@ -3,6 +3,15 @@ name: main
 on: [push, pull_request]
 
 jobs:
+  check-codingstyle:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: sudo apt-get install clang-format-6.0
+      - name: check coding style
+        run: CLANG_FORMAT_CMD=clang-format-6.0 ci/check-codingstyle
+
   build:
     runs-on: ${{ matrix.os }}
     env:
