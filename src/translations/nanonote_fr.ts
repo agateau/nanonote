@@ -185,6 +185,17 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
     </message>
 </context>
 <context>
+    <name>TaskExtension</name>
+    <message>
+        <source>Toggle task completion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert/toggle task</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TextEdit</name>
     <message>
         <source>Edit</source>

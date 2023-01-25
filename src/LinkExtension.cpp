@@ -36,8 +36,7 @@ bool LinkExtension::keyPress(QKeyEvent* event) {
         mTextEdit->viewport()->setCursor(Qt::PointingHandCursor);
     }
     if (ctrlPressed && enterPressed) {
-        openLinkUnderCursor();
-        return true;
+        return openLinkUnderCursor();
     }
     return false;
 }
@@ -56,9 +55,11 @@ bool LinkExtension::mouseRelease(QMouseEvent* event) {
     return false;
 }
 
-void LinkExtension::openLinkUnderCursor() {
+bool LinkExtension::openLinkUnderCursor() {
     QUrl url = getLinkUnderCursor(mTextEdit->textCursor());
     if (url.isValid()) {
         QDesktopServices::openUrl(url);
+        return true;
     }
+    return false;
 }

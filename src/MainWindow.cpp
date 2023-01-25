@@ -20,6 +20,7 @@
 #include "SearchWidget.h"
 #include "Settings.h"
 #include "SettingsDialog.h"
+#include "TaskExtension.h"
 #include "TextEdit.h"
 #include "WheelZoomExtension.h"
 
@@ -87,6 +88,7 @@ MainWindow::~MainWindow() {
 void MainWindow::setupTextEdit() {
     mTextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
     mTextEdit->addExtension(new LinkExtension(mTextEdit));
+    mTextEdit->addExtension(new TaskExtension(mTextEdit));
     mTextEdit->addExtension(new IndentExtension(mTextEdit));
 
     WheelZoomExtension* wheelZoomExtension = new WheelZoomExtension(mTextEdit);

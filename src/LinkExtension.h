@@ -17,7 +17,7 @@ public:
     bool mouseRelease(QMouseEvent* event) override;
 
 private:
-    void openLinkUnderCursor();
+    bool openLinkUnderCursor();
 };
 
 #endif // LINKEXTENSION_H
