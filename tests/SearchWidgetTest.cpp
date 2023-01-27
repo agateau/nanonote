@@ -7,7 +7,7 @@
 #include <QLabel>
 #include <QTest>
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 struct CursorSpan {
     CursorSpan(const QTextCursor& cursor)
