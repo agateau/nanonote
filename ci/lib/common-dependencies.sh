@@ -1,4 +1,4 @@
-AQTINSTALL_VERSION=0.9.0
+AQTINSTALL_VERSION=3.1.0
 AQTINSTALL_ARCHIVES="qtbase qtimageformats qtsvg qttranslations qttools"
 
 setup_python_cmd() {
@@ -18,13 +18,18 @@ install_qt() {
     local qt_install_dir=$INST_DIR/qt
     local aqt_args
     if is_windows ; then
-        aqt_args="windows desktop $QT_ARCH_WINDOWS"
+        aqt_args="windows desktop $QT_VERSION $QT_ARCH_WINDOWS"
     fi
     if is_macos ; then
-        aqt_args="mac desktop"
+        aqt_args="mac desktop $QT_VERSION $QT_ARCH_MACOS"
     fi
     $PYTHON_CMD -m pip install aqtinstall==$AQTINSTALL_VERSION
-    $PYTHON_CMD -m aqt install --outputdir $qt_install_dir $QT_VERSION $aqt_args --archives $AQTINSTALL_ARCHIVES
+
+    $PYTHON_CMD -m aqt install-qt \
+        $aqt_args \
+        --outputdir $qt_install_dir \
+        --archives $AQTINSTALL_ARCHIVES
+
     if is_windows ; then
         # Add Qt bin dir to $PATH so that tests can find Qt dlls
         prepend_path $(find $qt_install_dir -type d -a -name bin)
