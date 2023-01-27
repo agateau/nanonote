@@ -5,7 +5,9 @@ find_package(Qt5 CONFIG REQUIRED Core Widgets Network)
 set(CMAKE_AUTOMOC ON)
 
 set(singleapplication_SRCS
-    src/singleapplication.cpp)
+    src/singleapplication.cpp
+    src/singleapplication_p.cpp
+)
 
 add_library(singleapplication STATIC ${singleapplication_SRCS})
 
