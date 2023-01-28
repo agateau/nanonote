@@ -1,6 +1,6 @@
 #include "LinkSyntaxHighlighter.h"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include "Catch2QtUtils.h"
 

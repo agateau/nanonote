@@ -4,7 +4,7 @@
 #include <QTextCursor>
 #include <QtTest>
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include "TextUtils.h"
 
