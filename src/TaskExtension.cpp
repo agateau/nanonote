@@ -18,9 +18,9 @@ static void toggleTask(QTextCursor* cursor, int pos) {
     cursor->beginEditBlock();
     cursor->setPosition(pos + cursor->block().position());
     cursor->movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
-    QString c = cursor->selectedText();
+    QString text = cursor->selectedText();
     cursor->movePosition(QTextCursor::Right);
-    if (c == "x") {
+    if (text == "x") {
         cursor->insertText(" ");
     } else {
         cursor->insertText("x");
