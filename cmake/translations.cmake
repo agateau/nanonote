@@ -1,48 +1,9 @@
 include(CMakeParseArguments)
 
-# Internal
-# Generate a .qrc file to hold generated .qm files.
-# Takes .ts files as optional parameters
-function(_CREATE_TRANSLATIONS_QRC TRANSLATIONS_QRC)
-    set(TS_FILES=${ARGN})
-
-    file(WRITE ${TRANSLATIONS_QRC} "<RCC>\n  <qresource prefix='/translations'>\n")
-    foreach(ts_file ${TS_FILES})
-        get_filename_component(name_we ${ts_file} NAME_WE)
-        file(APPEND ${TRANSLATIONS_QRC} "    <file>${name_we}.qm</file>\n")
-    endforeach()
-    file(APPEND ${TRANSLATIONS_QRC} "  </qresource>\n</RCC>\n")
-endfunction()
-
-# Create a target to build a source file containing all the translations.
-# Takes .ts files as optional parameters
-function(ADD_TRANSLATIONS_BUILD_TARGET RES_SRCS_VARNAME)
-    set(TS_FILES=${ARGN})
-
-    # Add targets to build .ts files into .qm files
-    qt5_add_translation(QM_FILES ${TS_FILES})
-    add_custom_target(build_qm DEPENDS ${QM_FILES})
-
-    set(TRANSLATIONS_QRC ${CMAKE_CURRENT_BINARY_DIR}/translations.qrc)
-    _create_translations_qrc(${TRANSLATIONS_QRC} ${TS_FILES})
-
-    set(RES_SRCS ${CMAKE_CURRENT_BINARY_DIR}/qrc_translations.cpp)
-
-    # Build the translations qrc. Declare the command ourselves instead of using
-    # CMake rcc automation so that we can tell CMake it depends on the "build_qm"
-    # target
-    add_custom_command(OUTPUT ${RES_SRCS}
-        COMMAND Qt5::rcc -o ${RES_SRCS} --name translations ${TRANSLATIONS_QRC}
-        DEPENDS build_qm
-    )
-
-    set(${RES_SRCS_VARNAME} "${RES_SRCS}" PARENT_SCOPE)
-endfunction()
-
 # Add an "lupdate" target. Use this target to update the .ts files from the
 # latest source files.
 # Syntax: add_lupdate_target(SOURCES <source files> TS_FILES <ts_files> OPTIONS <lupdate options>)
-function(ADD_LUPDATE_TARGET)
+function(add_lupdate_target)
     set(options)
     set(one_value_args)
     set(multi_value_args SOURCES TS_FILES OPTIONS)

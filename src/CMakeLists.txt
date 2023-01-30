@@ -1,7 +1,7 @@
 include(translations)
 include(ECMAddAppIcon)
 
-add_subdirectory(icons)
+add_subdirectory(appicon)
 
 # Sources
 configure_file(
@@ -15,6 +15,7 @@ set(APPLIB_SRCS
     LinkExtension.cpp
     MainWindow.cpp
     MoveLinesExtension.cpp
+    Resources.cpp
     Settings.cpp
     SettingsDialog.cpp
     SettingsDialog.ui
@@ -29,16 +30,6 @@ qt5_add_resources(APPLIB_RESOURCES_SRCS app.qrc)
 qpropgen(QPROPGEN_SRCS
     BaseSettings.yaml
 )
-# Translations
-set(TS_FILES
-    translations/app_de.ts
-    translations/app_en.ts
-    translations/app_es.ts
-    translations/app_fr.ts
-)
-add_translations_build_target(TRANSLATIONS_RESOURCES_SRCS ${TS_FILES})
-add_lupdate_target(SOURCES ${APPLIB_SRCS} TS_FILES ${TS_FILES} OPTIONS -no-obsolete)
-
 # App library
 add_library(${APPLIB_NAME} STATIC
     ${APPLIB_SRCS}
@@ -55,14 +46,27 @@ target_link_libraries(${APPLIB_NAME}
     Qt5::Widgets
 )
 
+# Translations
+set(TS_FILES
+    translations/${APP_NAME}_de.ts
+    translations/${APP_NAME}_en.ts
+    translations/${APP_NAME}_es.ts
+    translations/${APP_NAME}_fr.ts
+)
+qt5_add_translation(QM_FILES ${TS_FILES})
+add_custom_target(build_qm DEPENDS ${QM_FILES})
+add_dependencies(${APPLIB_NAME} build_qm)
+
+add_lupdate_target(SOURCES ${APPLIB_SRCS} TS_FILES ${TS_FILES} OPTIONS -no-obsolete)
+
 # App executable
 set(APP_SRCS main.cpp)
 ecm_add_app_icon(
     APP_SRCS
     ICONS
-        icons/1024-apps-${APP_NAME}.png
-        icons/256-apps-${APP_NAME}.png
-        icons/sc-apps-${APP_NAME}.svg
+        appicon/1024-apps-${APP_NAME}.png
+        appicon/256-apps-${APP_NAME}.png
+        appicon/sc-apps-${APP_NAME}.svg
 )
 add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${APP_SRCS})
 
@@ -85,7 +89,12 @@ target_link_libraries(${APP_NAME}
 install(
     TARGETS ${APP_NAME}
     BUNDLE DESTINATION .
-    RUNTIME DESTINATION bin
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR}
+)
+
+install(
+    FILES ${QM_FILES}
+    DESTINATION ${DATA_INSTALL_DIR}/translations
 )
 
 if (UNIX AND NOT APPLE)
