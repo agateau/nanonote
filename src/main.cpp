@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QIcon>
+#include <QLibraryInfo>
 #include <QLocale>
 #include <QStyleHints>
 #include <QTranslator>
@@ -14,12 +15,19 @@
 #include "Resources.h"
 
 static void loadTranslations(QObject* parent) {
+    QLocale locale;
+
+    auto qtTranslator = new QTranslator(parent);
+    auto qtTranslationsDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    if (qtTranslator->load(locale, "qtbase", "_", qtTranslationsDir)) {
+        QCoreApplication::installTranslator(qtTranslator);
+    }
+
     std::optional<QString> translationsDir = Resources::findDir("translations");
     if (!translationsDir.has_value()) {
         return;
     }
     auto translator = new QTranslator(parent);
-    QLocale locale;
     if (translator->load(locale, APP_NAME, "_", translationsDir.value())) {
         QCoreApplication::installTranslator(translator);
     }
