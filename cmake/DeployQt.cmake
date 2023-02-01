@@ -44,6 +44,9 @@ function(windeployqt target)
     # Run windeployqt immediately after build
     # Deploy all files in a deployqt sub directory so that we can copy it with
     # install() below
+    # Define the plugindir otherwise plugins directories are copied directly in
+    # deployqt/<plugin-type>/ instead of in deployqt/plugins/<plugin-type>/
+    # and that causes QIcon to fail to load svg icons (at least with Qt 5.12.8)
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND "${CMAKE_COMMAND}" -E
             env PATH="${_qt_bin_dir}" "${WINDEPLOYQT_EXECUTABLE}"
@@ -51,6 +54,7 @@ function(windeployqt target)
                 --no-opengl-sw
                 \"$<TARGET_FILE:${target}>\"
                 --dir ${PROJECT_BINARY_DIR}/deployqt
+                --plugindir ${PROJECT_BINARY_DIR}/deployqt/plugins
         COMMENT "Deploying Qt..."
     )
 
@@ -59,7 +63,7 @@ function(windeployqt target)
     # "deployqt" directory in our destination directory
     install(
         DIRECTORY ${PROJECT_BINARY_DIR}/deployqt/
-        DESTINATION bin
+        DESTINATION ${BIN_INSTALL_DIR}
     )
 endfunction()
 

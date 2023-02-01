@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+"""
+Generates the .DS_Store used to customize the layout of the Finder window in a
+macOS DMG.
+
+You can change the layout by editing this file. For more control consider using
+dmgbuild <https://dmgbuild.readthedocs.io/en/latest>.
+"""
+import sys
+
+from argparse import ArgumentParser
+
+from ds_store import DSStore
+
+WINDOW_RECT = ((100, 100), (500, 280))
+ICON_SIZE = 128
+TEXT_SIZE = 12
+
+APP_POSITION = (40, 110)
+APP_DIR_SYMLINK_POSITION = (300, 110)
+
+
+def move_file(store_item, pos):
+    store_item["Iloc"] = pos
+
+
+def set_window_options(store_item):
+    position, size = WINDOW_RECT
+    bounds_str = "{{%d, %d}, {%d, %d}}" % (position[0], position[1],
+                                           size[0], size[1])
+    store_item["bwsp"] = {
+        "ShowStatusBar": False,
+        "WindowBounds": bounds_str,
+        "ContainerShowSidebar": False,
+        "PreviewPaneVisibility": False,
+        "SidebarWidth": 180,
+        "ShowTabView": False,
+        "ShowToolbar": False,
+        "ShowPathbar": False,
+        "ShowSidebar": False,
+    }
+
+    # Use icon view by default
+    store_item["icvl"] = ("type", "icnv")
+
+
+def set_icon_view_options(store_item):
+    store_item["icvp"] = {
+        "viewOptionsVersion": 1,
+        "backgroundType": 0,
+        "backgroundColorRed": 1.0,
+        "backgroundColorGreen": 1.0,
+        "backgroundColorBlue": 1.0,
+        "gridOffsetX": 0.0,
+        "gridOffsetY": 0.0,
+        "gridSpacing": 100.0,
+        "arrangeBy": "none",
+        "showIconPreview": True,
+        "showItemInfo": True,
+        "labelOnBottom": True,
+        "iconSize": float(ICON_SIZE),
+        "textSize": float(TEXT_SIZE),
+        "scrollPositionX": 0.0,
+        "scrollPositionY": 0.0,
+    }
+
+
+def main():
+    parser = ArgumentParser()
+    parser.description = __doc__
+    parser.add_argument("app_name")
+    parser.add_argument("ds_store_path")
+
+    args = parser.parse_args()
+
+    with DSStore.open(args.ds_store_path, "w+") as f:
+        # Always present for directories according to
+        # https://metacpan.org/pod/distribution/Mac-Finder-DSStore/DSStoreFormat.pod#'vSrn'
+        f["."]["vSrn"] = ("long", 1)
+
+        set_window_options(f["."])
+        set_icon_view_options(f["."])
+        move_file(f[args.app_name + ".app"], APP_POSITION)
+        move_file(f["Applications"], APP_DIR_SYMLINK_POSITION)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

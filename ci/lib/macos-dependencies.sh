@@ -4,4 +4,5 @@ main() {
     install_cmake
     install_ecm
     install_qpropgen
+    pip3 install ds_store==1.1.2
 }
