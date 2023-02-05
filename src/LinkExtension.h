@@ -3,6 +3,8 @@
 
 #include "TextEdit.h"
 
+#include <memory>
+
 class LinkExtension : public TextEditExtension {
     Q_OBJECT
 public:
@@ -17,7 +19,9 @@ public:
     bool mouseRelease(QMouseEvent* event) override;
 
 private:
-    bool openLinkUnderCursor();
+    void openLinkUnderCursor();
+
+    const std::unique_ptr<QAction> mOpenLinkAction;
 };
 
 #endif // LINKEXTENSION_H

@@ -20,7 +20,11 @@
     </message>
     <message>
         <source>Open link</source>
-        <translation>Ouvrir le lien</translation>
+        <translation type="vanished">Ouvrir le lien</translation>
+    </message>
+    <message>
+        <source>Go to link</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -186,10 +190,6 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
 </context>
 <context>
     <name>TaskExtension</name>
-    <message>
-        <source>Toggle task completion</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Insert/toggle task</source>
         <translation type="unfinished"></translation>

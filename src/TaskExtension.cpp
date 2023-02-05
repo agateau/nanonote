@@ -31,37 +31,17 @@ static void toggleTask(QTextCursor* cursor, int pos) {
 }
 
 TaskExtension::TaskExtension(TextEdit* textEdit)
-        : TextEditExtension(textEdit), mInsertToggleTaskAction(std::make_unique<QAction>()) {
-    mInsertToggleTaskAction->setText(tr("Insert/toggle task"));
-    mInsertToggleTaskAction->setShortcut(Qt::ALT | Qt::Key_T);
-    connect(mInsertToggleTaskAction.get(), &QAction::triggered, this, &TaskExtension::insertTask);
-    mTextEdit->addAction(mInsertToggleTaskAction.get());
-}
-
-void TaskExtension::aboutToShowContextMenu(QMenu* menu, const QPoint& pos) {
-    QTextCursor cursor = mTextEdit->cursorForPosition(pos);
-    int checkmarkPos = getTaskCheckmarkPosUnderCursor(cursor);
-    if (checkmarkPos == -1) {
-        return;
-    }
-    menu->addAction(tr("Toggle task completion"), this, [this, pos, checkmarkPos] {
-        // TODO: why can I not pass the cursor here?
-        QTextCursor c = mTextEdit->cursorForPosition(pos);
-        toggleTask(&c, checkmarkPos);
-    });
+        : TextEditExtension(textEdit), mTaskAction(std::make_unique<QAction>()) {
+    mTaskAction->setText(tr("Insert/toggle task"));
+    QList<QKeySequence> shortcuts = {Qt::CTRL | Qt::Key_Return, Qt::CTRL | Qt::Key_Enter};
+    mTaskAction->setShortcuts(shortcuts);
+    connect(mTaskAction.get(), &QAction::triggered, this, &TaskExtension::insertOrToggleTask);
+    mTextEdit->addAction(mTaskAction.get());
 }
 
 void TaskExtension::aboutToShowEditContextMenu(QMenu* menu, const QPoint& /*pos*/) {
-    menu->addAction(mInsertToggleTaskAction.get());
-}
-
-bool TaskExtension::keyPress(QKeyEvent* event) {
-    bool ctrlPressed = event->modifiers() == Qt::CTRL;
-    bool enterPressed = event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return;
-    if (ctrlPressed && enterPressed) {
-        return toggleTaskUnderCursor();
-    }
-    return false;
+    menu->addAction(mTaskAction.get());
+    menu->addSeparator();
 }
 
 bool TaskExtension::mouseRelease(QMouseEvent* event) {
@@ -71,7 +51,7 @@ bool TaskExtension::mouseRelease(QMouseEvent* event) {
     return false;
 }
 
-void TaskExtension::insertTask() {
+void TaskExtension::insertOrToggleTask() {
     auto cursor = mTextEdit->textCursor();
     QString text = cursor.block().text();
 
@@ -96,12 +76,11 @@ void TaskExtension::insertTask() {
     }
 }
 
-bool TaskExtension::toggleTaskUnderCursor() {
+void TaskExtension::toggleTaskUnderCursor() {
     auto cursor = mTextEdit->textCursor();
     int pos = getTaskCheckmarkPosUnderCursor(cursor);
     if (pos == -1) {
-        return false;
+        return;
     }
     toggleTask(&cursor, pos);
-    return true;
 }
