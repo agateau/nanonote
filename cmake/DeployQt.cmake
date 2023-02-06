@@ -70,10 +70,21 @@ endfunction()
 # Add commands that copy the required Qt files to the application bundle
 # represented by the target.
 function(macdeployqt target)
+    execute_process(
+        COMMAND ${_qmake_executable} -query QT_INSTALL_TRANSLATIONS
+        OUTPUT_VARIABLE _qt_translations_dir
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND "${MACDEPLOYQT_EXECUTABLE}"
             \"$<TARGET_FILE_DIR:${target}>/../..\"
         COMMENT "Deploying Qt..."
+    )
+    install(
+        DIRECTORY ${_qt_translations_dir}/
+        DESTINATION $<TARGET_FILE_DIR:${target}>/../Translations
+        FILES_MATCHING PATTERN "qtbase_*.qm"
     )
 endfunction()
 
