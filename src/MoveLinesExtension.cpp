@@ -26,7 +26,6 @@ MoveLinesExtension::~MoveLinesExtension() {
 void MoveLinesExtension::aboutToShowEditContextMenu(QMenu* menu, const QPoint& /*pos*/) {
     menu->addAction(mMoveUpAction.get());
     menu->addAction(mMoveDownAction.get());
-    menu->addSeparator();
 }
 
 void MoveLinesExtension::moveUp() {
