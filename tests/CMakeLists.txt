@@ -9,6 +9,7 @@ add_executable(tests
     MoveLinesExtensionTest.cpp
     SearchWidgetTest.cpp
     Catch2QtUtils.cpp
+    TaskExtensionTest.cpp
     TextUtils.cpp
 )
 
