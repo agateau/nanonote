@@ -66,13 +66,17 @@ void TaskExtension::insertOrToggleTask() {
         return;
     } else if (match.captured(2).isEmpty()) {
         // Not in list
+        cursor.beginEditBlock();
         cursor.setPosition(cursor.block().position() + match.capturedEnd(1));
         cursor.insertText("- [ ] ");
+        cursor.endEditBlock();
     } else {
         // In list, only add checkbox
         bool trailingSpace = !match.captured(3).isEmpty();
+        cursor.beginEditBlock();
         cursor.setPosition(cursor.block().position() + match.capturedEnd(2));
         cursor.insertText(trailingSpace ? " [ ]" : " [ ] ");
+        cursor.endEditBlock();
     }
 }
 
