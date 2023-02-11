@@ -14,6 +14,8 @@
 static const char LINK_REGEX[] =
     "\\b(https?://|ftp://|file:/)[" COMMON_CHARS MIDDLE_CHARS "]+[" COMMON_CHARS "]";
 
+static const char TASK_REGEX[] = "^\\s*[-\\*] (\\[[x ]\\])";
+
 LinkSyntaxHighlighter::LinkSyntaxHighlighter(QTextDocument* document)
         : QSyntaxHighlighter(document) {
 }
@@ -30,6 +32,15 @@ void LinkSyntaxHighlighter::highlightBlock(const QString& text) {
         QRegularExpressionMatch match = it.next();
         setFormat(match.capturedStart(), match.capturedLength(), linkFormat);
     }
+
+    QTextCharFormat taskFormat;
+    taskFormat.setForeground(linkColor);
+
+    expression = QRegularExpression(TASK_REGEX);
+    for (auto it = expression.globalMatch(text); it.hasNext();) {
+        QRegularExpressionMatch match = it.next();
+        setFormat(match.capturedStart(1), match.capturedLength(1), taskFormat);
+    }
 }
 
 QUrl LinkSyntaxHighlighter::getLinkAt(const QString& text, int position) {
@@ -41,4 +52,15 @@ QUrl LinkSyntaxHighlighter::getLinkAt(const QString& text, int position) {
         }
     }
     return QUrl();
+}
+
+int LinkSyntaxHighlighter::getTaskCheckmarkPosAt(const QString& text, int position) {
+    QRegularExpression expression(TASK_REGEX);
+    for (auto it = expression.globalMatch(text); it.hasNext();) {
+        QRegularExpressionMatch match = it.next();
+        if (match.capturedStart(1) <= position && position < match.capturedEnd(1)) {
+            return match.capturedStart(1) + 1; // Position of 'x' or ' ' character
+        }
+    }
+    return -1;
 }

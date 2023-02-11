@@ -8,7 +8,7 @@
 static const int INDENT_SIZE = 4;
 
 static int findBulletSize(const QStringRef& ref) {
-    static QSet<QString> bullets = {"- ", "* ", "> "};
+    static QStringList bullets = {"- [ ] ", "- [x] ", "* [ ] ", "* [x] ", "- ", "* ", "> "};
     for (auto bullet : bullets) {
         if (ref.startsWith(bullet)) {
             return bullet.length();
@@ -205,7 +205,11 @@ void IndentExtension::insertIndentedLine() {
     if (cursor.columnNumber() > 0) {
         QString line = cursor.block().text();
         QString prefix = findCommonPrefix(line).text;
-        mTextEdit->insertPlainText('\n' + prefix);
+        if (prefix.endsWith("[x] ")) { // Create unchecked task item
+            mTextEdit->insertPlainText('\n' + prefix.left(prefix.size() - 4) + "[ ] ");
+        } else {
+            mTextEdit->insertPlainText('\n' + prefix);
+        }
     } else {
         mTextEdit->insertPlainText("\n");
     }

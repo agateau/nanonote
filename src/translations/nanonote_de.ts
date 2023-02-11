@@ -20,7 +20,11 @@
     </message>
     <message>
         <source>Open link</source>
-        <translation>Link öffnen</translation>
+        <translation type="vanished">Link öffnen</translation>
+    </message>
+    <message>
+        <source>Go to link</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -224,6 +228,13 @@ Das ist alles, was es zu sagen gibt, jetzt kannst du diesen Text löschen und an
     </message>
     <message>
         <source>Your notes are stored here:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TaskExtension</name>
+    <message>
+        <source>Insert/toggle task</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

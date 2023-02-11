@@ -149,4 +149,20 @@ TEST_CASE("textedit") {
                 == QString("\n"
                            "|c"));
     }
+
+    SECTION("Return on indented bullet line inserts new bullet") {
+        setupTextEditContent(edit, "    - item|");
+        QTest::keyClick(edit, Qt::Key_Return);
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("    - item\n"
+                           "    - |"));
+    }
+
+    SECTION("Return on indented checked task line inserts new unchecked task") {
+        setupTextEditContent(edit, "    - [x] item|");
+        QTest::keyClick(edit, Qt::Key_Return);
+        REQUIRE(dumpTextEditContent(edit)
+                == QString("    - [x] item\n"
+                           "    - [ ] |"));
+    }
 }

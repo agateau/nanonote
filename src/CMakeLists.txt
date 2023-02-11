@@ -19,6 +19,7 @@ set(APPLIB_SRCS
     Settings.cpp
     SettingsDialog.cpp
     SettingsDialog.ui
+    TaskExtension.cpp
     TextEdit.cpp
     WheelZoomExtension.cpp
     SearchWidget.cpp

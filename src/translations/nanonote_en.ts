@@ -17,50 +17,54 @@
 <context>
     <name>LinkExtension</name>
     <message>
-        <location filename="../LinkExtension.cpp" line="24"/>
+        <location filename="../LinkExtension.cpp" line="17"/>
+        <source>Go to link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../LinkExtension.cpp" line="29"/>
         <source>Copy link address</source>
         <translation>Copy link address</translation>
     </message>
     <message>
-        <location filename="../LinkExtension.cpp" line="29"/>
         <source>Open link</source>
-        <translation>Open link</translation>
+        <translation type="vanished">Open link</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../MainWindow.cpp" line="112"/>
+        <location filename="../MainWindow.cpp" line="114"/>
         <source>Increase Font Size</source>
         <translation>Increase Font Size</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="115"/>
+        <location filename="../MainWindow.cpp" line="117"/>
         <source>Decrease Font Size</source>
         <translation>Decrease Font Size</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="118"/>
+        <location filename="../MainWindow.cpp" line="120"/>
         <source>Reset Font Size</source>
         <translation>Reset Font Size</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="129"/>
+        <location filename="../MainWindow.cpp" line="131"/>
         <source>Always on Top</source>
         <translation>Always on Top</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="134"/>
+        <location filename="../MainWindow.cpp" line="136"/>
         <source>Settings | About...</source>
         <translation>Settings | About...</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="139"/>
+        <location filename="../MainWindow.cpp" line="141"/>
         <source>Find</source>
         <translation>Find</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="159"/>
+        <location filename="../MainWindow.cpp" line="161"/>
         <source>Welcome to Nanonote!
 
 Nanonote is a minimalist note taking application.
@@ -193,6 +197,14 @@ That&apos;s all there is to say, now you can erase this text and start taking no
 &lt;p&gt;I hope you enjoy Nanonote!&lt;/p&gt;
 &lt;p&gt;If you do, it would be lovely if you could &lt;a href=&apos;%1&apos;&gt;support my work&lt;/a&gt; on free and open source software.&lt;/p&gt;
 &lt;p align=&quot;right&quot;&gt;― Aurélien&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>TaskExtension</name>
+    <message>
+        <location filename="../TaskExtension.cpp" line="35"/>
+        <source>Insert/toggle task</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

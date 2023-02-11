@@ -3,6 +3,8 @@
 
 #include "TextEdit.h"
 
+#include <memory>
+
 class LinkExtension : public TextEditExtension {
     Q_OBJECT
 public:
@@ -18,6 +20,8 @@ public:
 
 private:
     void openLinkUnderCursor();
+
+    const std::unique_ptr<QAction> mOpenLinkAction;
 };
 
 #endif // LINKEXTENSION_H

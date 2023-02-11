@@ -18,3 +18,22 @@ TEST_CASE("getLinkAt") {
         REQUIRE(LinkSyntaxHighlighter::getLinkAt(text, text.length() - 4) == QUrl());
     }
 }
+
+TEST_CASE("getTaskCheckmarkPosAt") {
+    QString text = QString("    - [x] test task");
+    SECTION("before task") {
+        REQUIRE(LinkSyntaxHighlighter::getTaskCheckmarkPosAt(text, 5) == -1);
+    }
+    SECTION("start of task") {
+        REQUIRE(LinkSyntaxHighlighter::getTaskCheckmarkPosAt(text, 6) == 7);
+    }
+    SECTION("inside task") {
+        REQUIRE(LinkSyntaxHighlighter::getTaskCheckmarkPosAt(text, 8) == 7);
+    }
+    SECTION("end of task") {
+        REQUIRE(LinkSyntaxHighlighter::getTaskCheckmarkPosAt(text, 9) == -1);
+    }
+    SECTION("after task") {
+        REQUIRE(LinkSyntaxHighlighter::getTaskCheckmarkPosAt(text, 10) == -1);
+    }
+}

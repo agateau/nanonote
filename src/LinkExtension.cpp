@@ -12,7 +12,12 @@ static QUrl getLinkUnderCursor(const QTextCursor& cursor) {
     return LinkSyntaxHighlighter::getLinkAt(cursor.block().text(), cursor.positionInBlock());
 }
 
-LinkExtension::LinkExtension(TextEdit* textEdit) : TextEditExtension(textEdit) {
+LinkExtension::LinkExtension(TextEdit* textEdit)
+        : TextEditExtension(textEdit), mOpenLinkAction(std::make_unique<QAction>()) {
+    mOpenLinkAction->setText(tr("Go to link"));
+    mOpenLinkAction->setShortcut(Qt::CTRL | Qt::Key_G);
+    connect(mOpenLinkAction.get(), &QAction::triggered, this, &LinkExtension::openLinkUnderCursor);
+    mTextEdit->addAction(mOpenLinkAction.get());
 }
 
 void LinkExtension::aboutToShowContextMenu(QMenu* menu, const QPoint& pos) {
@@ -26,18 +31,16 @@ void LinkExtension::aboutToShowContextMenu(QMenu* menu, const QPoint& pos) {
         data->setUrls({url});
         qGuiApp->clipboard()->setMimeData(data);
     });
-    menu->addAction(tr("Open link"), this, [url] { QDesktopServices::openUrl(url); });
+    menu->addAction(mOpenLinkAction.get()->text(),
+                    this,
+                    [url] { QDesktopServices::openUrl(url); },
+                    mOpenLinkAction.get()->shortcut());
 }
 
 bool LinkExtension::keyPress(QKeyEvent* event) {
     bool ctrlPressed = event->modifiers() == Qt::CTRL;
-    bool enterPressed = event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return;
     if (ctrlPressed) {
         mTextEdit->viewport()->setCursor(Qt::PointingHandCursor);
-    }
-    if (ctrlPressed && enterPressed) {
-        openLinkUnderCursor();
-        return true;
     }
     return false;
 }
