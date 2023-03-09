@@ -1,25 +1,24 @@
-[![Build Status](https://travis-ci.org/agateau/nanonote.svg?branch=master)](https://travis-ci.org/agateau/nanonote)
+[![Build Status](https://github.com/agateau/nanonote/actions/workflows/main.yml/badge.svg)](https://github.com/agateau/nanonote/actions/workflows/main.yml)
 
 # Nanonote
 
-Nanonote is a minimalist note taking application meant for short-lived notes.
+Nanonote is a minimalist note taking application.
 
 ![Screenshot](screenshot.png)
 
-It automatically saves anything you type in the screen on your disk. Being
-minimalist means it has no synchronisation, does not support multiple
-documents, images or any advanced formatting (the only formatting is
-highlighting urls). If you have long-lived notes you should store them in a
-more permanent place.
+It automatically saves anything you type. Being minimalist means it has no synchronisation, does not support multiple documents, images or any advanced formatting (the only formatting is highlighting URLs).
 
-It is developed and tested on Linux. I expect it to work on macOS and Windows
-as well, but haven't tested it. If you give it a try, let me know how it goes.
+It is developed and tested on Linux but also works on macOS and Windows as well.
 
 ## Packages
 
-Binary packages are available on the [release page][].
+Binary packages for Linux, macOS and Windows are available on the [release page][].
 
 [release page]: https://github.com/agateau/nanonote/releases
+
+## Tips and tricks
+
+Even if Nanonote has a minimalist user interface, it comes with some handy shortcuts. Learn more about them from the [tips and tricks page](docs/tips.md).
 
 ## Building it
 
