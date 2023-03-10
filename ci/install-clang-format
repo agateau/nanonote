@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+
+pushd $PWD > /dev/null
+cd $(dirname $0)
+CI_DIR=$PWD
+popd > /dev/null
+
+CLANG_FORMAT_URL="https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-1d7ec53d/clang-format-6_linux-amd64"
+CLANG_FORMAT_SHA256=624f90fd622102b6aa08affe055d8c18fdcafe013c7f01db18ffb55cd661bf04
+
+. $CI_DIR/lib/common.sh
+
+install_prebuilt_executable "$CLANG_FORMAT_URL" "$CLANG_FORMAT_SHA256" ./clang-format
