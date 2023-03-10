@@ -16,10 +16,14 @@ public:
 
     bool keyRelease(QKeyEvent* event) override;
 
+    bool mouseMove(QMouseEvent* event) override;
+
     bool mouseRelease(QMouseEvent* event) override;
 
 private:
+    void updateMouseCursor();
     void openLinkUnderCursor();
+    void reset();
 
     const std::unique_ptr<QAction> mOpenLinkAction;
 };
