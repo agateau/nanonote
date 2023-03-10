@@ -33,6 +33,10 @@ bool TextEditExtension::mouseRelease(QMouseEvent* /*event*/) {
     return false;
 }
 
+bool TextEditExtension::mouseMove(QMouseEvent* /*event*/) {
+    return false;
+}
+
 bool TextEditExtension::wheel(QWheelEvent* /*event*/) {
     return false;
 }
@@ -89,6 +93,15 @@ void TextEdit::mouseReleaseEvent(QMouseEvent* event) {
         }
     }
     QPlainTextEdit::mouseReleaseEvent(event);
+}
+
+void TextEdit::mouseMoveEvent(QMouseEvent* event) {
+    for (auto extension : mExtensions) {
+        if (extension->mouseMove(event)) {
+            return;
+        }
+    }
+    QPlainTextEdit::mouseMoveEvent(event);
 }
 
 void TextEdit::wheelEvent(QWheelEvent* event) {

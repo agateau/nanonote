@@ -1,6 +1,7 @@
 #include "LinkExtension.h"
 
 #include <QClipboard>
+#include <QCursor>
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include <QMenu>
@@ -38,17 +39,22 @@ void LinkExtension::aboutToShowContextMenu(QMenu* menu, const QPoint& pos) {
 }
 
 bool LinkExtension::keyPress(QKeyEvent* event) {
-    bool ctrlPressed = event->modifiers() == Qt::CTRL;
-    if (ctrlPressed) {
-        mTextEdit->viewport()->setCursor(Qt::PointingHandCursor);
+    if (event->modifiers() == Qt::CTRL) {
+        mTextEdit->viewport()->setMouseTracking(true);
+        updateMouseCursor();
     }
     return false;
 }
 
 bool LinkExtension::keyRelease(QKeyEvent* event) {
     if (event->modifiers() != Qt::CTRL) {
-        mTextEdit->viewport()->setCursor(Qt::IBeamCursor);
+        reset();
     }
+    return false;
+}
+
+bool LinkExtension::mouseMove(QMouseEvent* event) {
+    updateMouseCursor();
     return false;
 }
 
@@ -64,4 +70,17 @@ void LinkExtension::openLinkUnderCursor() {
     if (url.isValid()) {
         QDesktopServices::openUrl(url);
     }
+}
+
+void LinkExtension::updateMouseCursor() {
+    auto mousePos = mTextEdit->viewport()->mapFromGlobal(QCursor::pos());
+    auto textCursor = mTextEdit->cursorForPosition(mousePos);
+    auto shape =
+        getLinkUnderCursor(textCursor).isValid() ? Qt::PointingHandCursor : Qt::IBeamCursor;
+    mTextEdit->viewport()->setCursor(shape);
+}
+
+void LinkExtension::reset() {
+    mTextEdit->viewport()->setMouseTracking(false);
+    mTextEdit->viewport()->setCursor(Qt::IBeamCursor);
 }
