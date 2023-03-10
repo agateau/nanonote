@@ -4,13 +4,13 @@ on: [push, pull_request]
 
 jobs:
   check-codingstyle:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies
-        run: sudo apt-get install clang-format-6.0
+        run: ci/install-clang-format
       - name: check coding style
-        run: CLANG_FORMAT_CMD=clang-format-6.0 ci/check-codingstyle
+        run: CLANG_FORMAT_CMD=./clang-format ci/check-codingstyle
 
   build:
     runs-on: ${{ matrix.os }}

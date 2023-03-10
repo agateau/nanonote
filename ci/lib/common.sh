@@ -80,17 +80,25 @@ init_run_as_root() {
     fi
 }
 
-install_prebuilt_archive() {
+download_prebuilt_file() {
     local url=$1
-    local sha1=$2
+    local sha256=$2
     local download_file=$3
-    local unpack_dir=$4
 
     echo "Downloading '$url'"
     curl --location --continue-at - --output "$download_file" "$url"
 
     echo "Checking integrity"
-    echo "$sha1 $download_file" | sha1sum --check
+    echo "$sha256 $download_file" | sha256sum --check
+}
+
+install_prebuilt_archive() {
+    local url=$1
+    local sha256=$2
+    local download_file=$3
+    local unpack_dir=$4
+
+    download_prebuilt_file $url $sha256 $download_file
 
     echo "Unpacking"
     (
@@ -107,6 +115,15 @@ install_prebuilt_archive() {
                 ;;
         esac
     )
+}
+
+install_prebuilt_executable() {
+    local url=$1
+    local sha256=$2
+    local download_file=$3
+
+    download_prebuilt_file $url $sha256 $download_file
+    chmod +x $download_file
 }
 
 detect_os
