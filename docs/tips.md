@@ -27,4 +27,4 @@ You can create checkable list entries with `- [ ]` or `* [ ]`, like this:
 - [ ] Feed the dog
 ```
 
-Checkboxes can be ticked and unticked with `Ctrl+Enter` or by holding `Ctrl` and clicking on them.
+Checkboxes can be toggled with `Ctrl+Enter` or by holding `Ctrl` and clicking on them.

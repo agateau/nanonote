@@ -8,6 +8,7 @@
 
 static constexpr char PROJECT_URL[] = "https://github.com/agateau/nanonote/";
 static constexpr char SUPPORT_URL[] = "https://agateau.com/support/";
+static constexpr char TIPS_URL[] = "https://github.com/agateau/nanonote/blob/master/docs/tips.md";
 
 SettingsDialog::SettingsDialog(Settings* settings, QWidget* parent)
         : QDialog(parent), ui(new Ui::SettingsDialog), mSettings(settings) {
@@ -46,10 +47,13 @@ void SettingsDialog::setupAboutTab() {
     // Do not use C++ raw strings here, the lupdate shipped with Ubuntu 18.04 does not understand
     // them
     auto text = tr("<h2>Nanonote %1</h2>\n"
-                   "<p>A minimalist note taking application.<br>\n"
-                   "<a href='%2'>%2</a></p>",
-                   "%1: version, %2: project url")
-                    .arg(qApp->applicationVersion(), PROJECT_URL);
+                   "<p>A minimalist note taking application.</p>\n"
+                   "<p>\n"
+                   "&bull; Project page: <a href='%2'>%2</a><br>\n"
+                   "&bull; Tips and tricks: <a href='%3'>%3</a>\n"
+                   "</p>\n",
+                   "%1: version, %2: project url, %3: tips and trick page url")
+                    .arg(qApp->applicationVersion(), PROJECT_URL, TIPS_URL);
     ui->aboutLabel->setText(text);
 
     text = tr("<p>Hi,</p>\n"
