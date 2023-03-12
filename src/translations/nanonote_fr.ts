@@ -24,7 +24,7 @@
     </message>
     <message>
         <source>Go to link</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le lien</translation>
     </message>
 </context>
 <context>
@@ -131,7 +131,30 @@ https://github.com/agateau/nanonote/blob/master/docs/tips.md
 
 That&apos;s all there is to say, now you can erase this text and start taking notes!
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Bienvenue dans Nanonote !
+
+Nanonote est une application de prise de note minimaliste.
+
+Tout ce que vous tapez ici est automatiquement enregistré sur votre disque.
+
+La seule interface utilisateur est le menu contextuel, essayez-le !
+
+Comme vous pouvez le voir dans le menu contextuel, Nanonote possède un mode &quot;Toujours visible&quot;. Ce mode est pratique pour garder l&apos;application à portée de main.
+
+L&apos;application dispose de quelques fonctionnalités d&apos;édition pratiques, comme les listes à puces automatique :
+
+- Placez le curseur à la fin de cette ligne et appuyez sur Entrée
+- Ça fonctionne pour
+    - les listes imbriquées
+* et les astérisques
+
+Vous pouvez également ouvrir des urls en utilisant Ctrl+clic, ou Ctrl+G quand le curseur est sur une URL.
+Vous pouvez essayer de cliquer sur celle-ci par exemple pour découvrir plus d&apos;astuces :
+
+https://github.com/agateau/nanonote/blob/master/docs/tips.md
+
+C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte et commencer à prendre des notes !
+</translation>
     </message>
 </context>
 <context>
@@ -224,14 +247,19 @@ That&apos;s all there is to say, now you can erase this text and start taking no
 &lt;/p&gt;
 </source>
         <comment>%1: version, %2: project url, %3: tips and trick page url</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Nanonote %1&lt;/h2&gt;
+&lt;p&gt;Une application de prise de note minimaliste.&lt;/p&gt;
+&lt;p&gt;
+&amp;bull; Page du projet : &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt;&lt;br&gt;
+&amp;bull; Trucs et astuces : &lt;a href=&apos;%3&apos;&gt;%3&lt;/a&gt;
+&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
     <name>TaskExtension</name>
     <message>
         <source>Insert/toggle task</source>
-        <translation type="unfinished"></translation>
+        <translation>Insérer/cocher une tâche</translation>
     </message>
 </context>
 <context>
