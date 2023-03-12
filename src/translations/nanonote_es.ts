@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE TS>
 <TS version="2.1" language="es_ES">
 <context>
@@ -24,7 +24,7 @@
     </message>
     <message>
         <source>Go to link</source>
-        <translation type="unfinished"></translation>
+        <translation>Ir al enlace</translation>
     </message>
 </context>
 <context>
@@ -73,7 +73,7 @@ That&apos;s all there is to say, now you can erase this text and start taking no
 
 Nanonote es una aplicación minimalista para tomar notas.
 
-Su uso es principalmente para tomar notas. Cualquier cosa que escribas aquí es automaticamente guardada en tu disco.
+Su uso es principalmente para tomar notas. Cualquier cosa que escribas aquí es automáticamente guardada en tu disco.
 
 La única interfaz disponible es el menú contextual, ¡pruébalo!
 
@@ -131,7 +131,30 @@ https://github.com/agateau/nanonote/blob/master/docs/tips.md
 
 That&apos;s all there is to say, now you can erase this text and start taking notes!
 </source>
-        <translation type="unfinished"></translation>
+        <translation>¡Bienvenido/a a Nanonote!
+
+Nanonote es una aplicación minimalista para tomar notas.
+
+Cualquier cosa que escribas aquí es automáticamente guardada en tu disco.
+
+La única interfaz disponible es el menú contextual, ¡pruébalo!
+
+Como puedes ver en el menú contextual, Nanonote tiene disponible el modo &quot;Siempre encima&quot;. Esta característica es útil para mantener la ventana abierta siempre a mano.
+
+También tiene algunas características útiles, como por ejemplo la creación de listas de manera automática:
+
+- Prueba a mover el cursor al final de esta línea y pulsa la tecla Enter
+- Esto también funciona para
+    - listas anidadas
+* y con asteriscos
+- [ ] entradas de lista con verificación (las marcas de las casillas de verificación se pueden alternar mediante Ctrl+Enter o Ctrl+clic)
+
+También puedes abrir enlaces utilizando la combinación Ctrl+clic o Ctrl+G mientras tu cursor está dentro de una dirección.
+Puedes probarlo haciendo clic en este ejemplo, en el que puedes aprender más trucos:
+
+https://github.com/agateau/nanonote/blob/master/docs/tips.md
+
+Y esto es todo lo que hay que decir, ahora puedes eliminar este texto ¡y empezar a tomar notas!</translation>
     </message>
 </context>
 <context>
@@ -207,7 +230,7 @@ That&apos;s all there is to say, now you can erase this text and start taking no
 &lt;p align=&quot;right&quot;&gt;― Aurélien&lt;/p&gt;</source>
         <comment>%1: support url</comment>
         <translation>&lt;p&gt;Hola,&lt;/p&gt;
-&lt;p&gt;Espero que estes disfrutando de Nanonote!&lt;/p&gt;
+&lt;p&gt;Espero que estés disfrutando de Nanonote!&lt;/p&gt;
 &lt;p&gt;Si te gusta, sería genial si pudieras &lt;a href=&apos;%1&apos;&gt;apoyar mi trabajo&lt;/a&gt; relacionado con el software libre y de código abierto.&lt;/p&gt;
 &lt;p align=&quot;right&quot;&gt;― Aurélien&lt;/p&gt;</translation>
     </message>
@@ -224,14 +247,19 @@ That&apos;s all there is to say, now you can erase this text and start taking no
 &lt;/p&gt;
 </source>
         <comment>%1: version, %2: project url, %3: tips and trick page url</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Nanonote %1&lt;/h2&gt;
+&lt;p&gt;Una aplicación minimalista para tomar notas.&lt;/p&gt;
+&lt;p&gt;
+&amp;bull; Página del proyecto: &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt;&lt;br&gt;
+&amp;bull; Consejos y trucos: &lt;a href=&apos;%3&apos;&gt;%3&lt;/a&gt;
+&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
     <name>TaskExtension</name>
     <message>
         <source>Insert/toggle task</source>
-        <translation type="unfinished"></translation>
+        <translation>Insertar/alternar tarea</translation>
     </message>
 </context>
 <context>
