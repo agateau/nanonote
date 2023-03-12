@@ -17,12 +17,12 @@
 <context>
     <name>LinkExtension</name>
     <message>
-        <location filename="../LinkExtension.cpp" line="17"/>
+        <location filename="../LinkExtension.cpp" line="18"/>
         <source>Go to link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../LinkExtension.cpp" line="29"/>
+        <location filename="../LinkExtension.cpp" line="30"/>
         <source>Copy link address</source>
         <translation>Copy link address</translation>
     </message>
@@ -69,6 +69,34 @@
 
 Nanonote is a minimalist note taking application.
 
+Anything you type here is automatically saved on your disk.
+
+The only UI is the context menu, try it out!
+
+As you can see in the context menu, Nanonote has an &quot;Always on Top&quot; mode. This feature is handy to keep the window around.
+
+It also has a few handy editing features, like auto-bullet lists:
+
+- Try to move the cursor at the end of this line and press Enter
+- This works for
+    - nested lists
+* asterisks
+- [ ] checkable list entries (checkboxes can be toggled with Ctrl+Enter or Ctrl+click)
+
+You can open URLs using Ctrl+click or Ctrl+G while your cursor is inside an URL.
+Try clicking on this one for example, to learn more tricks:
+
+https://github.com/agateau/nanonote/blob/master/docs/tips.md
+
+That&apos;s all there is to say, now you can erase this text and start taking notes!
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to Nanonote!
+
+Nanonote is a minimalist note taking application.
+
 It&apos;s meant for short-lived notes. Anything you type here is automatically saved on your disk.
 
 The only UI is the context menu, try it out!
@@ -88,7 +116,7 @@ Finally, you can indent selected lines with Tab or Ctrl+I and unindent them with
 
 That&apos;s all there is to say, now you can erase this text and start taking notes!
 </source>
-        <translation>Welcome to Nanonote!
+        <translation type="vanished">Welcome to Nanonote!
 
 Nanonote is a minimalist note taking application.
 
@@ -177,17 +205,28 @@ That&apos;s all there is to say, now you can erase this text and start taking no
         <translation>About</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.cpp" line="48"/>
         <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;
 &lt;p&gt;A minimalist note taking application.&lt;br&gt;
 &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt;&lt;/p&gt;</source>
         <comment>%1: version, %2: project url</comment>
-        <translation>&lt;h2&gt;Nanonote %1&lt;/h2&gt;
+        <translation type="vanished">&lt;h2&gt;Nanonote %1&lt;/h2&gt;
 &lt;p&gt;A minimalist note taking application.&lt;br&gt;
 &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.cpp" line="55"/>
+        <location filename="../SettingsDialog.cpp" line="49"/>
+        <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;
+&lt;p&gt;A minimalist note taking application.&lt;/p&gt;
+&lt;p&gt;
+&amp;bull; Project page: &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt;&lt;br&gt;
+&amp;bull; Tips and tricks: &lt;a href=&apos;%3&apos;&gt;%3&lt;/a&gt;
+&lt;/p&gt;
+</source>
+        <comment>%1: version, %2: project url, %3: tips and trick page url</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.cpp" line="59"/>
         <source>&lt;p&gt;Hi,&lt;/p&gt;
 &lt;p&gt;I hope you enjoy Nanonote!&lt;/p&gt;
 &lt;p&gt;If you do, it would be lovely if you could &lt;a href=&apos;%1&apos;&gt;support my work&lt;/a&gt; on free and open source software.&lt;/p&gt;
@@ -210,12 +249,12 @@ That&apos;s all there is to say, now you can erase this text and start taking no
 <context>
     <name>TextEdit</name>
     <message>
-        <location filename="../TextEdit.cpp" line="49"/>
+        <location filename="../TextEdit.cpp" line="53"/>
         <source>Edit</source>
         <translation>Edit</translation>
     </message>
     <message>
-        <location filename="../TextEdit.cpp" line="55"/>
+        <location filename="../TextEdit.cpp" line="59"/>
         <source>View</source>
         <translation>View</translation>
     </message>
