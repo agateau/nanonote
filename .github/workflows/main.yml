@@ -1,6 +1,10 @@
 name: main
 
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    tags: '[0-9]*'
+  workflow_dispatch:
 
 jobs:
   check-codingstyle:

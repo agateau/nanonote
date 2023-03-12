@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.3.91 - 2023-03-12
+
+### Added
+- Add support for Markdown-style tasks in lists (Daniel Laidig)
+- Add tips page (Aurelien Gateau)
+
+### Changed
+- Use Ctrl+G to open links and Ctrl+Enter for tasks (Daniel Laidig)
+
+### Fixed
+- Make sure standard actions like Copy or Paste are translated (Aurelien Gateau)
+- Show keyboard shortcuts in context menus on macOS (Daniel Laidig)
+- Do not change cursor to pointing-hand when not over a link (Aurelien Gateau)
+
+### Internals
+- CI: Bump Ubuntu to 20.04 and macOS to 11 (Aurelien Gateau)
+- CI: Install clang-format from muttleyxd/clang-tools-static-binaries (Aurelien Gateau)
+- Bump Qt to 5.15.2 on macOS and Windows (Aurelien Gateau)
+- Update singleaplication to 3.3.4 (Aurelien Gateau)
+- Update Catch2 to 3.3.0 (Aurelien Gateau)
+
 ## 1.3.0 - 2020-10-03
 
 ### Changed
