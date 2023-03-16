@@ -24,7 +24,7 @@
    <item row="0" column="5">
     <widget class="QToolButton" name="closeButton">
      <property name="text">
-      <string notr="true">⛌</string>
+      <string notr="true">⨯</string>
      </property>
      <property name="autoRaise">
       <bool>true</bool>
