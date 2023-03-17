@@ -25,5 +25,4 @@ main() {
 
     setup_python_cmd
     install_cmake
-    install_qpropgen
 }

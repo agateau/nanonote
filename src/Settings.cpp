@@ -4,7 +4,7 @@
 #include <QSettings>
 #include <QStandardPaths>
 
-Settings::Settings(QObject* parent) : BaseSettings(parent) {
+Settings::Settings(QObject* parent) : QObject(parent) {
 }
 
 QString Settings::notePath() {
@@ -38,4 +38,40 @@ void Settings::save() {
 
 QFont Settings::defaultFont() const {
     return QFontDatabase::systemFont(QFontDatabase::FixedFont);
+}
+
+bool Settings::alwaysOnTop() const {
+    return mAlwaysOnTop;
+}
+
+void Settings::setAlwaysOnTop(bool value) {
+    if (mAlwaysOnTop == value) {
+        return;
+    }
+    mAlwaysOnTop = value;
+    alwaysOnTopChanged(value);
+}
+
+QFont Settings::font() const {
+    return mFont;
+}
+
+void Settings::setFont(const QFont& value) {
+    if (mFont == value) {
+        return;
+    }
+    mFont = value;
+    fontChanged(value);
+}
+
+QRect Settings::geometry() const {
+    return mGeometry;
+}
+
+void Settings::setGeometry(const QRect& value) {
+    if (mGeometry == value) {
+        return;
+    }
+    mGeometry = value;
+    geometryChanged(value);
 }
