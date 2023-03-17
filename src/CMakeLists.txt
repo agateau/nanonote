@@ -10,7 +10,6 @@ configure_file(
 )
 
 set(APPLIB_SRCS
-    BaseSettings.cpp
     IndentExtension.cpp
     LinkSyntaxHighlighter.cpp
     LinkExtension.cpp
