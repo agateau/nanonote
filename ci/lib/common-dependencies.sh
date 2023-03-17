@@ -65,8 +65,3 @@ install_ecm() {
         cmake --build . --target install
     )
 }
-
-install_qpropgen() {
-    echo_title "Installing qpropgen"
-    $PYTHON_CMD -m pip install qpropgen==$QPROPGEN_VERSION
-}

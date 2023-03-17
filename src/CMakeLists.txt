@@ -10,6 +10,7 @@ configure_file(
 )
 
 set(APPLIB_SRCS
+    BaseSettings.cpp
     IndentExtension.cpp
     LinkSyntaxHighlighter.cpp
     LinkExtension.cpp
@@ -28,9 +29,6 @@ set(APPLIB_SRCS
 
 qt5_add_resources(APPLIB_RESOURCES_SRCS app.qrc)
 
-qpropgen(QPROPGEN_SRCS
-    BaseSettings.yaml
-)
 # App library
 add_library(${APPLIB_NAME} STATIC
     ${APPLIB_SRCS}

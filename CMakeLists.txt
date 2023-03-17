@@ -22,7 +22,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(Qt5 CONFIG REQUIRED Core Widgets Test LinguistTools)
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
-include(third-party/qpropgen/cmake/qpropgen.cmake)
 
 # Installation directories
 if (UNIX AND NOT APPLE)

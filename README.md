@@ -30,10 +30,6 @@ Get the source:
     cd nanonote
     git submodule update --init
 
-Install [qpropgen](https://github.com/agateau/qpropgen) requirements:
-
-    pip3 install -r qpropgen/requirements.txt
-
 Build Nanonote:
 
     mkdir build
