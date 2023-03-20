@@ -1,5 +1,6 @@
 #include "LinkSyntaxHighlighter.h"
 
+#include <QFont>
 #include <QGuiApplication>
 #include <QPalette>
 #include <QRegularExpression>
@@ -16,18 +17,29 @@ static const char LINK_REGEX[] =
 
 static const char TASK_REGEX[] = "^\\s*[-\\*] (\\[[x ]\\])";
 
+static const char HEADING_REGEX[] = "^#+ .*$";
+
 LinkSyntaxHighlighter::LinkSyntaxHighlighter(QTextDocument* document)
         : QSyntaxHighlighter(document) {
 }
 
 void LinkSyntaxHighlighter::highlightBlock(const QString& text) {
+    QTextCharFormat headingFormat;
+    headingFormat.setFontWeight(QFont::Bold);
+
+    QRegularExpression expression(HEADING_REGEX);
+    for (auto it = expression.globalMatch(text); it.hasNext();) {
+        QRegularExpressionMatch match = it.next();
+        setFormat(match.capturedStart(), match.capturedLength(), headingFormat);
+    }
+
     QTextCharFormat linkFormat;
     QColor linkColor = QGuiApplication::palette().color(QPalette::Link);
     linkFormat.setForeground(linkColor);
     linkFormat.setUnderlineColor(linkColor);
     linkFormat.setUnderlineStyle(QTextCharFormat::SingleUnderline);
 
-    QRegularExpression expression(LINK_REGEX);
+    expression = QRegularExpression(LINK_REGEX);
     for (auto it = expression.globalMatch(text); it.hasNext();) {
         QRegularExpressionMatch match = it.next();
         setFormat(match.capturedStart(), match.capturedLength(), linkFormat);
