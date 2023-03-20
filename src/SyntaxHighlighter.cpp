@@ -3,7 +3,6 @@
 #include <QFont>
 #include <QGuiApplication>
 #include <QPalette>
-#include <QRegularExpression>
 
 // These chars are allowed anywhere in the url
 #define COMMON_CHARS "-_a-zA-Z0-9/?=&#"
@@ -20,15 +19,17 @@ static constexpr char TASK_REGEX[] = "^\\s*[-\\*] (\\[[x ]\\])";
 static constexpr char HEADING_REGEX[] = "^#+ .*$";
 
 SyntaxHighlighter::SyntaxHighlighter(QTextDocument* document)
-        : QSyntaxHighlighter(document) {
+        : QSyntaxHighlighter(document)
+        , mLinkRegex(LINK_REGEX)
+        , mTaskRegex(TASK_REGEX)
+        , mHeadingRegex(HEADING_REGEX) {
 }
 
 void SyntaxHighlighter::highlightBlock(const QString& text) {
     QTextCharFormat headingFormat;
     headingFormat.setFontWeight(QFont::Bold);
 
-    QRegularExpression expression(HEADING_REGEX);
-    for (auto it = expression.globalMatch(text); it.hasNext();) {
+    for (auto it = mHeadingRegex.globalMatch(text); it.hasNext();) {
         QRegularExpressionMatch match = it.next();
         setFormat(match.capturedStart(), match.capturedLength(), headingFormat);
     }
@@ -39,8 +40,7 @@ void SyntaxHighlighter::highlightBlock(const QString& text) {
     linkFormat.setUnderlineColor(linkColor);
     linkFormat.setUnderlineStyle(QTextCharFormat::SingleUnderline);
 
-    expression = QRegularExpression(LINK_REGEX);
-    for (auto it = expression.globalMatch(text); it.hasNext();) {
+    for (auto it = mLinkRegex.globalMatch(text); it.hasNext();) {
         QRegularExpressionMatch match = it.next();
         setFormat(match.capturedStart(), match.capturedLength(), linkFormat);
     }
@@ -48,8 +48,7 @@ void SyntaxHighlighter::highlightBlock(const QString& text) {
     QTextCharFormat taskFormat;
     taskFormat.setForeground(linkColor);
 
-    expression = QRegularExpression(TASK_REGEX);
-    for (auto it = expression.globalMatch(text); it.hasNext();) {
+    for (auto it = mTaskRegex.globalMatch(text); it.hasNext();) {
         QRegularExpressionMatch match = it.next();
         setFormat(match.capturedStart(1), match.capturedLength(1), taskFormat);
     }
