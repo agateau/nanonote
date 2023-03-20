@@ -32,7 +32,7 @@
 
 using namespace std::chrono_literals;
 
-static const auto AUTOSAVE_INTERVAL = 1s;
+static constexpr auto AUTOSAVE_INTERVAL = 1s;
 
 //- MainWindowExtension --------------------------------
 MainWindowExtension::MainWindowExtension(MainWindow* window)

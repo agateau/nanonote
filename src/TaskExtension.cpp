@@ -5,7 +5,7 @@
 
 #include "SyntaxHighlighter.h"
 
-static const char INSERT_TASK_REGEX[] = "^(\\s*)([-\\*])?(\\s)?(\\[[x ]\\])?";
+static constexpr char INSERT_TASK_REGEX[] = "^(\\s*)([-\\*])?(\\s)?(\\[[x ]\\])?";
 
 static int getTaskCheckmarkPosUnderCursor(const QTextCursor& cursor) {
     return SyntaxHighlighter::getTaskCheckmarkPosAt(cursor.block().text(),

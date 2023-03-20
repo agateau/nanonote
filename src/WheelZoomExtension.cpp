@@ -2,7 +2,7 @@
 
 #include <QDateTime>
 
-static const int SCROLL_TIMEOUT = 1000; // in milliseconds
+static constexpr int SCROLL_TIMEOUT = 1000; // in milliseconds
 
 WheelZoomExtension::WheelZoomExtension(TextEdit* textEdit) : TextEditExtension(textEdit) {
 }
