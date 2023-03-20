@@ -3,13 +3,13 @@
 #include <QMenu>
 #include <QRegularExpression>
 
-#include "LinkSyntaxHighlighter.h"
+#include "SyntaxHighlighter.h"
 
 static const char INSERT_TASK_REGEX[] = "^(\\s*)([-\\*])?(\\s)?(\\[[x ]\\])?";
 
 static int getTaskCheckmarkPosUnderCursor(const QTextCursor& cursor) {
-    return LinkSyntaxHighlighter::getTaskCheckmarkPosAt(cursor.block().text(),
-                                                        cursor.positionInBlock());
+    return SyntaxHighlighter::getTaskCheckmarkPosAt(cursor.block().text(),
+                                                    cursor.positionInBlock());
 }
 
 static void toggleTask(QTextCursor* cursor, int pos) {

@@ -7,10 +7,10 @@
 #include <QMenu>
 #include <QMimeData>
 
-#include "LinkSyntaxHighlighter.h"
+#include "SyntaxHighlighter.h"
 
 static QUrl getLinkUnderCursor(const QTextCursor& cursor) {
-    return LinkSyntaxHighlighter::getLinkAt(cursor.block().text(), cursor.positionInBlock());
+    return SyntaxHighlighter::getLinkAt(cursor.block().text(), cursor.positionInBlock());
 }
 
 LinkExtension::LinkExtension(TextEdit* textEdit)

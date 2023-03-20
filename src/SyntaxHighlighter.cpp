@@ -1,4 +1,4 @@
-#include "LinkSyntaxHighlighter.h"
+#include "SyntaxHighlighter.h"
 
 #include <QFont>
 #include <QGuiApplication>
@@ -19,11 +19,11 @@ static const char TASK_REGEX[] = "^\\s*[-\\*] (\\[[x ]\\])";
 
 static const char HEADING_REGEX[] = "^#+ .*$";
 
-LinkSyntaxHighlighter::LinkSyntaxHighlighter(QTextDocument* document)
+SyntaxHighlighter::SyntaxHighlighter(QTextDocument* document)
         : QSyntaxHighlighter(document) {
 }
 
-void LinkSyntaxHighlighter::highlightBlock(const QString& text) {
+void SyntaxHighlighter::highlightBlock(const QString& text) {
     QTextCharFormat headingFormat;
     headingFormat.setFontWeight(QFont::Bold);
 
@@ -55,7 +55,7 @@ void LinkSyntaxHighlighter::highlightBlock(const QString& text) {
     }
 }
 
-QUrl LinkSyntaxHighlighter::getLinkAt(const QString& text, int position) {
+QUrl SyntaxHighlighter::getLinkAt(const QString& text, int position) {
     QRegularExpression expression(LINK_REGEX);
     for (auto it = expression.globalMatch(text); it.hasNext();) {
         QRegularExpressionMatch match = it.next();
@@ -66,7 +66,7 @@ QUrl LinkSyntaxHighlighter::getLinkAt(const QString& text, int position) {
     return QUrl();
 }
 
-int LinkSyntaxHighlighter::getTaskCheckmarkPosAt(const QString& text, int position) {
+int SyntaxHighlighter::getTaskCheckmarkPosAt(const QString& text, int position) {
     QRegularExpression expression(TASK_REGEX);
     for (auto it = expression.globalMatch(text); it.hasNext();) {
         QRegularExpressionMatch match = it.next();

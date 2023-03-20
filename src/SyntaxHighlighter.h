@@ -3,9 +3,9 @@
 
 #include <QSyntaxHighlighter>
 
-class LinkSyntaxHighlighter : public QSyntaxHighlighter {
+class SyntaxHighlighter : public QSyntaxHighlighter {
 public:
-    LinkSyntaxHighlighter(QTextDocument* document);
+    SyntaxHighlighter(QTextDocument* document);
 
     static QUrl getLinkAt(const QString& text, int position);
     static int getTaskCheckmarkPosAt(const QString& text, int position);
