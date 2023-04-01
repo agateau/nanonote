@@ -1,8 +1,8 @@
-#include "LinkSyntaxHighlighter.h"
+#include "SyntaxHighlighter.h"
 
+#include <QFont>
 #include <QGuiApplication>
 #include <QPalette>
-#include <QRegularExpression>
 
 // These chars are allowed anywhere in the url
 #define COMMON_CHARS "-_a-zA-Z0-9/?=&#"
@@ -11,24 +11,36 @@
 // as punctuation, are separators in urls or are unlikely to appear at the end of an url.
 #define MIDDLE_CHARS ".,;:%+~@"
 
-static const char LINK_REGEX[] =
+static constexpr char LINK_REGEX[] =
     "\\b(https?://|ftp://|file:/)[" COMMON_CHARS MIDDLE_CHARS "]+[" COMMON_CHARS "]";
 
-static const char TASK_REGEX[] = "^\\s*[-\\*] (\\[[x ]\\])";
+static constexpr char TASK_REGEX[] = "^\\s*[-\\*] (\\[[x ]\\])";
 
-LinkSyntaxHighlighter::LinkSyntaxHighlighter(QTextDocument* document)
-        : QSyntaxHighlighter(document) {
+static constexpr char HEADING_REGEX[] = "^#+ .*$";
+
+SyntaxHighlighter::SyntaxHighlighter(QTextDocument* document)
+        : QSyntaxHighlighter(document)
+        , mLinkRegex(LINK_REGEX)
+        , mTaskRegex(TASK_REGEX)
+        , mHeadingRegex(HEADING_REGEX) {
 }
 
-void LinkSyntaxHighlighter::highlightBlock(const QString& text) {
+void SyntaxHighlighter::highlightBlock(const QString& text) {
+    QTextCharFormat headingFormat;
+    headingFormat.setFontWeight(QFont::Bold);
+
+    for (auto it = mHeadingRegex.globalMatch(text); it.hasNext();) {
+        QRegularExpressionMatch match = it.next();
+        setFormat(match.capturedStart(), match.capturedLength(), headingFormat);
+    }
+
     QTextCharFormat linkFormat;
     QColor linkColor = QGuiApplication::palette().color(QPalette::Link);
     linkFormat.setForeground(linkColor);
     linkFormat.setUnderlineColor(linkColor);
     linkFormat.setUnderlineStyle(QTextCharFormat::SingleUnderline);
 
-    QRegularExpression expression(LINK_REGEX);
-    for (auto it = expression.globalMatch(text); it.hasNext();) {
+    for (auto it = mLinkRegex.globalMatch(text); it.hasNext();) {
         QRegularExpressionMatch match = it.next();
         setFormat(match.capturedStart(), match.capturedLength(), linkFormat);
     }
@@ -36,14 +48,13 @@ void LinkSyntaxHighlighter::highlightBlock(const QString& text) {
     QTextCharFormat taskFormat;
     taskFormat.setForeground(linkColor);
 
-    expression = QRegularExpression(TASK_REGEX);
-    for (auto it = expression.globalMatch(text); it.hasNext();) {
+    for (auto it = mTaskRegex.globalMatch(text); it.hasNext();) {
         QRegularExpressionMatch match = it.next();
         setFormat(match.capturedStart(1), match.capturedLength(1), taskFormat);
     }
 }
 
-QUrl LinkSyntaxHighlighter::getLinkAt(const QString& text, int position) {
+QUrl SyntaxHighlighter::getLinkAt(const QString& text, int position) {
     QRegularExpression expression(LINK_REGEX);
     for (auto it = expression.globalMatch(text); it.hasNext();) {
         QRegularExpressionMatch match = it.next();
@@ -54,7 +65,7 @@ QUrl LinkSyntaxHighlighter::getLinkAt(const QString& text, int position) {
     return QUrl();
 }
 
-int LinkSyntaxHighlighter::getTaskCheckmarkPosAt(const QString& text, int position) {
+int SyntaxHighlighter::getTaskCheckmarkPosAt(const QString& text, int position) {
     QRegularExpression expression(TASK_REGEX);
     for (auto it = expression.globalMatch(text); it.hasNext();) {
         QRegularExpressionMatch match = it.next();

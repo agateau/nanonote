@@ -5,7 +5,7 @@
 #include <QMenu>
 #include <QTextBlock>
 
-static const int INDENT_SIZE = 4;
+static constexpr int INDENT_SIZE = 4;
 
 static int findBulletSize(const QStringRef& ref) {
     static QStringList bullets = {"- [ ] ", "- [x] ", "* [ ] ", "* [x] ", "- ", "* ", "> "};

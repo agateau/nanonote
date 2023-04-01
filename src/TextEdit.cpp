@@ -6,7 +6,7 @@
 
 #include <memory>
 
-#include "LinkSyntaxHighlighter.h"
+#include "SyntaxHighlighter.h"
 
 // TextEditExtension ---------------------
 TextEditExtension::TextEditExtension(TextEdit* textEdit) : QObject(textEdit), mTextEdit(textEdit) {
@@ -43,7 +43,7 @@ bool TextEditExtension::wheel(QWheelEvent* /*event*/) {
 
 // TextEdit ------------------------------
 TextEdit::TextEdit(QWidget* parent) : QPlainTextEdit(parent) {
-    new LinkSyntaxHighlighter(document());
+    new SyntaxHighlighter(document());
 }
 
 void TextEdit::contextMenuEvent(QContextMenuEvent* event) {

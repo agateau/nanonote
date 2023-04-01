@@ -11,7 +11,7 @@ configure_file(
 
 set(APPLIB_SRCS
     IndentExtension.cpp
-    LinkSyntaxHighlighter.cpp
+    SyntaxHighlighter.cpp
     LinkExtension.cpp
     MainWindow.cpp
     MoveLinesExtension.cpp

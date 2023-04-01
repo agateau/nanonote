@@ -28,3 +28,7 @@ You can create checkable list entries with `- [ ]` or `* [ ]`, like this:
 ```
 
 Checkboxes can be toggled with `Ctrl+Enter` or by holding `Ctrl` and clicking on them.
+
+## Headings
+
+Nanonote highlights Markdown-like headings (headings starting with `# `), rendering them in bold. This is helpful to segment your notes.
