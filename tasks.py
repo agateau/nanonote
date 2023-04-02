@@ -1,7 +1,9 @@
 import os
 import re
 import shutil
+import subprocess
 import sys
+import xml.etree.ElementTree as ET
 
 from pathlib import Path
 from tempfile import NamedTemporaryFile
@@ -15,6 +17,7 @@ from changelog import Changelog, Release
 ARTIFACTS_DIR = Path("artifacts")
 
 CHANGELOG_MD = Path("CHANGELOG.md")
+APPSTREAM_XML = Path("src/linux/nanonote.metainfo.xml")
 
 MAIN_BRANCH = "master"
 
@@ -69,6 +72,42 @@ def update_version(c):
 
 
 @task
+def update_appstream_releases(c):
+    """Regenerate the <releases> element of our appstream file from
+    CHANGELOG.md"""
+    changelog = Changelog.from_path(CHANGELOG_MD)
+
+    releases_et = ET.Element("releases")
+    for release in changelog.releases.values():
+        release_et = ET.SubElement(releases_et, "release",
+                                   {
+                                       "version": release.version,
+                                       "date": release.date
+                                   })
+        description_et = ET.SubElement(release_et, "description")
+        for change_type, changes in release.changes.items():
+            p_et = ET.SubElement(description_et, "p")
+            em_et = ET.SubElement(p_et, "em")
+            em_et.text = change_type
+            ul_et = ET.SubElement(description_et, "ul")
+            for change in changes:
+                li_et = ET.SubElement(ul_et, "li")
+                li_et.text = change
+    content = ET.tostring(releases_et, encoding="unicode")
+
+    # Replace the <releases> element by hand to avoid loosing comments, if any
+    appstream_content = APPSTREAM_XML.read_text()
+    appstream_content, count = re.subn("<releases>.*</releases>",
+                                       content,
+                                       appstream_content, flags=re.DOTALL)
+    assert count == 1
+    subprocess.run(["xmllint", "--format", "--output", APPSTREAM_XML, "-"],
+                   check=True,
+                   text=True,
+                   input=appstream_content)
+
+
+@task
 def create_release_branch(c):
     version = get_version()
     run(f"gh issue list -m {version}", pty=True)
@@ -101,6 +140,8 @@ def create_release_branch2(c):
 
     if not is_ok("Looks good?"):
         sys.exit(1)
+
+    update_appstream_releases(c)
 
 
 @task
