@@ -6,7 +6,7 @@ Nanonote is a minimalist note taking application.
 
 ![Screenshot](screenshot.png)
 
-It automatically saves anything you type. Being minimalist means it has no synchronisation, does not support multiple documents, images or any advanced formatting (the only formatting is highlighting URLs).
+It automatically saves anything you type. Being minimalist means it has no synchronisation, does not support multiple documents, images or any advanced formatting (the only formatting is highlighting URLs and Markdown-like headings).
 
 It is developed and tested on Linux but also works on macOS and Windows as well.
 
