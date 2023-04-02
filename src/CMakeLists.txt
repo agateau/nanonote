@@ -100,6 +100,10 @@ if (UNIX AND NOT APPLE)
         DESTINATION share/applications
         RENAME ${INVERSE_ORGANIZATION_NAME}.${APP_NAME}.desktop
     )
+    install(FILES linux/${APP_NAME}.metainfo.xml
+        DESTINATION share/metainfo
+        RENAME ${INVERSE_ORGANIZATION_NAME}.${APP_NAME}.metainfo.xml
+    )
 endif()
 
 if (WIN32)

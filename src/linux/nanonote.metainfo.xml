@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2023 Aurélien Gâteau -->
+<component type="desktop-application">
+  <id>com.agateau.Nanonote</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <name>Nanonote</name>
+  <summary>
+    A minimalist note taking application.
+  </summary>
+  <description>
+    <p>
+      Nanonote is a minimalist note taking application.
+    </p>
+    <p>
+      It automatically saves anything you type. Being minimalist means it has no synchronisation, does not support multiple documents, images or any advanced formatting (the only formatting is highlighting URLs and Markdown-like headings).
+      Pixel Wheels is a retro top-down race game for Linux, macOS, Windows and Android.
+    </p>
+  </description>
+  <categories>
+    <category>Utility</category>
+    <category>TextEditor</category>
+  </categories>
+  <url type="homepage">https://agateau.com/projects/nanonote</url>
+  <url type="bugtracker">https://github.com/agateau/nanonote/issues</url>
+  <url type="donation">https://agateau.com/support</url>
+  <launchable type="desktop-id">com.agateau.nanonote.desktop</launchable>
+  <releases>
+    <release version="1.3.91" date="2023-03-12">
+      <description>
+        <p>
+          <em>Added</em>
+        </p>
+        <ul>
+          <li>Add support for Markdown-style tasks in lists (Daniel Laidig)</li>
+          <li>Add tips page (Aurelien Gateau)</li>
+        </ul>
+        <p>
+          <em>Changed</em>
+        </p>
+        <ul>
+          <li>Use Ctrl+G to open links and Ctrl+Enter for tasks (Daniel Laidig)</li>
+        </ul>
+        <p>
+          <em>Fixed</em>
+        </p>
+        <ul>
+          <li>Make sure standard actions like Copy or Paste are translated (Aurelien Gateau)</li>
+          <li>Show keyboard shortcuts in context menus on macOS (Daniel Laidig)</li>
+          <li>Do not change cursor to pointing-hand when not over a link (Aurelien Gateau)</li>
+        </ul>
+        <p>
+          <em>Internals</em>
+        </p>
+        <ul>
+          <li>CI: Bump Ubuntu to 20.04 and macOS to 11 (Aurelien Gateau)</li>
+          <li>CI: Install clang-format from muttleyxd/clang-tools-static-binaries (Aurelien Gateau)</li>
+          <li>Bump Qt to 5.15.2 on macOS and Windows (Aurelien Gateau)</li>
+          <li>Update singleaplication to 3.3.4 (Aurelien Gateau)</li>
+          <li>Update Catch2 to 3.3.0 (Aurelien Gateau)</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.3.0" date="2020-10-03">
+      <description>
+        <p>
+          <em>Changed</em>
+        </p>
+        <ul>
+          <li>Update Spanish translation (Victorhck)</li>
+        </ul>
+        <p>
+          <em>Fixed</em>
+        </p>
+        <ul>
+          <li>Properly encode URL of the note path (Aurelien Gateau)</li>
+          <li>Fix untranslated text in About tab on Linux (Aurelien Gateau)</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.2.91" date="2020-09-28">
+      <description>
+        <p>
+          <em>Added</em>
+        </p>
+        <ul>
+          <li>You can now search inside your notes with the new search bar (Pavol Oresky)</li>
+          <li>You can now move selected lines up and down with Alt+Shift+Up and Down (Aurelien Gateau)</li>
+          <li>macOS dmg (Aurelien Gateau)</li>
+          <li>Windows installer (Aurelien Gateau)</li>
+        </ul>
+        <p>
+          <em>Changed</em>
+        </p>
+        <ul>
+          <li>Reorganized context menu: added "Edit" and "View" submenus (Aurelien Gateau)</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.2.0" date="2019-05-11">
+      <description>
+        <p>
+          <em>Added</em>
+        </p>
+        <ul>
+          <li>New German translation by Vinzenz Vietzke</li>
+          <li>Allow changing the font size using Ctrl + mouse wheel (Daniel Laidig)</li>
+          <li>Use the link color of the color theme instead of an hardcoded blue (Daniel Laidig)</li>
+          <li>Added a way to reset the font size to the default value (Daniel Laidig)</li>
+        </ul>
+        <p>
+          <em>Fixed</em>
+        </p>
+        <ul>
+          <li>Added explanation of how to open URLs to the welcome text (Robert Barat)</li>
+          <li>Allow '@' in URLs (Aurelien Gateau)</li>
+          <li>Use QSaveFile for safer saving (Aurelien Gateau)</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.0" date="2019-02-04">
+      <description>
+        <p>
+          <em>Added</em>
+        </p>
+        <ul>
+          <li>Pressing tab now indents the whole line when the cursor is at the beginning of a list item (Daniel Laidig).</li>
+          <li>Pressing Enter on an empty list item now unindents, then removes the bullet (Aurelien Gateau).</li>
+          <li>Added French and Spanish translations (Aurelien Gateau, Victorhck).</li>
+        </ul>
+        <p>
+          <em>Fixed</em>
+        </p>
+        <ul>
+          <li>Improved url detection: '+', '%' and '~' are now allowed in the middle of urls (Aurelien Gateau).</li>
+          <li>Fixed wrong indentation behavior in upward selections (Aurelien Gateau).</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.0.1" date="2019-01-12">
+      <description>
+        <p>
+          <em>Added</em>
+        </p>
+        <ul>
+          <li>Added unit-tests.</li>
+          <li>Added Travis integration.</li>
+          <li>Added rpm and deb packages generated using CPack.</li>
+        </ul>
+        <p>
+          <em>Fixed</em>
+        </p>
+        <ul>
+          <li>Fixed indentation and make it respect indentation columns.</li>
+          <li>Made it possible to indent/unindent selected lines with Tab/Shift+Tab.</li>
+          <li>Update welcome text to reflect current shortcuts.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.0.0" date="2018-12-30">
+      <description>
+        <p>
+          <em>Added</em>
+        </p>
+        <ul>
+          <li>First release</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+  <provides>
+    <binary>nanonote</binary>
+  </provides>
+  <project_license>GPL-3.0-or-later</project_license>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source" width="1049" height="741">https://github.com/agateau/nanonote/raw/1.3.91/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+</component>
