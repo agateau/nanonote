@@ -9,8 +9,12 @@ from typing import List
 
 from invoke import task, run
 
+from changelog import Changelog, Release
+
 
 ARTIFACTS_DIR = Path("artifacts")
+
+CHANGELOG_MD = Path("CHANGELOG.md")
 
 MAIN_BRANCH = "master"
 
@@ -145,23 +149,28 @@ def download_artifacts(c):
     erun(f"gh run download --dir {ARTIFACTS_DIR}", pty=True)
 
 
-def prepare_release_notes(version_md: Path) -> str:
+def prepare_release_notes(release: Release) -> str:
     """
-    Take the content of $VERSION.md and return it ready to use as GitHub release notes:
-    - Remove header
-    - Turn all h3 into h2
+    Take a Release instance and produce markdown suitable for GitHub release
+    notes
     """
-    content = re.sub("^## .*", "", version_md.read_text())
-    content = re.sub("^### ", "## ", content, flags=re.MULTILINE)
-    return content.strip() + "\n"
+    lines = []
+    for change_type, changes in release.changes.items():
+        lines.append(f"## {change_type}")
+        for change in changes:
+            lines.append(f"- {change}")
+    return "\n\n".join(lines) + "\n"
 
 
 @task(help={"pre": "This is a prerelease"})
 def publish(c, pre=False):
     version = get_version()
+    changelog = Changelog.from_path(CHANGELOG_MD)
+    release = changelog.releases[version]
+    content = prepare_release_notes(release)
+
     files_str = " ".join(str(x) for x in get_artifact_list())
     with NamedTemporaryFile() as tmp_file:
-        content = prepare_release_notes(Path(".changes") / f"{version}.md")
         tmp_file.write(content.encode("utf-8"))
         tmp_file.flush()
         cmd = f"gh release create {version} -F{tmp_file.name} {files_str}"
