@@ -21,6 +21,8 @@ APPSTREAM_XML = Path("src/linux/nanonote.metainfo.xml")
 
 MAIN_BRANCH = "master"
 
+PREP_RELEASE_BRANCH = "prep-release"
+
 
 def get_version():
     return os.environ["VERSION"]
@@ -127,7 +129,7 @@ def create_release_branch(c):
 @task
 def create_release_branch2(c):
     version = get_version()
-    erun("git checkout -b prep-release")
+    erun(f"git checkout -b {PREP_RELEASE_BRANCH}")
 
     update_version(c)
 
@@ -156,7 +158,7 @@ def commit_push(c):
     version = get_version()
     erun("git add .")
     erun(f'git commit -m "Prepare release of {version}"')
-    erun("git push -u origin prepare-release")
+    erun(f"git push -u origin {PREP_RELEASE_BRANCH}")
     create_pr(c)
 
 
