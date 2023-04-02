@@ -1,4 +1,5 @@
 /build
 /dist
+/artifacts
 CMakeLists.txt.user*
 .*.swp

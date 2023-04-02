@@ -181,7 +181,10 @@ def tag(c):
 
 def get_artifact_list() -> List[Path]:
     assert ARTIFACTS_DIR.exists()
-    return list(ARTIFACTS_DIR.glob("*.rpm")) + list(ARTIFACTS_DIR.glob("*.deb"))
+    lst = []
+    for ext in "rpm", "dmg", "exe", "tar.bz2", "deb":
+        list.extend(list(ARTIFACTS_DIR.glob(f"*.{ext}")))
+    return lst
 
 
 @task
