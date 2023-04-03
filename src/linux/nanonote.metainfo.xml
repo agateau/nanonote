@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2023 Aurélien Gâteau -->
 <component type="desktop-application">
-  <id>com.agateau.Nanonote</id>
+  <id>com.agateau.nanonote</id>
   <metadata_license>CC0-1.0</metadata_license>
   <name>Nanonote</name>
   <summary>
