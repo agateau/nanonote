@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.93 - 2023-04-03
+
+### Fixed
+
+- Fixed a typo in the Appstream ID, which made creating a Flatpak for the app complicated.
+
 ## 1.3.92 - 2023-04-02
 
 ### Added
