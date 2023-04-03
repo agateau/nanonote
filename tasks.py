@@ -1,13 +1,11 @@
 import os
 import re
-import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
 
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-from typing import List
 
 from invoke import task, run
 
@@ -179,22 +177,6 @@ def tag(c):
     erun(f"git push origin {version}")
 
 
-def get_artifact_list() -> List[Path]:
-    assert ARTIFACTS_DIR.exists()
-    lst = []
-    for ext in "rpm", "dmg", "exe", "tar.bz2", "deb":
-        list.extend(list(ARTIFACTS_DIR.glob(f"*.{ext}")))
-    return lst
-
-
-@task
-def download_artifacts(c):
-    if ARTIFACTS_DIR.exists():
-        shutil.rmtree(ARTIFACTS_DIR)
-    ARTIFACTS_DIR.mkdir()
-    erun(f"gh run download --dir {ARTIFACTS_DIR}", pty=True)
-
-
 def prepare_release_notes(release: Release) -> str:
     """
     Take a Release instance and produce markdown suitable for GitHub release
@@ -215,11 +197,10 @@ def publish(c, pre=False):
     release = changelog.releases[version]
     content = prepare_release_notes(release)
 
-    files_str = " ".join(str(x) for x in get_artifact_list())
     with NamedTemporaryFile() as tmp_file:
         tmp_file.write(content.encode("utf-8"))
         tmp_file.flush()
-        cmd = f"gh release create {version} -F{tmp_file.name} {files_str}"
+        cmd = f"gh release edit {version} -F{tmp_file.name} --draft=false"
         if pre:
             cmd += " --prerelease"
         erun(cmd)

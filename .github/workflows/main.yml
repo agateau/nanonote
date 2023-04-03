@@ -2,8 +2,8 @@ name: main
 
 on:
   pull_request:
-  push:
-    tags: '[0-9]*'
+  # `workflow_call` is used by the tag workflow to trigger the `build` job
+  workflow_call:
   workflow_dispatch:
 
 jobs:
@@ -39,5 +39,5 @@ jobs:
         shell: bash
       - uses: actions/upload-artifact@v3
         with:
-          name: packages
+          name: artifacts
           path: build/nanonote[-_]*.*
