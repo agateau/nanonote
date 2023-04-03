@@ -1,4 +1,0 @@
-kind: Fixed
-body: Fixed a typo in the Appstream ID, which made creating a Flatpak for the app
-  complicated.
-time: 2023-04-03T13:50:50.390845229+02:00
