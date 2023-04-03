@@ -1,0 +1,42 @@
+name: tag
+
+permissions:
+  # Required by `gh` to be able to create the release
+  contents: write
+
+on:
+  push:
+    tags:
+      - '[0-9]*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/main.yml
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      # `gh` needs a checkout of the repository to work
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Read info
+        id: info
+        shell: bash
+        run: |
+          echo "tag=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+          path: artifacts
+
+      - name: Create release
+        run: |
+          gh release create --draft --verify-tag "$TAG" --title "$TAG" artifacts/nanonote*.*
+        env:
+          TAG: ${{ steps.info.outputs.tag }}
+          GH_TOKEN: ${{ github.token }}
