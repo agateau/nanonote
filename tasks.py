@@ -87,8 +87,7 @@ def update_appstream_releases(c):
         description_et = ET.SubElement(release_et, "description")
         for change_type, changes in release.changes.items():
             p_et = ET.SubElement(description_et, "p")
-            em_et = ET.SubElement(p_et, "em")
-            em_et.text = change_type
+            p_et.text = change_type
             ul_et = ET.SubElement(description_et, "ul")
             for change in changes:
                 li_et = ET.SubElement(ul_et, "li")
