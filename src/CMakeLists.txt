@@ -46,6 +46,7 @@ target_link_libraries(${APPLIB_NAME}
 
 # Translations
 set(TS_FILES
+    translations/${APP_NAME}_cs.ts
     translations/${APP_NAME}_de.ts
     translations/${APP_NAME}_en.ts
     translations/${APP_NAME}_es.ts
