@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.4.0 - 2023-04-11
+
+### Added
+
+- Add support for Markdown-style tasks in lists (Daniel Laidig)
+- Add tips page (Aurelien Gateau)
+- Nanonote now highlights Markdown-like headings (Aurelien Gateau)
+- Nanonote now speaks Czech (Amerey)
+
+### Changed
+
+- Use Ctrl+G to open links and Ctrl+Enter for tasks (Daniel Laidig)
+
+### Fixed
+
+- Make sure standard actions like Copy or Paste are translated (Aurelien Gateau)
+- Show keyboard shortcuts in context menus on macOS (Daniel Laidig)
+- Do not change cursor to pointing-hand when not over a link (Aurelien Gateau)
+
 ## 1.3.93 - 2023-04-03
 
 ### Fixed
