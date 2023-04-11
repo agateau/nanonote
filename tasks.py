@@ -50,10 +50,13 @@ def is_ok(msg: str) -> bool:
     return answer == "y"
 
 
-@task
-def create_pr(c):
+@task(help={"skip_changelog": "Add skip-changelog label"})
+def create_pr(c, skip_changelog=False):
     """Create a pull-request and mark it as auto-mergeable"""
-    result = cerun(c, "gh pr create --fill", warn=True)
+    cmd = "gh pr create --fill"
+    if skip_changelog:
+        cmd += " --label skip-changelog"
+    result = cerun(c, cmd, warn=True)
     if not result:
         sys.exit(1)
     cerun(c, "gh pr merge --auto -dm")
