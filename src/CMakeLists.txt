@@ -51,6 +51,7 @@ set(TS_FILES
     translations/${APP_NAME}_en.ts
     translations/${APP_NAME}_es.ts
     translations/${APP_NAME}_fr.ts
+    translations/${APP_NAME}_nl.ts
 )
 qt5_add_translation(QM_FILES ${TS_FILES})
 add_custom_target(build_qm DEPENDS ${QM_FILES})
