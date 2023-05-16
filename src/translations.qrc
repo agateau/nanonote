@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/translations">
+        <file>nanonote_da.qm</file>
         <file>nanonote_de.qm</file>
         <file>nanonote_en.qm</file>
         <file>nanonote_es.qm</file>
