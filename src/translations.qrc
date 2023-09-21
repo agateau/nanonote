@@ -6,5 +6,6 @@
         <file>nanonote_es.qm</file>
         <file>nanonote_fr.qm</file>
         <file>nanonote_nl.qm</file>
+        <file>nanonote_no.qm</file>
     </qresource>
 </RCC>
