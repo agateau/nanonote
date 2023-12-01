@@ -25,6 +25,17 @@
   <url type="donation">https://agateau.com/support</url>
   <launchable type="desktop-id">com.agateau.nanonote.desktop</launchable>
   <releases>
+    <release version="1.4.1" date="2023-12-01">
+      <description>
+        <p>Added</p>
+        <ul>
+          <li>Nanonote now speaks Danish (Morgenkaff)</li>
+          <li>Nanonote now speaks Dutch (Heimen Stoffels)</li>
+          <li>Nanonote now speaks Polish (Marek Szumny)</li>
+          <li>Nanonote now speaks Norwegian (Vidar Karlsen)</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.4.0" date="2023-04-11">
       <description>
         <p>Added</p>

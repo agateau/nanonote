@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.4.1 - 2023-12-01
+
+### Added
+
+- Nanonote now speaks Danish (Morgenkaff)
+- Nanonote now speaks Dutch (Heimen Stoffels)
+- Nanonote now speaks Polish (Marek Szumny)
+- Nanonote now speaks Norwegian (Vidar Karlsen)
+
 ## 1.4.0 - 2023-04-11
 
 ### Added
