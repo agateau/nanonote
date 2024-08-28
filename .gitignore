@@ -4,3 +4,4 @@
 /inst
 CMakeLists.txt.user*
 .*.swp
+flake.lock
