@@ -93,26 +93,26 @@ That&apos;s all there is to say, now you can erase this text and start taking no
         <translation>Witamy w Nanonote!
 
         Nanonote to minimalistyczna aplikacja do robienia notatek.
-        
+
         Wszystko, co tu wpiszesz, jest automatycznie zapisywane na dysku.
-        
+
         Jedynym interfejsem użytkownika jest menu podręczne, wypróbuj je!
-        
+
         Nanonote posiada funkcję &quot;Zawsze na wierzchu&quot;, która pozwala trzymać okno w pogotowiu.
-        
+
         Aplikacja posiada również kilka przydatnych funkcji w trakcie edycji, takich jak listy z automatycznym wypunktowaniem:
-        
+
         - Przesuń kursor na koniec tej linii i naciśnij Enter
         - To działa także na
             - listy zagnieżdżone
         * gwiazdki
         - [ ] pozycje z listy kontrolnej (pola można przełączać za pomocą Ctrl+kliknięcie lub skrótem Ctrl+Enter)
-        
+
         Adresy URL można otwierać za pomocą Ctrl+kliknięcie lub skrótem Ctrl+G, gdy kursor znajduje się wewnątrz linka.
         Spróbuj kliknąć na poniższy przykład, aby poznać się więcej sztuczek:
-        
+
         https://github.com/agateau/nanonote/blob/master/docs/tips.md
-        
+
         To już wszystko, możesz teraz wymazać cały tekst i zacząć robić notatki!</translation>
     </message>
     <message>

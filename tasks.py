@@ -3,14 +3,12 @@ import re
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
-
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 
-from invoke import task, run
+from invoke import run, task
 
 from changelog import Changelog, Release
-
 
 ARTIFACTS_DIR = Path("artifacts")
 
@@ -68,7 +66,7 @@ def update_version(c):
     path = Path("CMakeLists.txt")
     text = path.read_text()
     text, count = re.subn(
-        r"^    VERSION .*", f'    VERSION {version}', text, flags=re.MULTILINE
+        r"^    VERSION .*", f"    VERSION {version}", text, flags=re.MULTILINE
     )
     assert count == 0 or count == 1
     path.write_text(text)
@@ -82,11 +80,9 @@ def update_appstream_releases(c):
 
     releases_et = ET.Element("releases")
     for release in changelog.releases.values():
-        release_et = ET.SubElement(releases_et, "release",
-                                   {
-                                       "version": release.version,
-                                       "date": release.date
-                                   })
+        release_et = ET.SubElement(
+            releases_et, "release", {"version": release.version, "date": release.date}
+        )
         description_et = ET.SubElement(release_et, "description")
         for change_type, changes in release.changes.items():
             p_et = ET.SubElement(description_et, "p")
@@ -99,14 +95,16 @@ def update_appstream_releases(c):
 
     # Replace the <releases> element by hand to avoid loosing comments, if any
     appstream_content = APPSTREAM_XML.read_text()
-    appstream_content, count = re.subn("<releases>.*</releases>",
-                                       content,
-                                       appstream_content, flags=re.DOTALL)
+    appstream_content, count = re.subn(
+        "<releases>.*</releases>", content, appstream_content, flags=re.DOTALL
+    )
     assert count == 1
-    subprocess.run(["xmllint", "--format", "--output", APPSTREAM_XML, "-"],
-                   check=True,
-                   text=True,
-                   input=appstream_content)
+    subprocess.run(
+        ["xmllint", "--format", "--output", APPSTREAM_XML, "-"],
+        check=True,
+        text=True,
+        input=appstream_content,
+    )
 
 
 @task

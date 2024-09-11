@@ -1,4 +1,6 @@
-# Pre-release
+# Release check list
+
+## Pre-release
 
 - [ ] Check working tree is up to date and clean:
 
@@ -26,7 +28,7 @@
 
 - [ ] Report any changes to release-check-list
 
-# Release
+## Release
 
 - [ ] Check working tree is up to date and clean:
 
@@ -56,6 +58,6 @@
 
 - [ ] Report any changes to release-check-list
 
-# Spread
+## Spread
 
 - [ ] Write blog post

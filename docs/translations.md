@@ -11,6 +11,7 @@ Translations are stored in .ts files in the [src/translations/](../src/translati
 ## Testing a translation
 
 - Build and install the app, preferably in a directory where you don't need to be root to install. This example assumes you install it to `$HOME/tmp/nanonote-inst`:
+
     ```
     mkdir build
     cd build
@@ -20,6 +21,7 @@ Translations are stored in .ts files in the [src/translations/](../src/translati
     ```
 
 - Run the app, possibly with the `LANGUAGE` variable set to force the language:
+
     ```
     LANGUAGE=<the_lang_to_test> $HOME/tmp/nanonote-inst/bin/nanonote
     ```

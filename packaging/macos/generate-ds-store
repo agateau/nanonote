@@ -7,7 +7,6 @@ You can change the layout by editing this file. For more control consider using
 dmgbuild <https://dmgbuild.readthedocs.io/en/latest>.
 """
 import sys
-
 from argparse import ArgumentParser
 
 from ds_store import DSStore
@@ -26,8 +25,7 @@ def move_file(store_item, pos):
 
 def set_window_options(store_item):
     position, size = WINDOW_RECT
-    bounds_str = "{{%d, %d}, {%d, %d}}" % (position[0], position[1],
-                                           size[0], size[1])
+    bounds_str = "{{%d, %d}, {%d, %d}}" % (position[0], position[1], size[0], size[1])
     store_item["bwsp"] = {
         "ShowStatusBar": False,
         "WindowBounds": bounds_str,
