@@ -60,16 +60,30 @@ def create_pr(c, skip_changelog=False):
     cerun(c, "gh pr merge --auto -dm")
 
 
+def replace_in_file(path, rx, replacement):
+    text = path.read_text()
+    text, count = rx.subn(replacement, text)
+    if count == 0:
+        # Can happen if a command has to be re-run another time
+        return
+    if count > 1:
+        sys.exit(f"Too many replacements in {path}: {count}")
+    path.write_text(text)
+
+
 @task
 def update_version(c):
     version = get_version()
-    path = Path("CMakeLists.txt")
-    text = path.read_text()
-    text, count = re.subn(
-        r"^    VERSION .*", f"    VERSION {version}", text, flags=re.MULTILINE
+    replace_in_file(
+        Path("CMakeLists.txt"),
+        re.compile(r"^    VERSION .*", flags=re.MULTILINE),
+        f"    VERSION {version}",
     )
-    assert count == 0 or count == 1
-    path.write_text(text)
+    replace_in_file(
+        Path("nix/flake.nix"),
+        re.compile(r'version = "\d+\.\d+\.\d+";'),
+        f'version = "{version}";',
+    )
 
 
 @task
