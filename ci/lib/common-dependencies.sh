@@ -1,16 +1,13 @@
 AQTINSTALL_VERSION=3.1.0
 AQTINSTALL_ARCHIVES="qtbase qtimageformats qtsvg qttranslations qttools"
 
-setup_python_cmd() {
-    echo_title "Looking for a Python 3 + pip installation"
-    for interpreter in python3 python ; do
-        if $interpreter -m pip --version 2> /dev/null ; then
-            echo "Found $interpreter"
-            add_env_var PYTHON_CMD $interpreter
-            return
-        fi
-    done
-    die "Can't find a valid Python 3 installation."
+check_pipx() {
+    echo_title "Looking for pipx"
+    if command -v pipx 2> /dev/null ; then
+        echo "Found pipx"
+        return
+    fi
+    die "Can't find pipx."
 }
 
 install_qt() {
@@ -23,9 +20,9 @@ install_qt() {
     if is_macos ; then
         aqt_args="mac desktop $QT_VERSION $QT_ARCH_MACOS"
     fi
-    $PYTHON_CMD -m pip install aqtinstall==$AQTINSTALL_VERSION
+    pipx install aqtinstall==$AQTINSTALL_VERSION
 
-    $PYTHON_CMD -m aqt install-qt \
+    aqt install-qt \
         $aqt_args \
         --outputdir $qt_install_dir \
         --archives $AQTINSTALL_ARCHIVES
@@ -44,7 +41,7 @@ install_qt() {
 
 install_cmake() {
     echo_title "Installing CMake"
-    $PYTHON_CMD -m pip install cmake==$CMAKE_VERSION
+    pipx install cmake==$CMAKE_VERSION
 }
 
 install_ecm() {

@@ -23,6 +23,5 @@ main() {
         die "Sorry, I don't know how to install the required packages on your distribution."
     fi
 
-    setup_python_cmd
     install_cmake
 }

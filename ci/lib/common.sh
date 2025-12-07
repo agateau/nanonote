@@ -52,18 +52,6 @@ mkabsdir() {
     pop > /dev/null
 }
 
-init_python_cmd() {
-    echo_title "Looking for a Python 3 + pip installation"
-    for interpreter in python3 python ; do
-        if $interpreter -m pip --version 2> /dev/null ; then
-            echo "Found $interpreter"
-            export PYTHON_CMD=$interpreter
-            return
-        fi
-    done
-    die "Can't find a valid Python 3 installation."
-}
-
 init_run_as_root() {
     RUN_AS_ROOT=""
     if is_windows ; then
@@ -127,7 +115,6 @@ install_prebuilt_executable() {
 }
 
 detect_os
-init_python_cmd
 init_run_as_root
 
 if is_macos ; then
