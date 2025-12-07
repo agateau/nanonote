@@ -34,6 +34,9 @@ jobs:
       - name: Install dependencies
         run: ci/install-dependencies deps
         shell: bash
+      - name: Env vars
+        run: cat deps/env.sh
+        shell: bash
       - name: Build
         run: . deps/env.sh && ci/build-app
         shell: bash
