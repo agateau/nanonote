@@ -13,16 +13,15 @@ from __future__ import print_function, unicode_literals
 import argparse
 import codecs
 import difflib
+import errno
 import fnmatch
 import io
-import errno
 import multiprocessing
 import os
 import signal
 import subprocess
 import sys
 import traceback
-
 from functools import partial
 
 try:
@@ -31,8 +30,8 @@ except ImportError:
     DEVNULL = open(os.devnull, "wb")
 
 
-DEFAULT_EXTENSIONS = 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
-DEFAULT_CLANG_FORMAT_IGNORE = '.clang-format-ignore'
+DEFAULT_EXTENSIONS = "c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx"
+DEFAULT_CLANG_FORMAT_IGNORE = ".clang-format-ignore"
 
 
 class ExitStatus:
@@ -40,12 +39,13 @@ class ExitStatus:
     DIFF = 1
     TROUBLE = 2
 
+
 def excludes_from_file(ignore_file):
     excludes = []
     try:
-        with io.open(ignore_file, 'r', encoding='utf-8') as f:
+        with io.open(ignore_file, "r", encoding="utf-8") as f:
             for line in f:
-                if line.startswith('#'):
+                if line.startswith("#"):
                     # ignore comments
                     continue
                 pattern = line.rstrip()
@@ -56,7 +56,8 @@ def excludes_from_file(ignore_file):
     except EnvironmentError as e:
         if e.errno != errno.ENOENT:
             raise
-    return excludes;
+    return excludes
+
 
 def list_files(files, recursive=False, extensions=None, exclude=None):
     if extensions is None:
@@ -74,13 +75,11 @@ def list_files(files, recursive=False, extensions=None, exclude=None):
                     # by modifying it in-place,
                     # to avoid unnecessary directory listings.
                     dnames[:] = [
-                        x for x in dnames
-                        if
-                        not fnmatch.fnmatch(os.path.join(dirpath, x), pattern)
+                        x
+                        for x in dnames
+                        if not fnmatch.fnmatch(os.path.join(dirpath, x), pattern)
                     ]
-                    fpaths = [
-                        x for x in fpaths if not fnmatch.fnmatch(x, pattern)
-                    ]
+                    fpaths = [x for x in fpaths if not fnmatch.fnmatch(x, pattern)]
                 for f in fpaths:
                     ext = os.path.splitext(f)[1][1:]
                     if ext in extensions:
@@ -95,9 +94,11 @@ def make_diff(file, original, reformatted):
         difflib.unified_diff(
             original,
             reformatted,
-            fromfile='{}\t(original)'.format(file),
-            tofile='{}\t(reformatted)'.format(file),
-            n=3))
+            fromfile="{}\t(original)".format(file),
+            tofile="{}\t(reformatted)".format(file),
+            n=3,
+        )
+    )
 
 
 class DiffError(Exception):
@@ -120,13 +121,12 @@ def run_clang_format_diff_wrapper(args, file):
     except DiffError:
         raise
     except Exception as e:
-        raise UnexpectedError('{}: {}: {}'.format(file, e.__class__.__name__,
-                                                  e), e)
+        raise UnexpectedError("{}: {}: {}".format(file, e.__class__.__name__, e), e)
 
 
 def run_clang_format_diff(args, file):
     try:
-        with io.open(file, 'r', encoding='utf-8') as f:
+        with io.open(file, "r", encoding="utf-8") as f:
             original = f.readlines()
     except IOError as exc:
         raise DiffError(str(exc))
@@ -152,7 +152,7 @@ def run_clang_format_diff(args, file):
     # It's not pretty, due to Python 2 & 3 compatibility.
     encoding_py3 = {}
     if sys.version_info[0] >= 3:
-        encoding_py3['encoding'] = 'utf-8'
+        encoding_py3["encoding"] = "utf-8"
 
     try:
         proc = subprocess.Popen(
@@ -160,7 +160,8 @@ def run_clang_format_diff(args, file):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True,
-            **encoding_py3)
+            **encoding_py3
+        )
     except OSError as exc:
         raise DiffError(
             "Command '{}' failed to start: {}".format(
@@ -172,7 +173,7 @@ def run_clang_format_diff(args, file):
     if sys.version_info[0] < 3:
         # make the pipes compatible with Python 3,
         # reading lines should output unicode
-        encoding = 'utf-8'
+        encoding = "utf-8"
         proc_stdout = codecs.getreader(encoding)(proc_stdout)
         proc_stderr = codecs.getreader(encoding)(proc_stderr)
     # hopefully the stderr pipe won't get full and block the process
@@ -190,30 +191,30 @@ def run_clang_format_diff(args, file):
 
 
 def bold_red(s):
-    return '\x1b[1m\x1b[31m' + s + '\x1b[0m'
+    return "\x1b[1m\x1b[31m" + s + "\x1b[0m"
 
 
 def colorize(diff_lines):
     def bold(s):
-        return '\x1b[1m' + s + '\x1b[0m'
+        return "\x1b[1m" + s + "\x1b[0m"
 
     def cyan(s):
-        return '\x1b[36m' + s + '\x1b[0m'
+        return "\x1b[36m" + s + "\x1b[0m"
 
     def green(s):
-        return '\x1b[32m' + s + '\x1b[0m'
+        return "\x1b[32m" + s + "\x1b[0m"
 
     def red(s):
-        return '\x1b[31m' + s + '\x1b[0m'
+        return "\x1b[31m" + s + "\x1b[0m"
 
     for line in diff_lines:
-        if line[:4] in ['--- ', '+++ ']:
+        if line[:4] in ["--- ", "+++ "]:
             yield bold(line)
-        elif line.startswith('@@ '):
+        elif line.startswith("@@ "):
             yield cyan(line)
-        elif line.startswith('+'):
+        elif line.startswith("+"):
             yield green(line)
-        elif line.startswith('-'):
+        elif line.startswith("-"):
             yield red(line)
         else:
             yield line
@@ -223,13 +224,13 @@ def print_diff(diff_lines, use_color):
     if use_color:
         diff_lines = colorize(diff_lines)
     if sys.version_info[0] < 3:
-        sys.stdout.writelines((l.encode('utf-8') for l in diff_lines))
+        sys.stdout.writelines((l.encode("utf-8") for l in diff_lines))
     else:
         sys.stdout.writelines(diff_lines)
 
 
 def print_trouble(prog, message, use_colors):
-    error_text = 'error:'
+    error_text = "error:"
     if use_colors:
         error_text = bold_red(error_text)
     print("{}: {} {}".format(prog, error_text, message), file=sys.stderr)
@@ -238,46 +239,53 @@ def print_trouble(prog, message, use_colors):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        '--clang-format-executable',
-        metavar='EXECUTABLE',
-        help='path to the clang-format executable',
-        default='clang-format')
+        "--clang-format-executable",
+        metavar="EXECUTABLE",
+        help="path to the clang-format executable",
+        default="clang-format",
+    )
     parser.add_argument(
-        '--extensions',
-        help='comma separated list of file extensions (default: {})'.format(
-            DEFAULT_EXTENSIONS),
-        default=DEFAULT_EXTENSIONS)
+        "--extensions",
+        help="comma separated list of file extensions (default: {})".format(
+            DEFAULT_EXTENSIONS
+        ),
+        default=DEFAULT_EXTENSIONS,
+    )
     parser.add_argument(
-        '-r',
-        '--recursive',
-        action='store_true',
-        help='run recursively over directories')
-    parser.add_argument('files', metavar='file', nargs='+')
+        "-r",
+        "--recursive",
+        action="store_true",
+        help="run recursively over directories",
+    )
+    parser.add_argument("files", metavar="file", nargs="+")
     parser.add_argument(
-        '-q',
-        '--quiet',
-        action='store_true',
-        help="disable output, useful for the exit code")
+        "-q",
+        "--quiet",
+        action="store_true",
+        help="disable output, useful for the exit code",
+    )
     parser.add_argument(
-        '-j',
-        metavar='N',
+        "-j",
+        metavar="N",
         type=int,
         default=0,
-        help='run N clang-format jobs in parallel'
-        ' (default number of cpus + 1)')
+        help="run N clang-format jobs in parallel" " (default number of cpus + 1)",
+    )
     parser.add_argument(
-        '--color',
-        default='auto',
-        choices=['auto', 'always', 'never'],
-        help='show colored diff (default: auto)')
+        "--color",
+        default="auto",
+        choices=["auto", "always", "never"],
+        help="show colored diff (default: auto)",
+    )
     parser.add_argument(
-        '-e',
-        '--exclude',
-        metavar='PATTERN',
-        action='append',
+        "-e",
+        "--exclude",
+        metavar="PATTERN",
+        action="append",
         default=[],
-        help='exclude paths matching the given glob-like pattern(s)'
-        ' from recursive search')
+        help="exclude paths matching the given glob-like pattern(s)"
+        " from recursive search",
+    )
 
     args = parser.parse_args()
 
@@ -294,10 +302,10 @@ def main():
 
     colored_stdout = False
     colored_stderr = False
-    if args.color == 'always':
+    if args.color == "always":
         colored_stdout = True
         colored_stderr = True
-    elif args.color == 'auto':
+    elif args.color == "auto":
         colored_stdout = sys.stdout.isatty()
         colored_stderr = sys.stderr.isatty()
 
@@ -326,7 +334,8 @@ def main():
         args.files,
         recursive=args.recursive,
         exclude=excludes,
-        extensions=args.extensions.split(','))
+        extensions=args.extensions.split(","),
+    )
 
     if not files:
         return
@@ -343,8 +352,7 @@ def main():
         pool = None
     else:
         pool = multiprocessing.Pool(njobs)
-        it = pool.imap_unordered(
-            partial(run_clang_format_diff_wrapper, args), files)
+        it = pool.imap_unordered(partial(run_clang_format_diff_wrapper, args), files)
     while True:
         try:
             outs, errs = next(it)
@@ -375,5 +383,5 @@ def main():
     return retcode
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

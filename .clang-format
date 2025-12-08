@@ -57,4 +57,3 @@ Cpp11BracedListStyle: true
 # Misc
 ForEachMacros: [ foreach, Q_FOREACH, BOOST_FOREACH ]
 ...
-

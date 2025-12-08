@@ -48,8 +48,7 @@ function(windeployqt target)
     # deployqt/<plugin-type>/ instead of in deployqt/plugins/<plugin-type>/
     # and that causes QIcon to fail to load svg icons (at least with Qt 5.12.8)
     add_custom_command(TARGET ${target} POST_BUILD
-        COMMAND "${CMAKE_COMMAND}" -E
-            env PATH="${_qt_bin_dir}" "${WINDEPLOYQT_EXECUTABLE}"
+        COMMAND "${WINDEPLOYQT_EXECUTABLE}"
                 --no-angle
                 --no-opengl-sw
                 \"$<TARGET_FILE:${target}>\"

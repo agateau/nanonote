@@ -3,6 +3,7 @@ ICOUTILS_URL="https://downloads.sourceforge.net/project/unix-utils/icoutils/icou
 ICOUTILS_SHA256=1773b553fed5565004606d8732d9980ecec82cdccf35103700d71a17b4059723
 
 install_icoutils() {
+    echo_title "Installing icoutils"
     install_prebuilt_archive $ICOUTILS_URL $ICOUTILS_SHA256 $INST_DIR/icoutils.zip $INST_DIR
     local icotool_exe=$INST_DIR/icoutils-$ICOUTILS_VERSION-x86_64/bin/icotool.exe
     if [ ! -x "$icotool_exe" ] ; then
@@ -11,9 +12,20 @@ install_icoutils() {
     prepend_path $(dirname $icotool_exe)
 }
 
+install_qtmingw() {
+    echo_title "Installing Qt mingw"
+    local qt_install_dir=$INST_DIR/qt
+    aqt install-tool \
+        windows desktop $QT_MINGW \
+        --outputdir $qt_install_dir
+
+    prepend_path $qt_install_dir/Tools/$QT_MINGW_PATH
+}
+
 main() {
     install_icoutils
     install_qt
+    install_qtmingw
     install_cmake
     install_ecm
 }

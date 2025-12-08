@@ -1,0 +1,17 @@
+default: true
+ul-indent:
+  indent: 4
+
+line_length: false
+no-inline-html: false
+
+# Changelog files are full of duplicate headers
+no-duplicate-heading: false
+
+# .changes/*.md files start with h2 headers
+first-line-h1: false
+
+code-block-style:
+  style: fenced
+fenced-code-language: false
+commands-show-output: false
