@@ -19,11 +19,14 @@ CMAKE_VERSION=3.17.\*
 QPROPGEN_VERSION=0.1.\*
 
 add_env_var() {
-    echo "export $1=$2" >> $ENV_FILE
-    export $1=$2
+    echo "export $1=\"$2\"" >> $ENV_FILE
+    export $1="$2"
 }
 
 prepend_path() {
+    if [ ! -d "$1" ] ; then
+        die "prepend_path: \"$1\" does not exist"
+    fi
     echo "export PATH=$1:\$PATH" >> $ENV_FILE
     export PATH=$1:$PATH
 }
