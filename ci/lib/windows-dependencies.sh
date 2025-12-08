@@ -12,9 +12,20 @@ install_icoutils() {
     prepend_path $(dirname $icotool_exe)
 }
 
+install_qtmingw() {
+    echo_title "Installing Qt mingw"
+    local qt_install_dir=$INST_DIR/qt
+    aqt install-tool \
+        windows desktop $QT_MINGW \
+        --outputdir $qt_install_dir
+
+    prepend_path $qt_install_dir/Tools/$QT_MINGW_PATH
+}
+
 main() {
     install_icoutils
     install_qt
+    install_qtmingw
     install_cmake
     install_ecm
 }

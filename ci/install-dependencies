@@ -8,13 +8,18 @@ popd > /dev/null
 
 SRC_DIR=$CI_DIR/..
 
-QT_ARCH_WINDOWS=win64_msvc2019_64
+. $CI_DIR/lib/common.sh
+
+QT_ARCH_WINDOWS=win64_mingw81
+QT_MINGW=tools_mingw81
+QT_MINGW_PATH=mingw810_64/bin
 QT_ARCH_MACOS=clang_64
 QT_VERSION=5.15.2
 
 ECM_VERSION=5.69.0
 
 CMAKE_VERSION=3.17.\*
+CMAKE_GENERATOR=Ninja
 
 QPROPGEN_VERSION=0.1.\*
 
@@ -31,7 +36,10 @@ prepend_path() {
     export PATH=$1:$PATH
 }
 
-. $CI_DIR/lib/common.sh
+if is_windows ; then
+    CMAKE_GENERATOR="MinGW Makefiles"
+fi
+
 . $CI_DIR/lib/common-dependencies.sh
 . $CI_DIR/lib/$OS-dependencies.sh
 
@@ -55,5 +63,6 @@ touch $ENV_FILE
 
 add_env_var CMAKE_INSTALL_PREFIX $INST_DIR
 add_env_var CMAKE_PREFIX_PATH $INST_DIR
+add_env_var CMAKE_GENERATOR "$CMAKE_GENERATOR"
 
 main

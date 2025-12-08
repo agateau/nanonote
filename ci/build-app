@@ -18,7 +18,11 @@ BUILD_CMD="cmake --build . --config $BUILD_TYPE"
 echo_title Configuring
 mkdir $BUILD_DIR
 cd $BUILD_DIR
-cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR $SRC_DIR
+cmake \
+    -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+    -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
+    -G "$CMAKE_GENERATOR" \
+    $SRC_DIR
 
 echo_title Updating translations
 $BUILD_CMD --target lupdate

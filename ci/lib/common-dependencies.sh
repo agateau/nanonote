@@ -1,4 +1,4 @@
-AQTINSTALL_VERSION=3.1.0
+AQTINSTALL_VERSION=3.3.0
 AQTINSTALL_ARCHIVES="qtbase qtimageformats qtsvg qttranslations qttools"
 
 check_pipx() {
@@ -57,6 +57,7 @@ install_ecm() {
             -DBUILD_MAN_DOCS=OFF \
             -DBUILD_QTHELP_DOCS=OFF \
             -DBUILD_TESTING=OFF \
+            -G "$CMAKE_GENERATOR" \
             ..
         cmake --build .
         cmake --build . --target install
