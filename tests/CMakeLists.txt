@@ -15,7 +15,7 @@ add_executable(tests
 
 target_link_libraries(tests
     ${APPLIB_NAME}
-    Qt5::Test
+    Qt6::Test
     Catch2::Catch2
 )
 

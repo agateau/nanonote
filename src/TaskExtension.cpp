@@ -45,7 +45,7 @@ void TaskExtension::aboutToShowEditContextMenu(QMenu* menu, const QPoint& /*pos*
 }
 
 bool TaskExtension::mouseRelease(QMouseEvent* event) {
-    if (event->modifiers() == Qt::CTRL) {
+    if (event->modifiers() == Qt::ControlModifier) {
         toggleTaskUnderCursor();
     }
     return false;

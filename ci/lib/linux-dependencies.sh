@@ -15,8 +15,10 @@ main() {
             python3 \
             python3-pip \
             python3-setuptools \
-            qtbase5-dev \
-            qttools5-dev \
+            qt6-base-dev \
+            qt6-l10n-tools \
+            qt6-tools-dev \
+            qt6-tools-dev-tools \
             rpm \
             xvfb
     else

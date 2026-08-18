@@ -27,19 +27,20 @@ void LinkExtension::aboutToShowContextMenu(QMenu* menu, const QPoint& pos) {
     if (!url.isValid()) {
         return;
     }
-    menu->addAction(tr("Copy link address"), this, [url] {
+    auto* copyAction = menu->addAction(tr("Copy link address"));
+    connect(copyAction, &QAction::triggered, this, [url] {
         auto data = new QMimeData;
         data->setUrls({url});
         qGuiApp->clipboard()->setMimeData(data);
     });
-    menu->addAction(mOpenLinkAction.get()->text(),
-                    this,
-                    [url] { QDesktopServices::openUrl(url); },
-                    mOpenLinkAction.get()->shortcut());
+
+    auto* openAction = menu->addAction(mOpenLinkAction->text());
+    openAction->setShortcut(mOpenLinkAction->shortcut());
+    connect(openAction, &QAction::triggered, this, [url] { QDesktopServices::openUrl(url); });
 }
 
 bool LinkExtension::keyPress(QKeyEvent* event) {
-    if (event->modifiers() == Qt::CTRL) {
+    if (event->modifiers() == Qt::ControlModifier) {
         mTextEdit->viewport()->setMouseTracking(true);
         updateMouseCursor();
     }
@@ -47,7 +48,7 @@ bool LinkExtension::keyPress(QKeyEvent* event) {
 }
 
 bool LinkExtension::keyRelease(QKeyEvent* event) {
-    if (event->modifiers() != Qt::CTRL) {
+    if (event->modifiers() != Qt::ControlModifier) {
         reset();
     }
     return false;
@@ -59,7 +60,7 @@ bool LinkExtension::mouseMove(QMouseEvent* event) {
 }
 
 bool LinkExtension::mouseRelease(QMouseEvent* event) {
-    if (event->modifiers() == Qt::CTRL) {
+    if (event->modifiers() == Qt::ControlModifier) {
         openLinkUnderCursor();
     }
     return false;

@@ -19,7 +19,7 @@ set(APPLIB_NAME ${PROJECT_NAME}lib)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # Dependencies
-find_package(Qt5 CONFIG REQUIRED Core Widgets Test LinguistTools)
+find_package(Qt6 6.2 CONFIG REQUIRED Core Widgets Test LinguistTools)
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 

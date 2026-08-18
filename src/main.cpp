@@ -18,7 +18,7 @@ static void loadTranslations(QObject* parent) {
     QLocale locale;
 
     auto qtTranslator = new QTranslator(parent);
-    auto qtTranslationsDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    auto qtTranslationsDir = QLibraryInfo::path(QLibraryInfo::TranslationsPath);
     if (qtTranslator->load(locale, "qtbase", "_", qtTranslationsDir)) {
         QCoreApplication::installTranslator(qtTranslator);
     }
@@ -52,7 +52,6 @@ int main(int argc, char* argv[]) {
     app.setApplicationVersion(APP_VERSION);
     auto iconName = QString(":/appicon/sc-apps-%1.svg").arg(APP_NAME);
     app.setWindowIcon(QIcon(iconName));
-    app.setAttribute(Qt::AA_UseHighDpiPixmaps);
 #ifdef Q_OS_MACOS
     app.setAttribute(Qt::AA_DontShowShortcutsInContextMenus, false);
     QGuiApplication::styleHints()->setShowShortcutsInContextMenus(true);
