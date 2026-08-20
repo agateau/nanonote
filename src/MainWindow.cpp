@@ -118,7 +118,7 @@ void MainWindow::setupActions() {
     mDecreaseFontAction->setShortcut(QKeySequence::ZoomOut);
 
     mResetFontAction->setText(tr("Reset Font Size"));
-    mResetFontAction->setShortcut(Qt::CTRL + Qt::Key_0);
+    mResetFontAction->setShortcut(Qt::CTRL | Qt::Key_0);
 
     connect(mIncreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(1); });
     connect(mDecreaseFontAction, &QAction::triggered, this, [this] { adjustFontSize(-1); });
@@ -129,7 +129,7 @@ void MainWindow::setupActions() {
     addAction(mResetFontAction);
 
     mAlwaysOnTopAction->setText(tr("Always on Top"));
-    mAlwaysOnTopAction->setShortcut(Qt::CTRL + Qt::Key_T);
+    mAlwaysOnTopAction->setShortcut(Qt::CTRL | Qt::Key_T);
     connect(mAlwaysOnTopAction, &QAction::toggled, this, &MainWindow::setAlwaysOnTop);
     addAction(mAlwaysOnTopAction);
 

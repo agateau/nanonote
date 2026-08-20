@@ -1,5 +1,6 @@
 AQTINSTALL_VERSION=3.3.0
-AQTINSTALL_ARCHIVES="qtbase qtimageformats qtsvg qttranslations qttools"
+# qtdeclarative is not used by the app itself, but lupdate links against QtQml
+AQTINSTALL_ARCHIVES="qtbase qtdeclarative qtimageformats qtsvg qttranslations qttools"
 
 check_pipx() {
     echo_title "Looking for pipx"
@@ -36,7 +37,7 @@ install_qt() {
     # Not being able to find plugins causes tests to not run on macOS and
     # Windows because they can't find the matching platform plugin.
     add_env_var QT_PLUGIN_PATH $(find $qt_install_dir -type d -a -name plugins)
-    add_env_var Qt5_DIR $(find $qt_install_dir -path '*/lib/cmake')
+    add_env_var Qt6_DIR $(find $qt_install_dir -path '*/lib/cmake')
 }
 
 install_cmake() {
@@ -46,7 +47,7 @@ install_cmake() {
 
 install_ecm() {
     echo_title "Installing ECM"
-    git clone --depth 1 https://anongit.kde.org/extra-cmake-modules.git -b v$ECM_VERSION
+    git clone --depth 1 https://invent.kde.org/frameworks/extra-cmake-modules.git -b v$ECM_VERSION
     (
         cd extra-cmake-modules
         mkdir build

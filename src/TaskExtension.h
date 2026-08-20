@@ -3,9 +3,9 @@
 
 #include "TextEdit.h"
 
-#include <QAction>
-
 #include <memory>
+
+class QAction;
 
 class TaskExtension : public TextEditExtension {
     Q_OBJECT

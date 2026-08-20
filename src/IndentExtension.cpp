@@ -7,10 +7,10 @@
 
 static constexpr int INDENT_SIZE = 4;
 
-static int findBulletSize(const QStringRef& ref) {
+static int findBulletSize(QStringView view) {
     static QStringList bullets = {"- [ ] ", "- [x] ", "* [ ] ", "* [x] ", "- ", "* ", "> "};
     for (auto bullet : bullets) {
-        if (ref.startsWith(bullet)) {
+        if (view.startsWith(bullet)) {
             return bullet.length();
         }
     }
@@ -29,7 +29,7 @@ static PrefixInfo findCommonPrefix(const QString& line) {
             break;
         }
     }
-    int bulletSize = findBulletSize(line.midRef(idx));
+    int bulletSize = findBulletSize(QStringView(line).mid(idx));
     PrefixInfo info;
     info.text = line.left(idx + bulletSize);
     info.isBullet = bulletSize > 0;
@@ -43,7 +43,8 @@ static void indentLine(QTextCursor& cursor) {
 
 static void unindentLine(QTextCursor& cursor) {
     const auto text = cursor.block().text();
-    for (int idx = 0; idx < std::min(INDENT_SIZE, text.size()) && text.at(idx) == ' '; ++idx) {
+    for (int idx = 0; idx < std::min<qsizetype>(INDENT_SIZE, text.size()) && text.at(idx) == ' ';
+         ++idx) {
         cursor.deleteChar();
     }
 }
@@ -70,7 +71,7 @@ void IndentExtension::aboutToShowEditContextMenu(QMenu* menu, const QPoint& /*po
 }
 
 bool IndentExtension::keyPress(QKeyEvent* event) {
-    if (event->key() == Qt::Key_Tab && event->modifiers() == 0) {
+    if (event->key() == Qt::Key_Tab && event->modifiers() == Qt::NoModifier) {
         onTabPressed();
         return true;
     }

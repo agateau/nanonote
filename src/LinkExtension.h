@@ -5,6 +5,8 @@
 
 #include <memory>
 
+class QAction;
+
 class LinkExtension : public TextEditExtension {
     Q_OBJECT
 public:

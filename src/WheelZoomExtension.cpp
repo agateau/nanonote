@@ -8,7 +8,7 @@ WheelZoomExtension::WheelZoomExtension(TextEdit* textEdit) : TextEditExtension(t
 }
 
 bool WheelZoomExtension::wheel(QWheelEvent* event) {
-    if (event->modifiers() != Qt::CTRL) {
+    if (event->modifiers() != Qt::ControlModifier) {
         return false;
     }
 

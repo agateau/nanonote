@@ -22,14 +22,11 @@ SettingsDialog::SettingsDialog(Settings* settings, QWidget* parent)
     connect(mSettings, &Settings::fontChanged, this, &SettingsDialog::updateFontFromSettings);
 
     connect(ui->fontComboBox, &QFontComboBox::currentFontChanged, mSettings, &Settings::setFont);
-    connect(ui->fontSizeSpinBox,
-            static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this,
-            [this](int value) {
-                auto font = mSettings->font();
-                font.setPointSize(value);
-                mSettings->setFont(font);
-            });
+    connect(ui->fontSizeSpinBox, &QSpinBox::valueChanged, this, [this](int value) {
+        auto font = mSettings->font();
+        font.setPointSize(value);
+        mSettings->setFont(font);
+    });
 }
 
 SettingsDialog::~SettingsDialog() {
@@ -38,8 +35,9 @@ SettingsDialog::~SettingsDialog() {
 
 void SettingsDialog::setupConfigTab() {
     auto url = QUrl::fromLocalFile(Settings::notePath());
+    auto encodedUrl = QString::fromUtf8(url.toEncoded());
     auto noteLink =
-        QString("<html><a href='%1'>%2</a></html>").arg(url.toEncoded(), Settings::notePath());
+        QString("<html><a href='%1'>%2</a></html>").arg(encodedUrl, Settings::notePath());
     ui->noteLocationLabel->setText(noteLink);
 }
 

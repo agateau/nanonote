@@ -26,7 +26,7 @@ set(APPLIB_SRCS
     SearchWidget.ui
 )
 
-qt5_add_resources(APPLIB_RESOURCES_SRCS app.qrc)
+qt_add_resources(APPLIB_RESOURCES_SRCS app.qrc)
 
 # App library
 add_library(${APPLIB_NAME} STATIC
@@ -40,8 +40,8 @@ target_include_directories(${APPLIB_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 target_link_libraries(${APPLIB_NAME}
-    Qt5::Core
-    Qt5::Widgets
+    Qt6::Core
+    Qt6::Widgets
 )
 
 # Translations
@@ -56,7 +56,7 @@ set(TS_FILES
     translations/${APP_NAME}_no.ts
     translations/${APP_NAME}_pl.ts
 )
-qt5_add_translation(QM_FILES ${TS_FILES})
+qt_add_translation(QM_FILES ${TS_FILES})
 add_custom_target(build_qm DEPENDS ${QM_FILES})
 add_dependencies(${APPLIB_NAME} build_qm)
 

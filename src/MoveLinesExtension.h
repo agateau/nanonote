@@ -5,7 +5,7 @@
 
 #include <memory>
 
-class Action;
+class QAction;
 
 class MoveLinesExtension : public TextEditExtension {
     Q_OBJECT

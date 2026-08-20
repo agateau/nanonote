@@ -55,9 +55,14 @@
             nativeBuildInputs = [
               cmake
               extra-cmake-modules
-              libsForQt5.qt5.qtbase
-              libsForQt5.qt5.qttools
-              libsForQt5.qt5.wrapQtAppsHook
+              qt6.qtbase
+              # qtdeclarative is not used by the app itself, but lupdate links
+              # against QtQml
+              qt6.qtdeclarative
+              # Needed to load the app icon, which is an SVG file
+              qt6.qtsvg
+              qt6.qttools
+              qt6.wrapQtAppsHook
               git
             ];
 

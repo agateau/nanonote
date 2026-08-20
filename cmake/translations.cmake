@@ -30,7 +30,7 @@ function(add_lupdate_target)
 
     # Add the lupdate target
     add_custom_target(lupdate
-        COMMAND Qt5::lupdate ${lupdate_options} "@${list_file}" -ts ${lupdate_TS_FILES}
+        COMMAND Qt6::lupdate ${lupdate_options} "@${list_file}" -ts ${lupdate_TS_FILES}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 endfunction()

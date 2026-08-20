@@ -1,6 +1,6 @@
 project(singleapplication)
 
-find_package(Qt5 CONFIG REQUIRED Core Widgets Network)
+find_package(Qt6 CONFIG REQUIRED Core Widgets Network)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -18,4 +18,4 @@ target_compile_definitions(singleapplication
 target_include_directories(singleapplication
     INTERFACE ${singleapplication_SOURCE_DIR}/src)
 
-target_link_libraries(singleapplication Qt5::Core Qt5::Widgets Qt5::Network)
+target_link_libraries(singleapplication Qt6::Core Qt6::Widgets Qt6::Network)

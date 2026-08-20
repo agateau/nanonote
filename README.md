@@ -25,7 +25,7 @@ Even if Nanonote has a minimalist user interface, it comes with some handy short
 
 ## Building it
 
-Nanonote requires Qt 5 and CMake. To build it, do the following:
+Nanonote requires Qt 6 and CMake. To build it, do the following:
 
 Get the source:
 
