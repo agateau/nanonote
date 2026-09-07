@@ -50,8 +50,14 @@ int main(int argc, char* argv[]) {
     app.setOrganizationName(ORGANIZATION_NAME);
     app.setApplicationName(APP_NAME);
     app.setApplicationVersion(APP_VERSION);
-    auto iconName = QString(":/appicon/sc-apps-%1.svg").arg(APP_NAME);
-    app.setWindowIcon(QIcon(iconName));
+
+    QIcon icon;
+    icon.addPixmap(QString(":/appicon/sc-apps-%1.svg").arg(APP_NAME));
+    // Use pixel-based images to get a sharp icon in Plasma task switcher
+    for (int size : {256, 512, 1024}) {
+        icon.addPixmap(QString(":/appicon/%1-apps-%2.png").arg(size).arg(APP_NAME));
+    }
+    app.setWindowIcon(icon);
 #ifdef Q_OS_MACOS
     app.setAttribute(Qt::AA_DontShowShortcutsInContextMenus, false);
     QGuiApplication::styleHints()->setShowShortcutsInContextMenus(true);
