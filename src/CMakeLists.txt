@@ -68,6 +68,7 @@ ecm_add_app_icon(
     APP_SRCS
     ICONS
         appicon/1024-apps-${APP_NAME}.png
+        appicon/512-apps-${APP_NAME}.png
         appicon/256-apps-${APP_NAME}.png
         appicon/sc-apps-${APP_NAME}.svg
 )
