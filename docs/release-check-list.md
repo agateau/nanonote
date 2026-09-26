@@ -2,6 +2,10 @@
 
 ## Pre-release
 
+- [ ] Export version
+
+    export VERSION=x.y.z
+
 - [ ] Check working tree is up to date and clean:
 
     inv create-release-branch
