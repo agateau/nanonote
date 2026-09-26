@@ -4,12 +4,12 @@
 <context>
     <name>IndentExtension</name>
     <message>
-        <location filename="../IndentExtension.cpp" line="55"/>
+        <location filename="../IndentExtension.cpp" line="56"/>
         <source>Indent</source>
         <translation>Innrykk</translation>
     </message>
     <message>
-        <location filename="../IndentExtension.cpp" line="60"/>
+        <location filename="../IndentExtension.cpp" line="61"/>
         <source>Unindent</source>
         <translation>Fjern innrykk</translation>
     </message>
@@ -177,7 +177,7 @@ Det er alt det er å si, slett denne teksten og begynn å ta notater!
         <translation>Om</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.cpp" line="49"/>
+        <location filename="../SettingsDialog.cpp" line="47"/>
         <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;
 &lt;p&gt;A minimalist note taking application.&lt;/p&gt;
 &lt;p&gt;
@@ -195,7 +195,7 @@ Det er alt det er å si, slett denne teksten og begynn å ta notater!
 </translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.cpp" line="59"/>
+        <location filename="../SettingsDialog.cpp" line="57"/>
         <source>&lt;p&gt;Hi,&lt;/p&gt;
 &lt;p&gt;I hope you enjoy Nanonote!&lt;/p&gt;
 &lt;p&gt;If you do, it would be lovely if you could &lt;a href=&apos;%1&apos;&gt;support my work&lt;/a&gt; on free and open source software.&lt;/p&gt;
