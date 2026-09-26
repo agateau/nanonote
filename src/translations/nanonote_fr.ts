@@ -4,10 +4,12 @@
 <context>
     <name>IndentExtension</name>
     <message>
+        <location filename="../IndentExtension.cpp" line="56"/>
         <source>Indent</source>
         <translation>Indenter</translation>
     </message>
     <message>
+        <location filename="../IndentExtension.cpp" line="61"/>
         <source>Unindent</source>
         <translation>Désindenter</translation>
     </message>
@@ -15,6 +17,7 @@
 <context>
     <name>LinkExtension</name>
     <message>
+        <location filename="../LinkExtension.cpp" line="30"/>
         <source>Copy link address</source>
         <translation>Copier l&apos;adresse du lien</translation>
     </message>
@@ -23,6 +26,7 @@
         <translation type="vanished">Ouvrir le lien</translation>
     </message>
     <message>
+        <location filename="../LinkExtension.cpp" line="18"/>
         <source>Go to link</source>
         <translation>Ouvrir le lien</translation>
     </message>
@@ -30,14 +34,17 @@
 <context>
     <name>MainWindow</name>
     <message>
+        <location filename="../MainWindow.cpp" line="114"/>
         <source>Increase Font Size</source>
         <translation>Augmenter la taille du texte</translation>
     </message>
     <message>
+        <location filename="../MainWindow.cpp" line="117"/>
         <source>Decrease Font Size</source>
         <translation>Réduire la taille du texte</translation>
     </message>
     <message>
+        <location filename="../MainWindow.cpp" line="131"/>
         <source>Always on Top</source>
         <translation>Toujours visible</translation>
     </message>
@@ -94,18 +101,22 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
 </translation>
     </message>
     <message>
+        <location filename="../MainWindow.cpp" line="120"/>
         <source>Reset Font Size</source>
         <translation>Revenir à la taille de texte par défaut</translation>
     </message>
     <message>
+        <location filename="../MainWindow.cpp" line="136"/>
         <source>Settings | About...</source>
         <translation>Configuration | À propos...</translation>
     </message>
     <message>
+        <location filename="../MainWindow.cpp" line="141"/>
         <source>Find</source>
         <translation>Chercher</translation>
     </message>
     <message>
+        <location filename="../MainWindow.cpp" line="161"/>
         <source>Welcome to Nanonote!
 
 Nanonote is a minimalist note taking application.
@@ -160,10 +171,12 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
 <context>
     <name>MoveLinesExtension</name>
     <message>
+        <location filename="../MoveLinesExtension.cpp" line="12"/>
         <source>Move selected lines up</source>
         <translation>Déplacer les lignes sélectionnées vers le haut</translation>
     </message>
     <message>
+        <location filename="../MoveLinesExtension.cpp" line="17"/>
         <source>Move selected lines down</source>
         <translation>Déplacer les lignes sélectionnées vers le bas</translation>
     </message>
@@ -171,14 +184,17 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
 <context>
     <name>SearchWidget</name>
     <message>
+        <location filename="../SearchWidget.ui" line="37"/>
         <source>Previous</source>
         <translation>Précédent</translation>
     </message>
     <message>
+        <location filename="../SearchWidget.ui" line="53"/>
         <source>Next</source>
         <translation>Suivant</translation>
     </message>
     <message>
+        <location filename="../SearchWidget.cpp" line="16"/>
         <source>Close search bar</source>
         <translation>Fermer la barre de recherche</translation>
     </message>
@@ -186,6 +202,7 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
 <context>
     <name>SettingsDialog</name>
     <message>
+        <location filename="../SettingsDialog.ui" line="14"/>
         <source>Settings</source>
         <translation>Configuration</translation>
     </message>
@@ -194,14 +211,17 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
         <translation type="vanished">Apparence</translation>
     </message>
     <message>
+        <location filename="../SettingsDialog.ui" line="40"/>
         <source>Font family:</source>
         <translation>Police :</translation>
     </message>
     <message>
+        <location filename="../SettingsDialog.ui" line="55"/>
         <source>Size:</source>
         <translation>Taille :</translation>
     </message>
     <message>
+        <location filename="../SettingsDialog.ui" line="133"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
@@ -211,6 +231,7 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
         <translation type="vanished">&lt;h2&gt;Nanonote %1&lt;/h2&gt;&lt;p&gt;Une application de prise de note minimaliste.&lt;br&gt;%2&lt;/p&gt;&lt;p&gt;Vos notes sont stockées ici : %3.&lt;/p&gt;</translation>
     </message>
     <message>
+        <location filename="../SettingsDialog.ui" line="34"/>
         <source>Configuration</source>
         <translation>Configuration</translation>
     </message>
@@ -224,6 +245,7 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
 &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt;&lt;/p&gt;</translation>
     </message>
     <message>
+        <location filename="../SettingsDialog.cpp" line="57"/>
         <source>&lt;p&gt;Hi,&lt;/p&gt;
 &lt;p&gt;I hope you enjoy Nanonote!&lt;/p&gt;
 &lt;p&gt;If you do, it would be lovely if you could &lt;a href=&apos;%1&apos;&gt;support my work&lt;/a&gt; on free and open source software.&lt;/p&gt;
@@ -235,10 +257,12 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
 &lt;p align=&quot;right&quot;&gt;― Aurélien&lt;/p&gt;</translation>
     </message>
     <message>
+        <location filename="../SettingsDialog.ui" line="125"/>
         <source>Your notes are stored here:</source>
         <translation>Vos notes sont stockées ici :</translation>
     </message>
     <message>
+        <location filename="../SettingsDialog.cpp" line="47"/>
         <source>&lt;h2&gt;Nanonote %1&lt;/h2&gt;
 &lt;p&gt;A minimalist note taking application.&lt;/p&gt;
 &lt;p&gt;
@@ -258,6 +282,7 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
 <context>
     <name>TaskExtension</name>
     <message>
+        <location filename="../TaskExtension.cpp" line="35"/>
         <source>Insert/toggle task</source>
         <translation>Insérer/cocher une tâche</translation>
     </message>
@@ -265,10 +290,12 @@ C&apos;est tout ce qu&apos;il y a dire, maintenant vous pouvez effacer ce texte 
 <context>
     <name>TextEdit</name>
     <message>
+        <location filename="../TextEdit.cpp" line="53"/>
         <source>Edit</source>
         <translation>Édition</translation>
     </message>
     <message>
+        <location filename="../TextEdit.cpp" line="59"/>
         <source>View</source>
         <translation>Affichage</translation>
     </message>

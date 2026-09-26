@@ -7,7 +7,7 @@
       # Set a var for the version/release number for nanonote
       # This is used to name the package and declare which release
       # of nanonote to use. Using the tag here:
-      version = "1.4.1";
+      version = "1.5.0";
 
       # List of supported systems:
       supportedSystems = [

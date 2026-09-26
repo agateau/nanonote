@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.5.0 - 2026-09-26
+
+### Added
+
+- Nanonote now comes with a Nix flake, thanks to Morkenkaff.
+
+### Changed
+
+- Nanonote has been ported to Qt 6.
+
 ## 1.4.1 - 2023-12-01
 
 ### Added
